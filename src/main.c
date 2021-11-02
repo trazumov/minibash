@@ -13,8 +13,8 @@ int	main(int argc, char **argv, char **envp)
 		/*
 		Обработка вводимых данных
 		*/
-		parser(&shell, input);
-		input = readline(NULL);
+		//parser(&shell, input);
+		input = readline("minibash >");
 		if (!input)
             break;
 		if (ft_strcmp(input, "exit"))
@@ -24,7 +24,8 @@ int	main(int argc, char **argv, char **envp)
 			printf("%s\n", shell.env->str);
 			printf("%s\n", shell.env->next->str);
 		}
-        add_history(input); // adding the previous input into history
+		// adding the previous input into history
+        add_history(input);
 		free(input);
 	}
 	return (1);

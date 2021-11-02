@@ -8,13 +8,12 @@ LFAGS = -Wall -Wextra -Werror
 
 SRC = src/main.c \
 src/tmp.c \
-src/parser/parser.c \
 src/init/init_env.c
 
 OBJS = $(SRC:.c=.o)
 
-TERMCAMP = -ltermcap -lreadline -lncurses
-#TERMCAMP = -lreadline -lncurses
+#TERMCAMP = -ltermcap -lreadline -lncurses
+TERMCAMP = -lreadline -lncurses
 
 .c.o:
 	$(CC) -c $< -o $(<:.c=.o)
