@@ -33,5 +33,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	parser(t_minishell *shell, char *input);
 int		init_env(t_minishell *shell, char **envp);
 void	ft_signal(int code);
+void	on_eof(t_minishell *shell);
 
  #endif

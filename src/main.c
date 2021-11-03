@@ -8,20 +8,19 @@ int	main(void)
 
 	shell.exit = FALSE;
 	signal(SIGINT, ft_signal);
+	signal(SIGQUIT, ft_signal);
+	rl_catch_signals = 0;
 	while (shell.exit != TRUE)
 	{
 		g_signal = 0;
 		input = readline("minibash >");
-		if (!input)
-            break ;
+		if (input == NULL)
+		{
+			on_eof(&shell);
+			break ;
+		}
 		if (ft_strcmp(input, "exit"))
 			shell.exit = TRUE;
-		// adding the previous input into history
-		if (g_signal == 1)
-		{
-			g_signal = 0;
-			continue ;
-		}
         add_history(input);
 		free(input);
 	}

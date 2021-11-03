@@ -1,6 +1,6 @@
 NAME = minibash
 
-CC = gcc -g
+CC = clang -g
 
 LIBFT_DIR = libft/
 
