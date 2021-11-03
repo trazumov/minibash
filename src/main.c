@@ -8,7 +8,6 @@ int	main(int argc, char **argv, char **envp)
 	shell.exit = FALSE;
 	while (shell.exit != TRUE)
 	{
-		//printf("minishell >:");
 		init_env(&shell, envp);
 		/*
 		Обработка вводимых данных
