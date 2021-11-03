@@ -8,12 +8,13 @@ LFAGS = -Wall -Wextra -Werror
 
 SRC = src/main.c \
 src/tmp.c \
-src/init/init_env.c
+src/init/init_env.c \
+src/signals/signal.c
 
 OBJS = $(SRC:.c=.o)
 
-#TERMCAMP = -ltermcap -lreadline -lncurses
-TERMCAMP = -lreadline -lncurses
+TERMCAMP = -ltermcap -lreadline -lncurses
+#TERMCAMP = -lreadline -lncurses
 
 .c.o:
 	$(CC) -c $< -o $(<:.c=.o)
@@ -22,7 +23,7 @@ TERMCAMP = -lreadline -lncurses
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(TERMCAMP) -L $(LIBFT_DIR) -lft -o $(NAME)
+	$(CC) $(SRC) $(TERMCAMP) -L $(LIBFT_DIR) -lft -o $(NAME)
 	$(RM) $(OBJS) $(OBJB)
 
 clean:

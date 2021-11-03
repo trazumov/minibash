@@ -1,7 +1,7 @@
 #ifndef INCLUDES_H
 # define MINISHELL_H
 
-# include <term.h> // termcamp terminal
+//# include <term.h> // termcamp terminal
 # include <stdio.h> // printf
 # include <fcntl.h> // open read write
 # include <errno.h> // errors

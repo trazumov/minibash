@@ -9,6 +9,8 @@
 
 # define TYPE_COMMAND 0
 
+int			g_signal;
+
 typedef struct s_env
 {
 	char	*str;
@@ -30,5 +32,6 @@ typedef struct s_minishell
 int		ft_strcmp(const char *s1, const char *s2);
 void	parser(t_minishell *shell, char *input);
 int		init_env(t_minishell *shell, char **envp);
+void	ft_signal(int code);
 
  #endif
