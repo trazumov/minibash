@@ -7,7 +7,7 @@ LIBFT_DIR = libft/
 LFAGS = -Wall -Wextra -Werror
 
 SRC = src/main.c \
-src/tmp.c \
+src/help/strcmp.c \
 src/init/init_env.c \
 src/signals/signal.c \
 src/init/init_shell.c \
