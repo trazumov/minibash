@@ -6,14 +6,12 @@ int	main(void)
 	t_minishell shell;
 	char		*input = NULL;
 
-	shell.exit = FALSE;
+	init_shell(&shell);
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
-	rl_catch_signals = 0;
 	while (shell.exit != TRUE)
 	{
-		g_signal = 0;
-		input = readline("minibash >");
+		input = readline(shell.message);
 		if (input == NULL)
 		{
 			on_eof(&shell);
@@ -24,5 +22,6 @@ int	main(void)
         add_history(input);
 		free(input);
 	}
+	free_data(&shell);
 	return (1);
 }

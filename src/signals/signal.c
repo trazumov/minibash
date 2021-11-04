@@ -21,6 +21,9 @@ void	ft_signal(int code)
 	}
 }
 
+/*
+Обработка нажатия Ctrl + D что по сути является вызовом EOF
+*/
 void	on_eof(t_minishell *shell)
 {
 	ft_putstr_fd("\n", 1);

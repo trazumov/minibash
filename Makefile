@@ -9,7 +9,9 @@ LFAGS = -Wall -Wextra -Werror
 SRC = src/main.c \
 src/tmp.c \
 src/init/init_env.c \
-src/signals/signal.c
+src/signals/signal.c \
+src/init/init_shell.c \
+src/free.c
 
 OBJS = $(SRC:.c=.o)
 
