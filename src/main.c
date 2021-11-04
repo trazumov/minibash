@@ -1,8 +1,11 @@
 #include "../includes/minishell.h"
 
-//int	main(int argc, char **argv, char **envp)
-int	main(void)
+int	main(int argc, char **argv, char **envp)
+//int	main(void)
 {
+	(void)argc;
+	(void)argv;
+
 	t_minishell shell;
 	char		*input = NULL;
 
@@ -23,8 +26,8 @@ int	main(void)
 		//
 		if (ft_strcmp(input, "exit")) // add additional write
 			shell.exit = TRUE;
-		if (tmp_token != NULL)
-			execution(&shell);
+		if (tmp_token != NULL && ft_strcmp(input, "cmd"))
+			execution(&shell, envp);
         add_history(input);
 		free(input);
 	}

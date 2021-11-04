@@ -24,6 +24,7 @@ typedef struct s_env
 typedef struct s_token
 {
 	int	type;
+	char **argv;
 	struct s_token *next;
 }	t_token;
 
@@ -42,7 +43,7 @@ void	ft_signal(int code);
 void	on_eof(t_minishell *shell);
 void	init_shell(t_minishell *shell);
 void	free_data(t_minishell *shell);
-void	execution(t_minishell *shell);
+void	execution(t_minishell *shell, char **envp);
 t_token *create_tmp_token(void);
 
  #endif
