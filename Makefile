@@ -11,7 +11,9 @@ src/help/strcmp.c \
 src/init/init_env.c \
 src/signals/signal.c \
 src/init/init_shell.c \
-src/free.c
+src/free.c \
+src/execution.c \
+src/create_tmp_tokens.c
 
 OBJS = $(SRC:.c=.o)
 

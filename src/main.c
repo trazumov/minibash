@@ -17,8 +17,12 @@ int	main(void)
 			on_eof(&shell);
 			break ;
 		}
-		if (ft_strcmp(input, "exit"))
-			shell.exit = TRUE;
+		// временная обмазка для тестирования
+		t_token *tmp_token = create_tmp_token();
+		shell.tokens = tmp_token;
+		//
+		if (tmp_token != NULL)
+			execution(&shell);
         add_history(input);
 		free(input);
 	}
