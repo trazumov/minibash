@@ -21,6 +21,8 @@ int	main(void)
 		t_token *tmp_token = create_tmp_token();
 		shell.tokens = tmp_token;
 		//
+		if (ft_strcmp(input, "exit")) // add additional write
+			shell.exit = TRUE;
 		if (tmp_token != NULL)
 			execution(&shell);
         add_history(input);
