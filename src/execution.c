@@ -69,8 +69,9 @@ static void exec_cmd(char **argv, char **envp, int fd[])
 	char	**options;
 	char	*path;
 
-	options = ft_split(argv[0], ' ');
-	path = create_path(options, envp);
+	//options = ft_split(argv[1], ' ');
+	path = create_path(argv, envp);
+	options = argv++;
 	execve(path, options, envp);
 }
 
@@ -82,6 +83,7 @@ void	execution(t_minishell *shell, char **envp)
 
 	//pipe(fd);
 	pid1 = fork();
+	//getchar(); // test tool to stop
 	if (pid1 == -1)
 		return ;
 	if (pid1 == 0)
