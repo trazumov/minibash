@@ -1,5 +1,5 @@
 #ifndef INCLUDES_H
-# define MINISHELL_H
+# define INCLUDES_H
 
 //# include <term.h> // termcamp terminal
 # include <stdio.h> // printf
