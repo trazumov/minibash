@@ -8,7 +8,6 @@ void	ft_signal(int code)
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-		g_signal = 1;
 	}
 	// заменить пустым выполнением
 	if (code == SIGQUIT)
@@ -17,7 +16,6 @@ void	ft_signal(int code)
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
-		g_signal = 1;
 	}
 }
 

@@ -14,5 +14,10 @@ void	main_body(t_minishell *shell, t_token *curr_token, char **envp);
 
 void	parse(t_token **token, char *str);
 t_token	*new_tokens(t_token *origin_token);
+void simple_cmd(char **argv, char **envp);
+void free_char_list(char **list);
+void	split_free(char **paths);
+void execute_pipe_cmd(t_token *token, char **envp);
+void execute_last_cmd(t_token *token, char **envp);
 
 #endif

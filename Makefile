@@ -7,13 +7,15 @@ LIBFT_DIR = libft/
 LFAGS = -Wall -Wextra -Werror
 
 SRC = src/main.c \
+src/free.c \
 src/help/strcmp.c \
 src/init/init_env.c \
 src/signals/signal.c \
 src/init/init_shell.c \
-src/free.c \
-src/execution.c \
-src/create_tmp_tokens.c
+src/execute/execute_bin.c \
+src/execute/execute_cmd.c \
+src/main_loop.c \
+src/parser.c
 
 OBJS = $(SRC:.c=.o)
 

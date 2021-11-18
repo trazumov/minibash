@@ -1,36 +1,52 @@
 #include "../includes/minishell.h"
 
+static void	free_tokens(t_token **token)
+{
+	while ((*token)->next != NULL)
+		(*token) = (*token)->next;
+	while ((*token)->prev != NULL)
+	{
+		(*token) = (*token)->prev;
+		free((*token)->next->str);
+		(*token)->next->str = NULL;
+		free((*token)->next);
+		(*token)->next = NULL;
+	}
+	free((*token)->str);
+	(*token)->str = NULL;
+	free(*token);
+	*token = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
-//int	main(void)
 {
 	(void)argc;
 	(void)argv;
 
-	t_minishell shell;
+	t_minishell	shell;
+	t_token		*parsed_tokens = NULL;
 	char		*input = NULL;
-
-	init_shell(&shell);
+	
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	while (shell.exit != TRUE)
 	{
-		input = readline(shell.message);
+		init_shell(&shell);
+		input = readline("minishell > ");
 		if (input == NULL)
 		{
 			on_eof(&shell);
 			break ;
 		}
-		// временная обмазка для тестирования
-		t_token *tmp_token = create_tmp_token();
-		shell.tokens = tmp_token;
-		//
-		if (ft_strcmp(input, "exit")) // add additional write
+		add_history(input);
+		parse(&parsed_tokens, input);
+		shell.tokens = parsed_tokens;
+		if (ft_strcmp(input, "exit")) // add additional write Exit / переписать
 			shell.exit = TRUE;
-		if (tmp_token != NULL && ft_strcmp(input, "cmd"))
-			execution(&shell, envp);
-        add_history(input);
-		free(input);
+		execution(&shell, envp);
+        //add_history(input);
+		//free(input);		input = NULL;
+		free_tokens(&parsed_tokens);
 	}
-	free_data(&shell);
 	return (1);
 }
