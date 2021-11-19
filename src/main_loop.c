@@ -114,12 +114,8 @@ void	main_body(t_minishell *shell, char **envp)
 		{
 			execute_pipe_cmd(get_prev_token(token), envp);
 			if (is_next_redir(token->next))
-				{
-					dup2(shell->fd_out, STDOUT);
-					execute_last_cmd(token->next, envp);
-				} 
-			else
-				execute_last_cmd(token->next, envp);
+				dup2(shell->fd_out, STDOUT);
+			execute_last_cmd(token->next, envp);
 		}
 		else if (token->type == CMD && !is_next_pipe(token) && !is_next_redir(token))
 		{

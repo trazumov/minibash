@@ -12,45 +12,33 @@
 
 #include "libft.h"
 
-static unsigned int	get_max_mem(char const *s, size_t len)
-{
-	unsigned int	strlen;
+#include "libft.h"
 
-	strlen = ft_strlen(s);
-	if (strlen < len)
-		return (strlen);
-	else
-		return (len);
-}
-
-/*Allocates (with malloc(3)) and returns a substring
-from the string ’s’.
-The substring begins at index ’start’ and is of
-maximum size ’len’
-NULL if the allocation fails*/
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char			*res;
-	unsigned int	i;
-	unsigned int	j;
+	size_t	i;
+	char	*res;
 
-	if (!s)
+	if (s == NULL)
 		return (NULL);
-	res = (char *)malloc(get_max_mem(s, len) + 1);
-	if (!res)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while ((i != start) && (s[i] != '\0'))
-		i++;
-	while ((len-- > 0) && (s[i] != '\0'))
-		res[j++] = s[i++];
-	res[j] = '\0';
-	if (j > 0)
-		return (res);
+	if (ft_strlen(s) >= len)
+		res = malloc((len + 1) * sizeof(*res));
 	else
-	{
-		free(res);
+		res = malloc((ft_strlen(s) + 1) * sizeof(*res));
+	if (res == NULL)
 		return (NULL);
+	if (start >= ft_strlen(s))
+	{
+		res[0] = '\0';
+		return (res);
 	}
+	i = 0;
+	while (i < len && s[start] != '\0')
+	{
+		res[i] = s[start];
+		i++;
+		start++;
+	}
+	res[i] = '\0';
+	return (res);
 }
