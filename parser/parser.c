@@ -1,6 +1,20 @@
 #include "libft/libft.h"
 #include "parser.h"
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	return (0);
+}
+
 void	print_error(char *str)
 {
 	free(str);
@@ -203,7 +217,7 @@ char	*handle_double_quotes(char *str, int *start)
 	return (str);
 }
 
-char	*parser(char *str, char **array)
+char	*parser(char *str, char **array, int token_ct)
 {
 	int	i, j, last_space;
 
@@ -242,7 +256,7 @@ char	*parser(char *str, char **array)
 	}
 	if (str[last_space] != '\0')
 		array[j] = ft_substr(str, last_space, i - last_space);
-	else if (str[last_space] == '\0' && j == 0)
+	else if (str[last_space] == '\0' && j < token_ct)
 		array[j] = ft_substr(str, last_space, i - last_space);
 	return (str);
 }
@@ -288,15 +302,15 @@ void	ft_add_token(t_token **lst, t_token *new)
 
 void	assign_type(t_token *token, char *str)
 {
-	if (strcmp(str, "|") == 0)
+	if (ft_strcmp(str, "|") == 0)
 		token->type = PIPE;
-	else if (strcmp(str, ">") == 0)
+	else if (ft_strcmp(str, ">") == 0)
 		token->type = REDIR_OUT;
-	else if (strcmp(str, ">>") == 0)
+	else if (ft_strcmp(str, ">>") == 0)
 		token->type = REDIR_OUT_2;
-	else if (strcmp(str, "<") == 0)
+	else if (ft_strcmp(str, "<") == 0)
 		token->type = REDIR_IN;
-	else if (strcmp(str, "<<") == 0)
+	else if (ft_strcmp(str, "<<") == 0)
 		token->type = REDIR_HEREDOC;
 	else if (token->prev == NULL || token->prev->type >= PIPE)
 		token->type = CMD;
@@ -323,32 +337,66 @@ void	create_tokens(t_token **token, char **array, int token_ct)
 		(*token) = (*token)->prev;
 }
 
-void	parse(t_token **token, char *str)
+char	*parse(t_token **token, char *str)
 {
 	char	**array;
 	int		sep_ct;
 
 	sep_ct = 0;
 	preparser(str, &sep_ct);
-	//printf("sep_ct = %d\n", sep_ct);
+	printf("sep_ct = %d\n", sep_ct);
 	array = malloc((sep_ct + 1) * sizeof(*array));
-	str = parser(str, array);
+	str = parser(str, array, sep_ct + 1);
 	printf("%s\n", str);
 	//if (sep_ct != -1)
 		create_tokens(token, array, sep_ct + 1);
 	free(array);
-	free(str);
+	return (str);
+}
+
+int	get_env_size(char **arr)
+{
+	int		size;
+
+	size = 0;
+	while (arr[size])
+		size++;
+	return (size);
+}
+
+char	**malloc_environ(void)
+{
+	int		size;
+	int		i;
+	char	**arr;
+
+	size = get_env_size(__environ);
+	arr = malloc(sizeof(char *) * (size + 1));
+	i = -1;
+	while (++i < size)
+		arr[i] = ft_strdup(__environ[i]);
+	arr[i] = NULL;
+	return (arr);
 }
 
 int	main(void)
 {
 	char		*str;
 	t_minishell	*msh;
+	char		**arr;
 
 	msh = malloc(sizeof(t_minishell));
 	msh->token = NULL;
 	str = readline(NULL);
-	parse(&(msh->token), str);
+	arr = __environ;
+	__environ = malloc_environ();
+	str = parse(&(msh->token), str);
+	if (msh->token == NULL)
+	{
+		free(msh);
+		return (0);
+	}
+	ft_cd(msh->token->next);
 	while (msh->token->next != NULL)
 	{
 		printf("%d - %s\n", msh->token->type, msh->token->str);
@@ -364,4 +412,16 @@ int	main(void)
 	free(msh->token->str);
 	free(msh->token);
 	free(msh);
+	int i = 0;
+	while (__environ[i] != NULL)
+	{
+		printf("%s\n", __environ[i]);
+		free(__environ[i]);
+		i++;
+	}
+	char *cwwd = getcwd(NULL, 0);
+	printf("%s\n", cwwd);
+	free(cwwd);
+	free(__environ);
+	__environ = arr;
 }
