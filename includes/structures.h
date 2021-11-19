@@ -13,6 +13,7 @@ typedef struct s_token
 	char			*str;
 	struct s_token	*next;
 	struct s_token	*prev;
+	int				skip;
 }	t_token;
 
 typedef struct s_minishell

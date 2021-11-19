@@ -9,11 +9,11 @@ static t_token *get_next_token(t_token *token) // CMD PIPE REDIR_OUT
 	if (token->next == NULL)
 		return (NULL);
 	next_type = token->next->type;
-	if (next_type == PIPE || next_type == REDIR_OUT)
+	if (next_type == PIPE || next_type == REDIR_OUT || next_type == REDIR_OUT_2)
 		return token->next;
 	if (token->type == PIPE)
 		res = token->next;
-	if (token->type == REDIR_OUT)
+	if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 		res = token->next;
 	if (next_type == CMD || next_type == ARG)
 	{
@@ -21,6 +21,16 @@ static t_token *get_next_token(t_token *token) // CMD PIPE REDIR_OUT
 		while (res && (res->type == CMD || res->type == ARG))
 			res = res->next;
 	}
+	return (res);
+}
+
+static t_token *get_prev_redir(t_token *token)
+{
+	t_token *res;
+
+	res = token->prev;
+	while (res && res->type != REDIR_OUT_2 && res->type != REDIR_OUT)
+		res = res->prev;
 	return (res);
 }
 
@@ -57,35 +67,35 @@ static int	is_next_redir(t_token *token)
 	t_token *res;
 
 	res = get_next_token(token);
-	if (res && res->type == REDIR_OUT)
+	if (res && (res->type == REDIR_OUT || res->type == REDIR_OUT_2))
 		return TRUE;
 	return FALSE;
 }
-
-/*
-static void redirect_and_execute(t_minishell *shell, t_token *token, char **envp)
-{
-	shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-	if (!shell->fd_out)
-		return (open_file_error(shell));
-	//dup2(shell->fd_out, STDOUT);
-	//execute_last_cmd(get_prev_token(token), envp);
-}
-*/
 
 static int get_redirection(t_minishell *shell)
 {
 	t_token *token;
 
+	shell->is_redir = FALSE;
 	token = shell->tokens;
 	while (token)
 	{
-		if (token->type == REDIR_OUT)
+		if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 		{
 			if (shell->is_redir)
+			{
+				// сделать предыдущий редирект скипнутым
+				get_prev_redir(token)->skip = TRUE;
 				close(shell->fd_out);
+			}
 			if (token->next)
-				shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+			{
+				if (token->type == REDIR_OUT)
+					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+				if (token->type == REDIR_OUT_2)
+					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+				shell->is_redir = TRUE;
+			}
 			else
 				shell->fd_out = -1;
 			if (!shell->fd_out)
@@ -93,8 +103,7 @@ static int get_redirection(t_minishell *shell)
 		}
 		token = token->next;
 	}
-	
-	return (FALSE);
+	return (shell->is_redir);
 }
 
 void	main_body(t_minishell *shell, char **envp)
@@ -121,7 +130,8 @@ void	main_body(t_minishell *shell, char **envp)
 		{
 			execute_last_cmd(token, envp);
 		}
-		else if (token->type == REDIR_OUT && get_prev_token(token)->type != PIPE)
+		else if ((token->type == REDIR_OUT || token->type == REDIR_OUT_2) \
+		&& get_prev_token(token)->type != PIPE && !token->skip)
 		{
 			dup2(shell->fd_out, STDOUT);
 			execute_last_cmd(get_prev_token(token), envp);

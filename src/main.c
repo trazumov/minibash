@@ -18,6 +18,18 @@ static void	free_tokens(t_token **token)
 	*token = NULL;
 }
 
+static void post_init_tokens(t_token *token)
+{
+	t_token *tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		tmp->skip = FALSE;
+		tmp = tmp->next;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -40,6 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(input);
 		parse(&parsed_tokens, input);
+		post_init_tokens(parsed_tokens);
 		shell.tokens = parsed_tokens;
 		if (ft_strcmp(input, "exit")) // add additional write Exit / переписать
 			shell.exit = TRUE;
