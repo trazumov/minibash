@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	while (shell.exit != TRUE)
 	{
 		init_shell(&shell);
-		input = readline("minishell > ");
+		input = readline(shell.message);
 		if (input == NULL)
 		{
 			on_eof(&shell);

@@ -15,6 +15,7 @@ src/init/init_shell.c \
 src/execute/execute_bin.c \
 src/execute/execute_cmd.c \
 src/main_loop.c \
+src/errors.c \
 src/parser.c
 
 OBJS = $(SRC:.c=.o)

@@ -19,13 +19,12 @@ typedef struct s_minishell
 {
 	int		exit;
 	char	*message;
-	int		pipin;
-	int		pipout;
-	int		pid;
-	int		parent;
 	int		ret;
 	int		in;
 	int		out;
+	int		fd_out;
+	int		fd_in;
+	int		is_redir;
 	t_env	*env;
 	t_token	*tokens;
 }	t_minishell;
