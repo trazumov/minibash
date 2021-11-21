@@ -10,5 +10,5 @@ void	init_shell(t_minishell *shell)
 	shell->ret = 0; // значение которое возвращает shell
 	shell->fd_in = -1; // redir
 	shell->fd_out = -1; // redir
-	shell->is_redir = FALSE;
+	//shell->is_redir = FALSE;
 }

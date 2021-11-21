@@ -24,16 +24,6 @@ static t_token *get_next_token(t_token *token) // CMD PIPE REDIR_OUT
 	return (res);
 }
 
-static t_token *get_prev_redir(t_token *token)
-{
-	t_token *res;
-
-	res = token->prev;
-	while (res && res->type != REDIR_OUT_2 && res->type != REDIR_OUT)
-		res = res->prev;
-	return (res);
-}
-
 static t_token *get_prev_token(t_token *token) // CMD PIPE
 {
 	t_token *res;
@@ -72,40 +62,6 @@ static int	is_next_redir(t_token *token)
 	return FALSE;
 }
 
-static int get_redirection(t_minishell *shell)
-{
-	t_token *token;
-
-	shell->is_redir = FALSE;
-	token = shell->tokens;
-	while (token)
-	{
-		if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
-		{
-			if (shell->is_redir)
-			{
-				// сделать предыдущий редирект скипнутым
-				get_prev_redir(token)->skip = TRUE;
-				close(shell->fd_out);
-			}
-			if (token->next)
-			{
-				if (token->type == REDIR_OUT)
-					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-				if (token->type == REDIR_OUT_2)
-					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-				shell->is_redir = TRUE;
-			}
-			else
-				shell->fd_out = -1;
-			if (!shell->fd_out)
-				return (open_file_error(shell));
-		}
-		token = token->next;
-	}
-	return (shell->is_redir);
-}
-
 static void execute_token(t_token *token, char **envp)
 {
 	if (token->type == CMD)
@@ -119,7 +75,7 @@ void	main_body(t_minishell *shell, char **envp)
 	t_token *token;
 
 	token = shell->tokens;
-	shell->is_redir = get_redirection(shell);
+	set_redirection(shell);
 	while (token)
 	{
 		// PIPES START
@@ -155,6 +111,12 @@ void	main_body(t_minishell *shell, char **envp)
 	}
 }
 
+static void ft_close(int fd)
+{
+	if (fd)
+		close(fd);
+}
+
 void	execution(t_minishell *shell, char **envp)
 {
 	main_body(shell, envp);
@@ -163,7 +125,8 @@ void	execution(t_minishell *shell, char **envp)
 	dup2(shell->out, STDOUT);
 	close(shell->in);
 	close(shell->out);
-	if (shell->is_redir)
-		close(shell->fd_out);
+	ft_close(shell->fd_out);
+	ft_close(shell->fd_in);
+	free(shell->message);
 	// восстанавливаем чтение и вывод как было
 }

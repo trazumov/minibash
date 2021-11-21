@@ -14,6 +14,7 @@ void free_char_list(char **list)
 	list = NULL;
 }
 
+/*
 void	split_free(char **paths)
 {
 	int	i;
@@ -26,3 +27,4 @@ void	split_free(char **paths)
 	}
 	free(paths);
 }
+*/

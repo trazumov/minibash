@@ -17,6 +17,7 @@ src/execute/execute_cmd.c \
 src/main_loop.c \
 src/errors.c \
 src/parser.c \
+src/redirections.c \
 src/execute/ft_pwd.c \
 src/execute/ft_echo.c \
 src/execute/execute_builtin.c

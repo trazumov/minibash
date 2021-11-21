@@ -27,7 +27,6 @@ typedef struct s_minishell
 	int		out;
 	int		fd_out;
 	int		fd_in;
-	int		is_redir;
 	t_env	*env;
 	t_token	*tokens;
 }	t_minishell;

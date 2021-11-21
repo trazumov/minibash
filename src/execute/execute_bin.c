@@ -1,5 +1,18 @@
 #include "../../includes/minishell.h"
 
+void	split_free(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i] != NULL)
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
+}
+
 static char	**find_paths(char **envp)
 {
 	int		i;
@@ -41,7 +54,7 @@ static char	*create_path(char **cmd, char **envp)
 	if (access(cmd[0], 1) == 0)
 		return (cmd[0]);
 	//
-	ft_putstr_fd("pipex: command not found: ", 2);
+	ft_putstr_fd("minishell: command not found: ", 2);
 	ft_putendl_fd(cmd[0], 2);
 	split_free(cmd);
 	//

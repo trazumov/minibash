@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		add_history(input);
 		parse(&parsed_tokens, input);
-		post_init_tokens(parsed_tokens);
+		post_init_tokens(parsed_tokens); // add to parse
 		shell.tokens = parsed_tokens;
 		if (ft_strcmp(input, "exit") == 0) // add additional write Exit / переписать
 			shell.exit = TRUE;
