@@ -21,4 +21,8 @@ void execute_pipe_cmd(t_token *token, char **envp);
 void execute_last_cmd(t_token *token, char **envp);
 int	open_file_error(t_minishell *shell);
 
+int execute_builtin(t_token *token, char **envp);
+int	ft_pwd(void);
+int	ft_echo(t_token *token);
+
 #endif

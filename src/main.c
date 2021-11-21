@@ -39,6 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token		*parsed_tokens = NULL;
 	char		*input = NULL;
 	
+	g_return = 0;
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	while (shell.exit != TRUE)
@@ -54,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		parse(&parsed_tokens, input);
 		post_init_tokens(parsed_tokens);
 		shell.tokens = parsed_tokens;
-		if (ft_strcmp(input, "exit")) // add additional write Exit / переписать
+		if (ft_strcmp(input, "exit") == 0) // add additional write Exit / переписать
 			shell.exit = TRUE;
 		execution(&shell, envp);
         //add_history(input);

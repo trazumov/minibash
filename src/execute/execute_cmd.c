@@ -52,6 +52,7 @@ void execute_last_cmd(t_token *token, char **envp)
 		simple_cmd(argv, envp);
 }
 
+// нет обработки билтина
 void execute_pipe_cmd(t_token *token, char **envp)
 {
 	pid_t	parent;
@@ -72,6 +73,7 @@ void execute_pipe_cmd(t_token *token, char **envp)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT);
-		simple_cmd(argv, envp);
+		if (token->type == CMD)
+			simple_cmd(argv, envp);
 	}
 }

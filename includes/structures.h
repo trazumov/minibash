@@ -1,6 +1,8 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
+int		g_return;
+
 typedef struct s_env
 {
 	char	*str;

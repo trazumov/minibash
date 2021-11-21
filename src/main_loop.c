@@ -106,6 +106,14 @@ static int get_redirection(t_minishell *shell)
 	return (shell->is_redir);
 }
 
+static void execute_token(t_token *token, char **envp)
+{
+	if (token->type == CMD)
+		execute_last_cmd(token, envp);
+	if (token->type == BUILTIN)
+		execute_builtin(token, envp);
+}
+
 void	main_body(t_minishell *shell, char **envp)
 {
 	t_token *token;
@@ -114,6 +122,7 @@ void	main_body(t_minishell *shell, char **envp)
 	shell->is_redir = get_redirection(shell);
 	while (token)
 	{
+		// PIPES START
 		if (token->type == PIPE && is_next_pipe(token))
 		{
 			execute_pipe_cmd(get_prev_token(token), envp);
@@ -124,18 +133,24 @@ void	main_body(t_minishell *shell, char **envp)
 			execute_pipe_cmd(get_prev_token(token), envp);
 			if (is_next_redir(token->next))
 				dup2(shell->fd_out, STDOUT);
-			execute_last_cmd(token->next, envp);
+			execute_token(token->next, envp);
 		}
-		else if (token->type == CMD && !is_next_pipe(token) && !is_next_redir(token))
+		// PIPES END
+		// CMD START
+		else if ((token->type == CMD  || token->type == BUILTIN) \
+		&& !is_next_pipe(token) && !is_next_redir(token))
 		{
-			execute_last_cmd(token, envp);
+			execute_token(token, envp);
 		}
+		// CMD END
+		// REDIR START
 		else if ((token->type == REDIR_OUT || token->type == REDIR_OUT_2) \
 		&& get_prev_token(token)->type != PIPE && !token->skip)
 		{
 			dup2(shell->fd_out, STDOUT);
-			execute_last_cmd(get_prev_token(token), envp);
+			execute_token(get_prev_token(token), envp);
 		}
+		// REDIR END
 		token = get_next_token(token);
 	}
 }
