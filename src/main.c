@@ -66,8 +66,8 @@ int	main(int argc, char **argv, char **envp)
         //add_history(input);
 		//free(input);		input = NULL;
 		free_tokens(&parsed_tokens);
-		free(__environ);
-		__environ = arr;
 	}
+	free(__environ);
+	__environ = arr;
 	return (1);
 }

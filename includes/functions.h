@@ -3,8 +3,8 @@
 
 t_token	*create_tmp_token(void);
 
-int		ft_strcmp(const char *s1, const char *s2);
-int		init_env(t_minishell *shell, char **envp);
+//int		ft_strcmp(const char *s1, const char *s2);
+//int		init_env(t_minishell *shell, char **envp);
 void	ft_signal(int code);
 void	on_eof(t_minishell *shell);
 void	init_shell(t_minishell *shell);
