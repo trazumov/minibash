@@ -3,44 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:03 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:03 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/23 18:40:32 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/27 23:38:45 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*The memccpy() function copies bytes from string 
-src to string dst. If the character c 
-(as converted to an unsigned char) occurs in the string src, 
-the copy stops and a pointer to the byte after the 
-copy of c in the string dst is returned.
-Otherwise, n bytes are copied, and a NULL pointer is returned.*/
-void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
 {
-	unsigned char	*res;
-	unsigned char	*from;
-	int				found;
-	unsigned int	i;
+	size_t				i;
+	unsigned char		*ptrd;
+	unsigned const char	*ptrs;
 
-	res = (unsigned char *)dest;
-	from = (unsigned char *)src;
-	found = 0;
+	ptrd = dst;
+	ptrs = src;
 	i = 0;
-	while (n-- > 0)
+	while (i < n)
 	{
-		res[i] = from[i];
-		if (from[i] == (unsigned char)c)
-		{
-			found = 1;
-			break ;
-		}
+		ptrd[i] = ptrs[i];
+		if (ptrs[i] == (unsigned char) c)
+			return (dst + i + 1);
 		i++;
 	}
-	if (found == 1)
-		return (&res[i + 1]);
-	else
-		return (NULL);
+	return (NULL);
 }

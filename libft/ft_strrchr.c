@@ -3,33 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:59 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:59 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/21 21:48:58 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 21:26:22 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*locates the LAST occurrence of c (converted to a char) in
-the string pointed to by s.  The terminating null character 
-is considered to be part of the string;
-therefore if c is `\0', the functions 
-locate the terminating `\0'.*/
-char	*ft_strrchr(const char *str, int ch)
+char	*ft_strrchr(const char *s, int c)
 {
-	size_t			len;
-	unsigned int	i;
+	int		i;
+	char	*res;
 
-	len = ft_strlen(str);
 	i = 0;
-	if ((char)ch == '\0')
-		return ((char *)str + len);
-	while (len-- > 0)
+	res = NULL;
+	while (s[i] != '\0')
 	{
-		if (str[i + len] == (char)ch)
-			return ((char *)&str[i + len]);
+		if (s[i] == (char) c)
+			res = (char *)(s + i);
+		i++;
 	}
-	return (NULL);
+	if (s[i] == (char) c)
+		res = (char *)(s + i);
+	return (res);
 }

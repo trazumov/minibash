@@ -3,43 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:23:35 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:23:35 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/25 03:51:35 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/25 05:36:23 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#define MAX_INT 2147483647
-#define MIN_INT -2147483648
-
-static int	get_len(int n)
+static int	ft_length(int n)
 {
-	unsigned int	res;
-	long long		l;
+	int	len;
 
-	res = 0;
-	l = n;
-	if ((l > MAX_INT) || (l < MIN_INT))
-		return (0);
-	if (n < 0 && n >= -MAX_INT)
+	len = 1;
+	if (n < 0)
 	{
-		res++;
-		n = -n;
+		n *= -1;
+		len++;
 	}
-	if (n == MIN_INT)
-		return (11);
-	else
+	n = n / 10;
+	while (n > 0)
 	{
-		while (n >= 10)
+		len++;
+		n = n / 10;
+	}
+	return (len);
+}
+
+static void	ft_fill(char *res, int n, int len)
+{
+	int	i;
+
+	i = len - 1;
+	if (n >= 0)
+	{
+		while (i >= 0)
 		{
-			res++;
+			res[i] = (n % 10) + 48;
 			n = n / 10;
+			i--;
 		}
 	}
-	return (res + 1);
+	else
+	{
+		n *= -1;
+		res[0] = '-';
+		while (i > 0)
+		{
+			res[i] = (n % 10) + 48;
+			n = n / 10;
+			i--;
+		}
+	}
+	res[len] = '\0';
 }
 
 char	*ft_itoa(int n)
@@ -47,26 +64,19 @@ char	*ft_itoa(int n)
 	int		len;
 	char	*res;
 
-	len = get_len(n);
-	if (len == 0)
-		return (NULL);
-	res = (char *)malloc(len + 1);
-	if (!res)
-		return (NULL);
-	if (n == MIN_INT)
-		return (ft_memcpy(res, "-2147483648", 12));
-	if (n < 0)
+	if (n == -2147483648)
 	{
-		res[0] = '-';
-		n = -n;
+		res = malloc(sizeof(*res) * 12);
+		if (res == NULL)
+			return (NULL);
+		ft_fill(res, n + 1, 11);
+		res[10] = '8';
+		return (res);
 	}
-	res[len--] = '\0';
-	while (n >= 10)
-	{
-		res[len] = ((n % 10) + '0');
-		len--;
-		n = n / 10;
-	}
-	res[len] = ((n % 10) + '0');
+	len = ft_length(n);
+	res = malloc(sizeof(*res) * (len + 1));
+	if (res == NULL)
+		return (NULL);
+	ft_fill(res, n, len);
 	return (res);
 }

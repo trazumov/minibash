@@ -3,36 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:51 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/25 05:38:03 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 22:45:23 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Applies the function ’f’ to each character of the
-string ’s’ to create a new string (with malloc(3))
-resulting from successive applications of ’f’.
-RETURN The string created from the successive applications
-of ’f’.  Returns NULL if the allocation fails.*/
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char			*res;
-	unsigned int	index;
+	size_t	i;
+	size_t	len;
+	char	*res;
 
-	if (!s || !f)
+	if (s == NULL || f == NULL)
 		return (NULL);
-	res = (char *)malloc(ft_strlen(s) + 1);
-	if (!res)
+	len = ft_strlen(s);
+	res = malloc((len + 1) * sizeof(*res));
+	if (res == NULL)
 		return (NULL);
-	index = 0;
-	while (s[index] != '\0')
+	i = 0;
+	while (i < len)
 	{
-		res[index] = f(index, s[index]);
-		index++;
+		res[i] = (*f)(i, s[i]);
+		i++;
 	}
-	res[index] = '\0';
+	res[i] = '\0';
 	return (res);
 }

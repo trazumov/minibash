@@ -3,32 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:23:06 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:23:07 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/23 21:48:13 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/23 22:20:21 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*allocates enough space for count objects that are size bytes of memory each*/
 void	*ft_calloc(size_t count, size_t size)
 {
-	char			*res;
-	unsigned int	mem_bytes;
-	unsigned int	i;
+	size_t	i;
+	char	*ptr;
 
-	mem_bytes = count * size;
-	res = malloc(mem_bytes);
-	if (!res)
-		return (NULL);
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		return (ptr);
 	i = 0;
-	while (mem_bytes)
+	while (i < count * size)
 	{
-		res[i] = 0;
+		ptr[i] = 0;
 		i++;
-		mem_bytes--;
 	}
-	return ((void *)res);
+	return ((void *) ptr);
 }

@@ -3,29 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:41 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:41 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/24 18:30:30 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 22:40:55 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Allocates (with malloc(3)) and returns a new
-string, which is the result of the concatenation
-of ’s1’ and ’s2’*/
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char			*res;
-	unsigned int	i;
-	unsigned int	j;
+	char	*res;
+	int		i;
+	int		j;
 
-	if (!s1 || !s2)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	res = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!res)
-		return (NULL);
+	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(*res));
+	if (res == NULL)
+		return (res);
 	i = 0;
 	while (s1[i] != '\0')
 	{

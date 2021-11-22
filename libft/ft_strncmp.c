@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:52 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:52 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/22 16:59:44 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/27 20:31:01 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned int	res;
-	unsigned int	i;
+	size_t			i;
+	unsigned char	*ptr1;
+	unsigned char	*ptr2;
 
+	ptr1 = (unsigned char *) s1;
+	ptr2 = (unsigned char *) s2;
 	i = 0;
-	res = 0;
-	while (n > 0)
+	while ((i < n) && (ptr1[i] != '\0' || ptr2[i] != '\0'))
 	{
-		if (s1[i] != s2[i])
-		{
-			res = (unsigned char)s1[i] - (unsigned char)s2[i];
-			break ;
-		}
+		if (ptr1[i] != ptr2[i])
+			return (ptr1[i] - ptr2[i]);
 		i++;
-		n--;
 	}
-	return (res);
+	return (0);
 }

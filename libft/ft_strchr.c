@@ -3,45 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:36 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:37 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/21 21:18:29 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 21:25:51 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*locates the first occurrence of c in s and locate \0*/
-/*
 char	*ft_strchr(const char *s, int c)
 {
+	int		i;
 	char	*res;
 
-	if (!s)
-		return (NULL);
-	res = (char *)s;
-	while (*res != (char)c)
-	{
-		if (*res == '\0')
-			return (NULL);
-		res++;
-	}
-	return (res);
-}
-*/
-char	*ft_strchr(const char *s, int c)
-{
-	char			*res;
-	unsigned int	i;
-
-	res = (char *)s;
 	i = 0;
-	while (res[i] != (char)c)
+	while (s[i] != '\0')
 	{
-		if (res[i] == '\0')
-			return (NULL);
+		if (s[i] == (char) c)
+		{
+			res = (char *)(s + i);
+			return (res);
+		}
 		i++;
 	}
-	return (&res[i]);
+	if (s[i] == (char) c)
+	{
+		res = (char *)(s + i);
+		return (res);
+	}
+	return (NULL);
 }

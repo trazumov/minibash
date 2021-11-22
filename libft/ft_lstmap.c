@@ -3,39 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:23:52 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:23:54 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/27 18:15:48 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 20:24:05 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Iterates the list ’lst’ and applies the function
-’f’ to the content of each element.  Creates a new
-list resulting of the successive applications of
-the function ’f’.  The ’del’ function is used to
-delete the content of an element if needed.*/
-
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*new_elem;
-	t_list	*new_lst;
+	t_list	*new_list;
+	t_list	*iter;
 
-	if (!lst || !f || !del)
+	if (lst == NULL || f == NULL || del == NULL)
 		return (NULL);
-	new_lst = NULL;
-	while (lst)
+	new_list = NULL;
+	while (lst != NULL)
 	{
-		new_elem = ft_lstnew(f(lst->content));
-		if (!new_elem)
+		iter = ft_lstnew((*f)(lst->content));
+		if (iter == NULL)
 		{
-			ft_lstclear(&new_lst, del);
+			ft_lstclear(&new_list, del);
 			return (NULL);
 		}
-		ft_lstadd_back(&new_lst, new_elem);
+		ft_lstadd_back(&new_list, iter);
 		lst = lst->next;
 	}
-	return (new_lst);
+	return (new_list);
 }

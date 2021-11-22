@@ -3,38 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:21 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:21 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/23 19:17:09 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/23 20:25:46 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*copies len bytes from string src to string dst.  The two
-     strings may overlap; the copy is always done 
-	 in a non-destructive manner*/
-void	*ft_memmove(void *dest, const void *src, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char			*d;
-	const unsigned char		*s;
-	unsigned int			i;
+	size_t		i;
+	char		*ptrd;
+	const char	*ptrs;
 
-	d = (unsigned char *)dest;
-	s = (const unsigned char *)src;
-	i = 0;
-	if (dest <= src)
+	ptrs = src;
+	ptrd = dst;
+	if (ptrs < ptrd)
 	{
-		while (n > 0)
+		i = len;
+		while (i > 0)
 		{
-			d[i] = s[i];
-			i++;
-			n--;
+			i--;
+			ptrd[i] = ptrs[i];
 		}
 	}
-	else
-		while (n-- > 0)
-			d[n] = s[n];
-	return (dest);
+	else if (ptrs > ptrd)
+	{
+		i = 0;
+		while (i < len)
+		{
+			ptrd[i] = ptrs[i];
+			i++;
+		}
+	}
+	return (dst);
 }

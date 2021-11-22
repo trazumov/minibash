@@ -3,88 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:24:34 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:24:35 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/24 20:44:40 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 20:26:32 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static unsigned int	count_substrs(char const *s, char c)
+static int	ft_count_sep(char const *s, char c)
 {
-	unsigned int	res;
-	char			*tmp;
+	int	i;
+	int	sep;
 
-	res = 0;
-	tmp = (char *)s;
-	while (*tmp != '\0')
+	i = 0;
+	sep = 0;
+	if (s[0] == '\0')
+		return (0);
+	while (s[i] == c && s[i] != '\0')
+		i++;
+	while (s[i] != '\0')
 	{
-		if (*tmp != c)
+		if (s[i] == c)
 		{
-			res++;
-			while (*tmp != c && *tmp != '\0')
-				tmp++;
-			while (*tmp == c && *tmp != '\0')
-				tmp++;
+			sep++;
+			while (s[i] == c && s[i] != '\0')
+				i++;
+			continue ;
 		}
-		else
-			tmp++;
+		i++;
 	}
-	return (res + 1);
+	if (s[i - 1] != c)
+		sep++;
+	return (sep);
 }
 
-static unsigned int	get_pos_start(const char *s, unsigned int pos, char c)
+static void	ft_length(int *len, int *i, char const *s, char c)
 {
-	unsigned int	i;
-
-	i = pos;
-	while (s[i] && s[i] == c)
-		i++;
-	return (i);
+	*len = 0;
+	while (s[*i] != '\0' && s[*i] == c)
+		(*i)++;
+	while (s[*i] != c && s[*i] != '\0')
+	{
+		(*len)++;
+		(*i)++;
+	}
+	(*i)++;
 }
 
-static unsigned int	get_pos_end(const char *s, unsigned int pos, char c)
+static char	**ft_malloc_fail(char **res, int j)
 {
-	unsigned int	i;
-
-	i = pos;
-	while (s[i] && s[i] != c)
-		i++;
-	return (i);
+	j -= 1;
+	while (j >= 0)
+	{
+		free(res[j]);
+		j--;
+	}
+	free(res);
+	return (NULL);
 }
 
-/*Allocates (with malloc(3)) and returns an array
-of strings obtained by splitting ’s’ using the
-character ’c’ as a delimiter.  The array must be
-ended by a NULL pointer.
-The array of new strings resulting from the split.
-NULL if the allocation fails*/
 char	**ft_split(char const *s, char c)
 {
-	char			**res;
-	unsigned int	current;
-	unsigned int	pos_end;
-	unsigned int	pos_start;
+	char	**res;
+	int		i;
+	int		j;
+	int		len;
+	int		size;
 
-	if (!s)
+	if (s == NULL)
 		return (NULL);
-	res = (char **)malloc(sizeof(char *) * count_substrs(s, c));
-	if (!res)
+	size = ft_count_sep(s, c);
+	res = malloc((size + 1) * sizeof(*res));
+	if (res == NULL)
 		return (NULL);
-	pos_end = 0;
-	pos_start = 0;
-	current = 0;
-	while (current < count_substrs(s, c) - 1)
+	i = 0;
+	j = -1;
+	while (++j < size)
 	{
-		pos_start = get_pos_start(s, pos_start, c);
-		pos_end = get_pos_end(s, pos_start, c);
-		if (pos_start != pos_end)
-			res[current] = ft_substr(s, pos_start, pos_end - pos_start);
-		pos_start = pos_end;
-		current++;
+		ft_length(&len, &i, s, c);
+		res[j] = malloc((len + 1) * sizeof(**res));
+		if (res[j] == NULL)
+			return (ft_malloc_fail(res, j));
+		ft_memcpy(res[j], s + (i - 1 - len), len);
+		res[j][len] = '\0';
 	}
-	res[current] = NULL;
+	res[j] = NULL;
 	return (res);
 }

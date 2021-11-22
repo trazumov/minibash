@@ -3,32 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:25:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:25:01 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/24 18:59:57 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 22:44:20 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Allocates (with malloc(3)) and returns a copy of
-’s1’ with the characters specified in ’set’ removed
-from the beginning and the end of the string.*/
 char	*ft_strtrim(char const *s1, char const *set)
 {
+	int		i;
+	int		j;
+	int		trim_ct;
 	char	*res;
-	char	*tmp;
-	size_t	len;
 
-	if (!s1 || !set)
+	if (s1 == NULL)
 		return (NULL);
-	tmp = (char *)s1;
-	while (*tmp && ft_strchr(set, *tmp))
-		tmp++;
-	len = ft_strlen(tmp);
-	while (len > 0 && ft_strchr(set, tmp[len]))
-		len--;
-	res = ft_substr(tmp, 0, len + 1);
+	i = -1;
+	trim_ct = 0;
+	while (s1[++i] != '\0' && ft_strchr(set, s1[i]))
+	{
+		trim_ct++;
+	}
+	j = ft_strlen(s1) - 1;
+	while (j > i && ft_strchr(set, s1[j]))
+	{
+		j--;
+		trim_ct++;
+	}
+	res = malloc((ft_strlen(s1) - trim_ct + 1) * sizeof(*res));
+	if (res == NULL)
+		return (res);
+	ft_memcpy(res, s1 + i, ft_strlen(s1) - trim_ct);
+	res[ft_strlen(s1) - trim_ct] = '\0';
 	return (res);
 }

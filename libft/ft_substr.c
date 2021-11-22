@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:25:04 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:25:04 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/23 23:16:43 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/28 22:14:59 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 #include "libft.h"
 

@@ -3,28 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 13:23:42 by svirgil           #+#    #+#             */
-/*   Updated: 2021/09/24 13:23:43 by svirgil          ###   ########.fr       */
+/*   Created: 2021/04/27 18:26:21 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/04/27 18:26:34 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list	*tmp;
-	t_list	*to_del;
+	t_list	*ptr;
+	t_list	*ptr_next;
 
-	to_del = *lst;
-	while (to_del)
+	if (lst == NULL || del == NULL)
+		return ;
+	ptr = *lst;
+	while (ptr != NULL)
 	{
-		tmp = to_del->next;
-		if (del)
-			del(to_del->content);
-		free(to_del);
-		to_del = tmp;
+		ptr_next = ptr->next;
+		(*del)(ptr->content);
+		free(ptr);
+		ptr = ptr_next;
 	}
 	*lst = NULL;
 }
