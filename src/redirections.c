@@ -44,6 +44,7 @@ int set_redirection(t_minishell *shell)
 					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 				if (token->type == REDIR_OUT_2)
 					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+				dup2(shell->fd_out, STDOUT); // added
 				new_output = TRUE;
 			}
 			else
@@ -62,6 +63,7 @@ int set_redirection(t_minishell *shell)
 			{
 				if (token->type == REDIR_IN)
 					shell->fd_in = open(token->next->str, O_RDONLY, S_IRWXU);
+				dup2(shell->fd_in, STDIN);
 				new_input = TRUE;
 			}
 			else

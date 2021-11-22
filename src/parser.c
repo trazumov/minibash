@@ -255,10 +255,10 @@ char	*parse(t_token **token, char *str)
 
 	sep_ct = 0;
 	preparser(str, &sep_ct);
-	printf("sep_ct = %d\n", sep_ct);
+	//printf("sep_ct = %d\n", sep_ct);
 	array = malloc((sep_ct + 1) * sizeof(*array));
 	str = parser(str, array, sep_ct + 1);
-	printf("%s\n", str);
+	//printf("%s\n", str);
 	//if (sep_ct != -1)
 		create_tokens(token, array, sep_ct + 1);
 	free(array);

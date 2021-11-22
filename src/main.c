@@ -26,6 +26,8 @@ static void post_init_tokens(t_token *token)
 	while (tmp)
 	{
 		tmp->skip = FALSE;
+		if (tmp->type == CMD && ft_strcmp(tmp->str, "") == 0)
+			tmp->skip = TRUE;
 		tmp = tmp->next;
 	}
 }

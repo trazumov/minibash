@@ -15,12 +15,14 @@ static t_token *get_next_token(t_token *token) // CMD PIPE REDIR_OUT
 		res = token->next;
 	if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 		res = token->next;
-	if (next_type == CMD || next_type == ARG)
+	if ((next_type == CMD || next_type == ARG) && token->type != REDIR_IN)
 	{
 		res = token->next;
 		while (res && (res->type == CMD || res->type == ARG))
 			res = res->next;
 	}
+	if (token->type == REDIR_IN)
+		res = token->next->next;
 	return (res);
 }
 
@@ -64,7 +66,7 @@ static int	is_next_redir(t_token *token)
 
 static void execute_token(t_token *token, char **envp)
 {
-	if (token->type == CMD)
+	if (token->type == CMD || token->type == ARG) // убрать
 		execute_last_cmd(token, envp);
 	if (token->type == BUILTIN)
 		execute_builtin(token, envp);
@@ -78,6 +80,13 @@ void	main_body(t_minishell *shell, char **envp)
 	set_redirection(shell);
 	while (token)
 	{
+		if (token->skip == TRUE || token->type >= 4)
+		{
+			if (token->type >=4)
+				token->next->skip = TRUE;
+			token = token->next;
+			continue ;
+		}
 		// PIPES START
 		if (token->type == PIPE && is_next_pipe(token))
 		{
@@ -93,8 +102,10 @@ void	main_body(t_minishell *shell, char **envp)
 		}
 		// PIPES END
 		// CMD START
-		else if ((token->type == CMD  || token->type == BUILTIN) \
-		&& !is_next_pipe(token) && !is_next_redir(token))
+		// убрать ARG
+		else if ((token->type == CMD  || token->type == BUILTIN || token->type == ARG) \
+		&& !is_next_pipe(token))
+		//&& !is_next_pipe(token) && !is_next_redir(token))
 		{
 			execute_token(token, envp);
 		}
@@ -103,8 +114,12 @@ void	main_body(t_minishell *shell, char **envp)
 		else if ((token->type == REDIR_OUT || token->type == REDIR_OUT_2) \
 		&& get_prev_token(token)->type != PIPE && !token->skip)
 		{
-			dup2(shell->fd_out, STDOUT);
-			execute_token(get_prev_token(token), envp);
+			//dup2(shell->fd_out, STDOUT);
+			//execute_token(get_prev_token(token), envp);
+		}
+		else if (token->type == REDIR_IN)
+		{
+			//dup2(shell->fd_in, STDIN);
 		}
 		// REDIR END
 		token = get_next_token(token);
