@@ -66,7 +66,7 @@ t_token	*ft_last_token(t_token *lst);
 void	assign_type(t_token *token, char *str);
 
 //builtins
-void	ft_echo(t_token *token);
+int		ft_echo(t_token *token);
 void	ft_env(void);
 int		ft_pwd(void);
 int		ft_exit(t_token *token);

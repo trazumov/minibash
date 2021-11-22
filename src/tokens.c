@@ -1,5 +1,4 @@
-#include "libft/libft.h"
-#include "parser.h"
+#include "../includes/minishell.h"
 
 t_token	*ft_new_token(void)
 {

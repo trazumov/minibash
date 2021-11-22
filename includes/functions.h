@@ -12,7 +12,6 @@ void	free_data(t_token *a_tokens, t_token *b_tokens);
 void	execution(t_minishell *shell, char **envp);
 void	main_body(t_minishell *shell, char **envp);
 
-void	parse(t_token **token, char *str);
 void simple_cmd(char **argv, char **envp);
 void free_char_list(char **list);
 //void	split_free(char **paths);
@@ -22,8 +21,5 @@ int	open_file_error(t_minishell *shell);
 int set_redirection(t_minishell *shell);
 
 int execute_builtin(t_token *token, char **envp);
-int	ft_pwd(void);
-int	ft_echo(t_token *token);
-
 
 #endif

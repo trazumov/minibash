@@ -1,6 +1,6 @@
 #include "../parser.h"
 
-void	ft_echo(t_token *token)
+int	ft_echo(t_token *token)
 {
 	int	option;
 
@@ -20,4 +20,5 @@ void	ft_echo(t_token *token)
 	}
 	if (option == 0)
 		printf("\n");
+	return (0);
 }

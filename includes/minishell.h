@@ -6,5 +6,6 @@
 # include "structures.h"
 # include "defines.h"
 # include "functions.h"
+# include "functions_ilgiz.h"
 
  #endif
