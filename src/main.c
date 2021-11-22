@@ -38,8 +38,11 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	shell;
 	t_token		*parsed_tokens = NULL;
 	char		*input;
+	char		**arr;
 	
 	g_return = 0;
+	arr = __environ;
+	__environ = malloc_environ();
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	while (shell.exit != TRUE)
@@ -54,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		if (input[0] == '\0')
 			continue ;
 		add_history(input);
-		parse(&parsed_tokens, input);
+		input = parse(&parsed_tokens, input);
 		post_init_tokens(parsed_tokens); // add to parse
 		shell.tokens = parsed_tokens;
 		if (ft_strcmp(input, "exit") == 0) // add additional write Exit / переписать
@@ -63,6 +66,8 @@ int	main(int argc, char **argv, char **envp)
         //add_history(input);
 		//free(input);		input = NULL;
 		free_tokens(&parsed_tokens);
+		free(__environ);
+		__environ = arr;
 	}
 	return (1);
 }

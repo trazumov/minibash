@@ -61,7 +61,7 @@ int set_redirection(t_minishell *shell)
 			if (token->next)
 			{
 				if (token->type == REDIR_IN)
-					shell->fd_in = open(token->str, O_RDONLY, S_IRWXU);
+					shell->fd_in = open(token->next->str, O_RDONLY, S_IRWXU);
 				new_input = TRUE;
 			}
 			else
