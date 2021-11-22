@@ -1,7 +1,7 @@
 #include "../parser.h"
 #include "../libft/libft.h"
 
-int	ft_is_numeric(char *str)
+int	is_arg_numeric(char *str)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int	ft_exit(t_token *token)
 	unsigned int	ret;
 
 	ft_putendl_fd("exit", 2);
-	if (token && ft_is_numeric(token->str) == 0)
+	if (token && is_arg_numeric(token->str) == 0)
 	{
 		ret = 1;
 		ft_putstr_fd("minishell: exit: ", 2);
