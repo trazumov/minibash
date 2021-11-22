@@ -18,9 +18,15 @@ src/main_loop.c \
 src/errors.c \
 src/parser.c \
 src/redirections.c \
-src/execute/ft_pwd.c \
-src/execute/ft_echo.c \
-src/execute/execute_builtin.c
+src/tokens.c\
+src/execute/execute_builtin.c\
+parser/builtins/ft_cd.c\
+parser/builtins/ft_echo.c\
+parser/builtins/ft_env.c\
+parser/builtins/ft_exit.c\
+parser/builtins/ft_export.c\
+parser/builtins/ft_pwd.c\
+parser/builtins/ft_unset.c
 
 OBJS = $(SRC:.c=.o)
 

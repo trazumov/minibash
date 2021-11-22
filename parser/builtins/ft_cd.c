@@ -41,56 +41,46 @@ void	update_oldpwd(char *oldpwd)
 	free(temp);
 }
 
-int	ft_cd(t_token *token)
+int	change_dir_to_home_or_oldpwd(char *var)
 {
 	int		ret;
 	char	*new_dir;
 	char	*oldpwd;
-	
+
+	new_dir = getenv(var);
+	if (new_dir)
+	{
+		oldpwd = getcwd(NULL, 0);
+		ret = chdir(new_dir);
+		if (ret == 0)
+			update_oldpwd(oldpwd);
+		else
+		{
+			ret = print_cd_error(new_dir, 2);
+			free(oldpwd);
+		}
+		return (ret);
+	}
+	else
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(var, 2);
+		ft_putendl_fd(" not set", 2);
+		return (1);
+	}
+}
+
+int	ft_cd(t_token *token)
+{
+	int		ret;
+	char	*oldpwd;
+
 	if (token && token->next && token->next->type == ARG)
 		ret = print_cd_error(token->str, 1);
 	else if (token == NULL || (token && token->type != ARG))
-	{
-		new_dir = getenv("HOME");
-		if (new_dir)
-		{
-			oldpwd = getcwd(NULL, 0);
-			ret = chdir(new_dir);
-			if (ret == 0)
-				update_oldpwd(oldpwd);
-			else
-			{
-				ret = print_cd_error(new_dir, 2);
-				free(oldpwd);
-			}
-		}
-		else
-		{
-			ft_putendl_fd("minishell: cd: HOME not set", 2);
-			return (1);
-		}
-	}
+		ret = change_dir_to_home_or_oldpwd("HOME");
 	else if (ft_strcmp(token->str, "-") == 0)
-	{
-		new_dir = getenv("OLDPWD");
-		if (new_dir)
-		{
-			oldpwd = getcwd(NULL, 0);
-			ret = chdir(new_dir);
-			if (ret == 0)
-				update_oldpwd(oldpwd);
-			else
-			{
-				ret = print_cd_error(new_dir, 2);
-				free(oldpwd);
-			}
-		}
-		else
-		{
-			ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
-			return (1);
-		}
-	}
+		ret = change_dir_to_home_or_oldpwd("OLDPWD");
 	else
 	{
 		oldpwd = getcwd(NULL, 0);
@@ -103,5 +93,5 @@ int	ft_cd(t_token *token)
 			free(oldpwd);
 		}
 	}
-	return(ret);
+	return (ret);
 }
