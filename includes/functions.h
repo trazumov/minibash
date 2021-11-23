@@ -22,4 +22,11 @@ int set_redirection(t_minishell *shell);
 
 int execute_builtin(t_token *token, char **envp);
 
+void	exec_here_doc(t_minishell *shell, t_token *token);
+int	get_next_line(int fd, char **line);
+size_t	gnl_strlen(const char *s);
+char	*gnl_strchr(const char *s, int c);
+char	*gnl_strjoin(char *s1, char const *s2);
+size_t	gnl_strlcpy(char *dst, const char *src, size_t dstsize);
+
 #endif

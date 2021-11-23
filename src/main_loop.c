@@ -96,8 +96,8 @@ void	main_body(t_minishell *shell, char **envp)
 		else if (token->type == PIPE && !is_next_pipe(token))
 		{
 			execute_pipe_cmd(get_prev_token(token), envp);
-			if (is_next_redir(token->next))
-				dup2(shell->fd_out, STDOUT);
+			//if (is_next_redir(token->next))
+			//	dup2(shell->fd_out, STDOUT);
 			execute_token(token->next, envp);
 		}
 		// PIPES END

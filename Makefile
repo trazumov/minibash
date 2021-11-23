@@ -19,6 +19,9 @@ src/errors.c \
 src/parser.c \
 src/redirections.c \
 src/tokens.c\
+src/heredoc.c \
+src/gnl.c \
+src/gnl_utils.c \
 src/execute/execute_builtin.c\
 parser/builtins/ft_cd.c\
 parser/builtins/ft_echo.c\
