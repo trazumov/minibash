@@ -25,6 +25,7 @@ void	ft_add_token(t_token **lst, t_token *new);
 t_token	*ft_new_token(void);
 t_token	*ft_last_token(t_token *lst);
 void	assign_type(t_token *token, char *str);
+int		is_builtin(char *str);
 
 //builtins
 int		ft_echo(t_token *token);
