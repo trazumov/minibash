@@ -59,7 +59,7 @@ int main(void)
 		}
 		if (input[0] == '\0')
 			continue ;
-		input = parse(&parsed_tokens, input);
+		input = parse(&parsed_tokens, input, shell);
 		post_init_tokens(parsed_tokens); // add to parse
 		shell.tokens = parsed_tokens;
 		execution(&shell);
