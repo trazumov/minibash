@@ -32,24 +32,24 @@ static void post_init_tokens(t_token *token)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+int main(void)
 {
-	(void)argc;
-	(void)argv;
-
 	t_minishell	shell;
 	t_token		*parsed_tokens = NULL;
-	char		*input;
-	char		**arr;
+	char		*input = NULL;
+	char		**arr = NULL;
 	
 	g_return = 0;
 	arr = __environ;
 	__environ = malloc_environ();
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
+	shell.exit = FALSE;
 	while (shell.exit != TRUE)
 	{
 		init_shell(&shell);
+		if (input)
+			free(input);
 		input = readline(shell.message);
 		if (input == NULL)
 		{
@@ -58,15 +58,13 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (input[0] == '\0')
 			continue ;
-		add_history(input);
 		input = parse(&parsed_tokens, input);
 		post_init_tokens(parsed_tokens); // add to parse
 		shell.tokens = parsed_tokens;
-		if (ft_strcmp(input, "exit") == 0) // add additional write Exit / переписать
-			shell.exit = TRUE;
-		execution(&shell, envp);
-        //add_history(input);
-		//free(input);		input = NULL;
+		//if (ft_strcmp(input, "exit") == 0) // add additional write Exit / переписать
+		//	shell.exit = TRUE;
+		execution(&shell, arr);
+        add_history(input);
 		free_tokens(&parsed_tokens);
 	}
 	free(__environ);

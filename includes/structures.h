@@ -20,13 +20,14 @@ typedef struct s_token
 
 typedef struct s_minishell
 {
-	int		exit;
 	char	*message;
+	int		exit;
 	int		ret;
 	int		in;
 	int		out;
 	int		fd_out;
 	int		fd_in;
+	int		save_history;
 	t_env	*env;
 	t_token	*tokens;
 }	t_minishell;

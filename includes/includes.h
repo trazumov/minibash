@@ -11,7 +11,7 @@
 # include <string.h> // ?
 # include <unistd.h> // write
 # include <limits.h> // ?
-# include <termios.h> // ?
+//# include <termios.h> // ?
 # include <sys/stat.h> // ?
 # include <sys/wait.h> // wait
 # include <sys/types.h>// ?
