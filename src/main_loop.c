@@ -43,7 +43,6 @@ static t_token *get_prev_token(t_token *token) // CMD PIPE
 	return (res);
 }
 
-// TRUE если следующий токен это PIPE
 static int	is_next_pipe(t_token *token)
 {
 	t_token *res;
@@ -64,19 +63,15 @@ static int	is_next_redir(t_token *token)
 	return FALSE;
 }
 
-static void execute_token(t_token *token, char **envp)
+static void execute_token(t_minishell *shell, t_token *token)
 {
-	if (ft_strcmp("export", token->str) == 0)
-		execute_builtin(token, envp);
-	else if (ft_strcmp("cd", token->str) == 0)
-		execute_builtin(token, envp);
-	else if (token->type == CMD || token->type == ARG) // убрать
-		execute_last_cmd(token, envp);
+	if (token->type == CMD || token->type == ARG) // убрать
+		execute_last_cmd(token);
 	else if (token->type == BUILTIN)
-		execute_builtin(token, envp);
+		execute_builtin(shell, token);
 }
 
-void	main_body(t_minishell *shell, char **envp)
+void	main_body(t_minishell *shell)
 {
 	t_token *token;
 
@@ -84,48 +79,25 @@ void	main_body(t_minishell *shell, char **envp)
 	set_redirection(shell);
 	while (token)
 	{
-		if (token->skip == TRUE || token->type >= 4)
+		if (token->skip == TRUE || token->type >= REDIR_OUT)
 		{
-			if (token->type >=4)
+			if (token->type >= REDIR_OUT)
 				token->next->skip = TRUE;
 			token = token->next;
 			continue ;
 		}
-		// PIPES START
 		if (token->type == PIPE && is_next_pipe(token))
 		{
-			execute_pipe_cmd(get_prev_token(token), envp);
-			execute_pipe_cmd(token->next, envp);
+			execute_pipe_cmd(get_prev_token(token));
+			execute_pipe_cmd(token->next);
 		}
 		else if (token->type == PIPE && !is_next_pipe(token))
 		{
-			execute_pipe_cmd(get_prev_token(token), envp);
-			//if (is_next_redir(token->next))
-			//	dup2(shell->fd_out, STDOUT);
-			execute_token(token->next, envp);
+			execute_pipe_cmd(get_prev_token(token));
+			execute_token(shell, token->next);
 		}
-		// PIPES END
-		// CMD START
-		// убрать ARG
-		else if ((token->type == CMD  || token->type == BUILTIN || token->type == ARG) \
-		&& !is_next_pipe(token))
-		//&& !is_next_pipe(token) && !is_next_redir(token))
-		{
-			execute_token(token, envp);
-		}
-		// CMD END
-		// REDIR START
-		else if ((token->type == REDIR_OUT || token->type == REDIR_OUT_2) \
-		&& get_prev_token(token)->type != PIPE && !token->skip)
-		{
-			//dup2(shell->fd_out, STDOUT);
-			//execute_token(get_prev_token(token), envp);
-		}
-		else if (token->type == REDIR_IN)
-		{
-			//dup2(shell->fd_in, STDIN);
-		}
-		// REDIR END
+		else if (token->type <= BUILTIN && !is_next_pipe(token))
+			execute_token(shell, token);
 		token = get_next_token(token);
 	}
 }
@@ -136,10 +108,9 @@ static void ft_close(int fd)
 		close(fd);
 }
 
-void	execution(t_minishell *shell, char **envp)
+void	execution(t_minishell *shell)
 {
-	main_body(shell, envp);
-	// восстанавливаем чтение и вывод как было
+	main_body(shell);
 	dup2(shell->in, STDIN);
 	dup2(shell->out, STDOUT);
 	close(shell->in);
@@ -147,5 +118,4 @@ void	execution(t_minishell *shell, char **envp)
 	ft_close(shell->fd_out);
 	ft_close(shell->fd_in);
 	free(shell->message);
-	// восстанавливаем чтение и вывод как было
 }

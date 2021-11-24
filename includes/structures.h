@@ -20,6 +20,7 @@ typedef struct s_token
 
 typedef struct s_minishell
 {
+	int		question;
 	char	*message;
 	int		exit;
 	int		ret;

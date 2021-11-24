@@ -24,14 +24,14 @@ int	ft_exit(t_token *token)
 	ft_putendl_fd("exit", 2);
 	if (token && ft_is_numeric(token->str) == 0)
 	{
-		ret = 1;
+		ret = -1;//
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(token->str, 2);
 		ft_putendl_fd(": numeric argument required", 2);
 	}
 	else if (token && token->next)
 	{
-		ret = 1;
+		ret = -1; //
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 	}
 	else if (token)

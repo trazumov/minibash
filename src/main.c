@@ -45,6 +45,7 @@ int main(void)
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	shell.exit = FALSE;
+	shell.question = 0;
 	while (shell.exit != TRUE)
 	{
 		init_shell(&shell);
@@ -61,9 +62,7 @@ int main(void)
 		input = parse(&parsed_tokens, input);
 		post_init_tokens(parsed_tokens); // add to parse
 		shell.tokens = parsed_tokens;
-		//if (ft_strcmp(input, "exit") == 0) // add additional write Exit / переписать
-		//	shell.exit = TRUE;
-		execution(&shell, arr);
+		execution(&shell);
         add_history(input);
 		free_tokens(&parsed_tokens);
 	}

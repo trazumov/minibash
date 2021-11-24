@@ -36,7 +36,7 @@ static char **create_argv(t_token *token)
 	return (res);
 }
 
-void execute_last_cmd(t_token *token, char **envp)
+void execute_last_cmd(t_token *token)
 {
 	pid_t	parent;
 	char	**argv;
@@ -49,11 +49,11 @@ void execute_last_cmd(t_token *token, char **envp)
 		free_char_list(argv);
 	}
 	else
-		simple_cmd(argv, envp);
+		simple_cmd(argv);
 }
 
 // нет обработки билтина
-void execute_pipe_cmd(t_token *token, char **envp)
+void execute_pipe_cmd(t_token *token)
 {
 	pid_t	parent;
 	int		pipefd[2];
@@ -74,6 +74,6 @@ void execute_pipe_cmd(t_token *token, char **envp)
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT);
 		if (token->type == CMD)
-			simple_cmd(argv, envp);
+			simple_cmd(argv);
 	}
 }

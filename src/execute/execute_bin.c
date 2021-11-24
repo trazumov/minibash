@@ -83,14 +83,14 @@ static char **copy_argv(char **from)
 	return (res);
 }
 
-void simple_cmd(char **argv, char **envp)
+void simple_cmd(char **argv)
 {
 	char 	*path;
 	char	**new_argv;
 
 	new_argv = copy_argv(argv);
-	path = create_path(new_argv, envp); // здесь изменяется new_argv ?
-	if (execve(path, argv, envp) == -1)
+	path = create_path(new_argv, __environ); // здесь изменяется new_argv ?
+	if (execve(path, argv, __environ) == -1)
 	{
 		perror("Error at simple_cmd");
 		free_char_list(new_argv);
