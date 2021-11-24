@@ -97,7 +97,6 @@ int set_redirection(t_minishell *shell)
 			{
 				if (token->type == REDIR_HEREDOC)
 					exec_here_doc(shell, token);
-					//shell->fd_in = open(token->next->str, O_RDONLY, S_IRWXU);
 				new_input = TRUE;
 			}
 			else

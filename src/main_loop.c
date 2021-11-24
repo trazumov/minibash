@@ -66,9 +66,13 @@ static int	is_next_redir(t_token *token)
 
 static void execute_token(t_token *token, char **envp)
 {
-	if (token->type == CMD || token->type == ARG) // убрать
+	if (ft_strcmp("export", token->str) == 0)
+		execute_builtin(token, envp);
+	else if (ft_strcmp("cd", token->str) == 0)
+		execute_builtin(token, envp);
+	else if (token->type == CMD || token->type == ARG) // убрать
 		execute_last_cmd(token, envp);
-	if (token->type == BUILTIN)
+	else if (token->type == BUILTIN)
 		execute_builtin(token, envp);
 }
 
