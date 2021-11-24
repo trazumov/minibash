@@ -39,6 +39,17 @@ void	ft_add_token(t_token **lst, t_token *new)
 	new->prev = last;
 }
 
+int	is_builtin(char *str)
+{
+	if (ft_strcmp(str, "cd") == 0 || ft_strcmp(str, "echo") == 0
+		|| ft_strcmp(str, "env") == 0 || ft_strcmp(str, "exit") == 0
+		|| ft_strcmp(str, "export") == 0 || ft_strcmp(str, "pwd") == 0
+		|| ft_strcmp(str, "unset") == 0)
+		return (1);
+	else
+		return (0);
+}
+
 void	assign_type(t_token *token, char *str)
 {
 	if (ft_strcmp(str, "|") == 0)
@@ -52,7 +63,12 @@ void	assign_type(t_token *token, char *str)
 	else if (ft_strcmp(str, "<<") == 0)
 		token->type = REDIR_HEREDOC;
 	else if (token->prev == NULL || token->prev->type >= PIPE)
-		token->type = CMD;
+	{
+		if (is_builtin(str))
+			token->type = BUILTIN;
+		else
+			token->type = CMD;
+	}
 	else
 		token->type = ARG;
 }
