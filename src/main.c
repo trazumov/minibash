@@ -59,12 +59,9 @@ int main(void)
 		if (input[0] == '\0')
 			continue ;
 		input = parse(&parsed_tokens, input, shell);
-		post_init_tokens(parsed_tokens); // add to parse
+		post_init_tokens(parsed_tokens);
 		shell.tokens = parsed_tokens;
-		if (ft_strcmp(input, "$?") == 0)
-			printf("%d\n", shell.question);
-		else
-			execution(&shell);
+		execution(&shell);
         add_history(input);
 		free_tokens(&parsed_tokens);
 	}
