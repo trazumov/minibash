@@ -39,7 +39,6 @@ int main(void)
 	char		*input = NULL;
 	char		**arr = NULL;
 	
-	g_return = 0;
 	arr = __environ;
 	__environ = malloc_environ();
 	signal(SIGINT, ft_signal);
@@ -62,7 +61,10 @@ int main(void)
 		input = parse(&parsed_tokens, input);
 		post_init_tokens(parsed_tokens); // add to parse
 		shell.tokens = parsed_tokens;
-		execution(&shell);
+		if (ft_strcmp(input, "$?") == 0)
+			printf("%d\n", shell.question);
+		else
+			execution(&shell);
         add_history(input);
 		free_tokens(&parsed_tokens);
 	}

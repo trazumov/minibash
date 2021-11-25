@@ -14,7 +14,7 @@ static void	create_tmp_file(t_token *token)
 	ft_putstr_fd("> ", 0);
 	while (get_next_line(0, &line))
 	{
-		if (ft_strncmp(line, token->next->str, ft_strlen(token->str) + 1) == 0)
+		if (ft_strncmp(line, token->next->str, ft_strlen(token->next->str) + 1) == 0)
 			break ;
 		ft_putendl_fd(line, in);
 		free(line);

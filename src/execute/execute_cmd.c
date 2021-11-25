@@ -36,7 +36,7 @@ static char **create_argv(t_token *token)
 	return (res);
 }
 
-void execute_last_cmd(t_token *token)
+void 	execute_last_cmd(t_minishell *shell, t_token *token)
 {
 	pid_t	parent;
 	char	**argv;
@@ -45,7 +45,7 @@ void execute_last_cmd(t_token *token)
 	parent = fork();
 	if (parent)
 	{
-		waitpid(parent, NULL, 0);
+		waitpid(parent, &shell->question, 0);
 		free_char_list(argv);
 	}
 	else
@@ -53,7 +53,7 @@ void execute_last_cmd(t_token *token)
 }
 
 // нет обработки билтина
-void execute_pipe_cmd(t_token *token)
+void execute_pipe_cmd(t_minishell *shell, t_token *token)
 {
 	pid_t	parent;
 	int		pipefd[2];
@@ -66,7 +66,7 @@ void execute_pipe_cmd(t_token *token)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN);
-		waitpid(parent, NULL, 0);
+		waitpid(parent, &shell->question, 0);
 		free_char_list(argv);
 	}
 	else

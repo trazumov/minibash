@@ -66,7 +66,7 @@ static int	is_next_redir(t_token *token)
 static void execute_token(t_minishell *shell, t_token *token)
 {
 	if (token->type == CMD || token->type == ARG) // убрать
-		execute_last_cmd(token);
+		execute_last_cmd(shell, token);
 	else if (token->type == BUILTIN)
 		execute_builtin(shell, token);
 }
@@ -102,14 +102,14 @@ void	main_body(t_minishell *shell)
 		}
 		if (token->type == PIPE && is_next_pipe(token))
 		{
-			execute_pipe_cmd(get_prev_token(token));
-			execute_pipe_cmd(token->next);
+			execute_pipe_cmd(shell, get_prev_token(token));
+			execute_pipe_cmd(shell, token->next);
 		}
 		else if (token->type == PIPE && !is_next_pipe(token) && get_prev_pipe(token))
 			execute_token(shell, token->next);
 		else if (token->type == PIPE && !is_next_pipe(token))
 		{
-			execute_pipe_cmd(get_prev_token(token));
+			execute_pipe_cmd(shell, get_prev_token(token));
 			execute_token(shell, token->next);
 		}
 		else if (token->type <= BUILTIN && !is_next_pipe(token))
@@ -127,6 +127,8 @@ static void ft_close(int fd)
 void	execution(t_minishell *shell)
 {
 	main_body(shell);
+	shell->question = WEXITSTATUS(shell->question);
+	unlink("here_doc");
 	dup2(shell->in, STDIN);
 	dup2(shell->out, STDOUT);
 	close(shell->in);
