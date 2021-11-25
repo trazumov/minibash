@@ -1,6 +1,6 @@
 #include "../parser.h"
 
-void	ft_env(void)
+int	ft_env(void)
 {
 	int	i;
 
@@ -10,4 +10,5 @@ void	ft_env(void)
 		printf("%s\n", __environ[i]);
 		i++;
 	}
+	return (0);
 }

@@ -39,14 +39,18 @@ void	handle_negative_diff(char **arr, char *str, int size)
 	}
 }
 
-void	ft_unset(t_token *token)
+int	ft_unset(t_token *token)
 {
+	int	ret;
+	
+	ret = 0;
 	while (token && token->type == ARG)
 	{
 		if (is_name_valid(token->str) && getenv(token->str))
 			__environ = realloc_environ(-1, token->str);
 		else if (is_name_valid(token->str) == 0)
-			print_export_or_unset_error(token->str, 2);
+			ret = print_export_or_unset_error(token->str, 2);
 		token = token->next;
 	}
+	return (ret);
 }

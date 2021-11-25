@@ -2,7 +2,7 @@
 # define FUNCTIONS_ILGIZ_H
 
 //parser
-char	*parse(t_token **token, char *str);
+char	*parse(t_token **token, char *str, t_minishell msh);
 void	preparser(char *str, int *sep_ct);
 int		check_leading_pipe(char *str, int *sep_ct);
 int		ft_isspace(int c);
@@ -11,13 +11,14 @@ int		ft_issep(int c);
 int		handle_sep(char *str, int i, int *sep_ct);
 int		handle_pipe(char *str, int i, int *sep_ct);
 int		handle_redirection(char *str, int i, int *sep_ct);
-char	*parser(char *str, char **array, int token_ct);
+char	*parser(char *str, char **array, int token_ct, t_minishell msh);
 char	*handle_quotes(char *str, int *start);
-char	*handle_double_quotes(char *str, int *start);
+char	*handle_double_quotes(char *str, int *start, t_minishell msh);
 void	remove_quotes(char *str, int start, int end);
-char	*handle_bucks(char *str, int *start);
+char	*handle_bucks(char *str, int *start, t_minishell msh);
+void	replace_bucks(char *str, int i, int *start, char *var_value);
 char	*remove_invalid_var_name(char *str, char *var_name, int *start);
-void	free_intermediate_strings(char *t, char *p_1, char *p_2, char *var);
+void	free_intermediate_strings(char *temp, char *part_1, char *part_2);
 
 //tokens
 void	create_tokens(t_token **token, char **array, int token_ct);
@@ -29,11 +30,11 @@ int		is_builtin(char *str);
 
 //builtins
 int		ft_echo(t_token *token);
-void	ft_env(void);
+int		ft_env(void);
 int		ft_pwd(void);
 int		ft_exit(t_token *token);
 int		ft_export(t_token *token);
-void	ft_unset(t_token *token);
+int		ft_unset(t_token *token);
 int		ft_cd(t_token *token);
 
 //builtins_utils

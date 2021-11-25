@@ -104,12 +104,11 @@ void	preparser(char *str, int *sep_ct)
 		print_error(str);
 }
 
-void	free_intermediate_strings(char *t, char *p_1, char *p_2, char *var)
+void	free_intermediate_strings(char *temp, char *part_1, char *part_2)
 {
-	free(t);
-	free(p_1);
-	free(p_2);
-	free(var);
+	free(temp);
+	free(part_1);
+	free(part_2);
 }
 
 void	remove_quotes(char *str, int start, int end)
@@ -160,35 +159,51 @@ char	*handle_quotes(char *str, int *start)
 	return (str);
 }
 
-char	*handle_bucks(char *str, int *start)
+void	replace_bucks(char *str, int i, int *start, char *var_value)
 {
-	int		i;
-	char	*var_name;
-	char	*var_value;
 	char	*temp;
 	char	*part_1;
 	char	*part_2;
-
-	i = *start + 1;
-	while (ft_isalnum(str[i]) || str[i] == '_')
-		i++;
-	if (i == *start + 1)
-		return (str);
-	var_name = ft_substr(str, *start + 1, i - *start - 1);
-	var_value = getenv(var_name);
-	if (var_value == NULL)
-		return (remove_invalid_var_name(str, var_name, start));
+	
 	part_1 = ft_substr(str, 0, *start);
 	part_2 = ft_substr(str, i, ft_strlen(str) - i);
 	temp = ft_strjoin(part_1, var_value);
 	free(str);
 	str = ft_strjoin(temp, part_2);
 	*start = ft_strlen(temp) - 1;
-	free_intermediate_strings(temp, part_1, part_2, var_name);
+	free_intermediate_strings(temp, part_1, part_2);
+}
+
+char	*handle_bucks(char *str, int *start, t_minishell msh)
+{
+	int		i;
+	char	*var_name;
+	char	*var_value;
+
+	i = *start + 1;
+	if (str[i] == '?')
+	{
+		var_value = ft_itoa(msh.question);
+		replace_bucks(str, i + 1, start, var_value);
+		free(var_value);
+	}
+	else
+	{
+		while (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+		if (i == *start + 1)
+			return (str);
+		var_name = ft_substr(str, *start + 1, i - *start - 1);
+		var_value = getenv(var_name);
+		if (var_value == NULL)
+			return (remove_invalid_var_name(str, var_name, start));
+		replace_bucks(str, i, start, var_value);
+		free(var_name);
+	}
 	return (str);
 }
 
-char	*handle_double_quotes(char *str, int *start)
+char	*handle_double_quotes(char *str, int *start, t_minishell msh)
 {
 	int		end;
 
@@ -196,7 +211,7 @@ char	*handle_double_quotes(char *str, int *start)
 	while (str[end] != '"')
 	{
 		if (str[end] == '$')
-			str = handle_bucks(str, &end);
+			str = handle_bucks(str, &end, msh);
 		end++;
 	}
 	remove_quotes(str, *start, end);
@@ -204,7 +219,7 @@ char	*handle_double_quotes(char *str, int *start)
 	return (str);
 }
 
-char	*parser(char *str, char **array, int token_ct)
+char	*parser(char *str, char **array, int token_ct, t_minishell msh)
 {
 	int	i, j, last_space;
 
@@ -218,9 +233,9 @@ char	*parser(char *str, char **array, int token_ct)
 		if (str[i] == '\'')
 			str = handle_quotes(str, &i);
 		else if (str[i] == '"')
-			str = handle_double_quotes(str, &i);
+			str = handle_double_quotes(str, &i, msh);
 		else if (str[i] == '$')
-			str = handle_bucks(str, &i);
+			str = handle_bucks(str, &i, msh);
 		else if (ft_issep(str[i]))
 		{
 			array[j] = ft_substr(str, last_space, i - last_space);
@@ -248,7 +263,7 @@ char	*parser(char *str, char **array, int token_ct)
 	return (str);
 }
 
-char	*parse(t_token **token, char *str)
+char	*parse(t_token **token, char *str, t_minishell msh)
 {
 	char	**array;
 	int		sep_ct;
@@ -257,7 +272,7 @@ char	*parse(t_token **token, char *str)
 	preparser(str, &sep_ct);
 	//printf("sep_ct = %d\n", sep_ct);
 	array = malloc((sep_ct + 1) * sizeof(*array));
-	str = parser(str, array, sep_ct + 1);
+	str = parser(str, array, sep_ct + 1, msh);
 	//printf("%s\n", str);
 	//if (sep_ct != -1)
 		create_tokens(token, array, sep_ct + 1);
