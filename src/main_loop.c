@@ -71,6 +71,20 @@ static void execute_token(t_minishell *shell, t_token *token)
 		execute_builtin(shell, token);
 }
 
+static t_token *get_prev_pipe(t_token *token)
+{
+	t_token *res = NULL;
+
+	token = token->prev;
+	while (token)
+	{
+		if (token->type == PIPE)
+			return (token);
+		token = token->prev;
+	}
+	return (res);
+}
+
 void	main_body(t_minishell *shell)
 {
 	t_token *token;
@@ -91,6 +105,8 @@ void	main_body(t_minishell *shell)
 			execute_pipe_cmd(get_prev_token(token));
 			execute_pipe_cmd(token->next);
 		}
+		else if (token->type == PIPE && !is_next_pipe(token) && get_prev_pipe(token))
+			execute_token(shell, token->next);
 		else if (token->type == PIPE && !is_next_pipe(token))
 		{
 			execute_pipe_cmd(get_prev_token(token));
