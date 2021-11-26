@@ -32,6 +32,12 @@ static void post_init_tokens(t_token *token)
 	}
 }
 
+static void update_history(char *input)
+{
+	// обработка only spaces
+	add_history(input);
+}
+
 int main(void)
 {
 	t_minishell	shell;
@@ -39,12 +45,15 @@ int main(void)
 	char		*input = NULL;
 	char		**arr = NULL;
 	
+	g_is_executed = FALSE;
 	arr = __environ;
 	__environ = malloc_environ();
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	shell.exit = FALSE;
-	shell.question = 0;
+	shell.ret = 0;
+	shell.signal_c = 0;
+	shell.signal_q = 0;
 	while (shell.exit != TRUE)
 	{
 		init_shell(&shell);
@@ -58,11 +67,11 @@ int main(void)
 		}
 		if (input[0] == '\0')
 			continue ;
+		update_history(input);
 		input = parse(&parsed_tokens, input, shell);
 		post_init_tokens(parsed_tokens);
 		shell.tokens = parsed_tokens;
 		execution(&shell);
-        add_history(input);
 		free_tokens(&parsed_tokens);
 	}
 	free(__environ);

@@ -2,21 +2,18 @@
 
 void	ft_signal(int code)
 {
-	if (code == SIGINT)
+	if (code == SIGINT && !g_is_executed)
 	{
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
-	// заменить пустым выполнением
-	if (code == SIGQUIT)
+	if (code == SIGQUIT && !g_is_executed)
 	{
-		ft_putstr_fd("SIGQUIT\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
 	}
+	if (g_is_executed)
+		ft_putstr_fd("\n", 1);
 }
 
 /*

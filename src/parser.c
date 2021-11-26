@@ -183,7 +183,7 @@ char	*handle_bucks(char *str, int *start, t_minishell msh)
 	i = *start + 1;
 	if (str[i] == '?')
 	{
-		var_value = ft_itoa(msh.question);
+		var_value = ft_itoa(msh.ret);
 		replace_bucks(str, i + 1, start, var_value);
 		free(var_value);
 	}
