@@ -1,5 +1,4 @@
-#include "../parser.h"
-#include "../libft/libft.h"
+#include "../../includes/minishell.h"
 
 int	is_arg_numeric(char *str)
 {

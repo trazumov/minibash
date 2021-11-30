@@ -3,10 +3,11 @@
 
 //parser
 char	*parse(t_token **token, char *str, t_minishell msh);
-void	preparser(char *str, int *sep_ct);
-int		check_leading_pipe(char *str, int *sep_ct);
+int		preparser(char *str, int *sep_ct);
+int		check_leading_pipe(char *str);
 int		ft_isspace(int c);
-void	print_error(char *str);
+int		parser_error(int type, char ch);
+//void	print_error(char *str);
 int		ft_issep(int c);
 int		handle_sep(char *str, int i, int *sep_ct);
 int		handle_pipe(char *str, int i, int *sep_ct);
@@ -16,7 +17,7 @@ char	*handle_quotes(char *str, int *start);
 char	*handle_double_quotes(char *str, int *start, t_minishell msh);
 void	remove_quotes(char *str, int start, int end);
 char	*handle_bucks(char *str, int *start, t_minishell msh);
-void	replace_bucks(char *str, int i, int *start, char *var_value);
+char	*replace_bucks(char *str, int i, int *start, char *var_value);
 char	*remove_invalid_var_name(char *str, char *var_name, int *start);
 void	free_intermediate_strings(char *temp, char *part_1, char *part_2);
 

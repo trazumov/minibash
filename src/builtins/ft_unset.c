@@ -1,5 +1,4 @@
-#include "../parser.h"
-#include "../libft/libft.h"
+#include "../../includes/minishell.h"
 
 int	is_name_valid(char *str)
 {

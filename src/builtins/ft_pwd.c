@@ -1,4 +1,4 @@
-#include "../parser.h"
+#include "../../includes/minishell.h"
 
 int	ft_pwd(void)
 {

@@ -28,13 +28,13 @@ src/heredoc.c \
 src/gnl.c \
 src/gnl_utils.c \
 src/execute/execute_builtin.c\
-parser/builtins/ft_cd.c\
-parser/builtins/ft_echo.c\
-parser/builtins/ft_env.c\
-parser/builtins/ft_exit.c\
-parser/builtins/ft_export.c\
-parser/builtins/ft_pwd.c\
-parser/builtins/ft_unset.c
+src/builtins/ft_cd.c\
+src/builtins/ft_echo.c\
+src/builtins/ft_env.c\
+src/builtins/ft_exit.c\
+src/builtins/ft_export.c\
+src/builtins/ft_pwd.c\
+src/builtins/ft_unset.c
 
 OBJS = $(SRC:.c=.o)
 

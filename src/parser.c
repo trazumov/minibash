@@ -1,12 +1,27 @@
 #include "../includes/minishell.h"
 
-void	print_error(char *str)
-{
-	free(str);
-	printf("Error\n");
-	exit(EXIT_FAILURE);
-}
+// void	print_error(char *str)
+// {
+// 	free(str);
+// 	printf("Error\n");
+// 	exit(EXIT_FAILURE);
+// }
 
+int	parser_error(int type, char ch)
+{
+	if (type == 1)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token «", 2);
+		if (ch == '\0')
+			ft_putstr_fd("newline", 2);
+		else
+			ft_putchar_fd(ch, 2);
+		ft_putstr_fd("»\n", 2);
+	}
+	else
+		ft_putendl_fd("minishell: syntax error near unclosed quote", 2);
+	return (-1);
+}
 
 int	ft_isspace(int c)
 {
@@ -31,7 +46,7 @@ int	handle_pipe(char *str, int i, int *sep_ct)
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '|' || str[i] == '\0')
-		print_error(str);
+		return (parser_error(1, str[i]));
 	(*sep_ct) += 2;
 	return (i);
 }
@@ -44,7 +59,7 @@ int	handle_redirection(char *str, int i, int *sep_ct)
 	while (ft_isspace(str[i]))
 		i++;
 	if (ft_issep(str[i]) || str[i] == '\0')
-		print_error(str);
+		return (parser_error(1, str[i]));
 	(*sep_ct) += 2;
 	return (i);
 }
@@ -62,7 +77,7 @@ int	handle_sep(char *str, int i, int *sep_ct)
 	return (i - 1);
 }
 
-int	check_leading_pipe(char *str, int *sep_ct)
+int	check_leading_pipe(char *str)
 {
 	int	i;
 
@@ -70,14 +85,14 @@ int	check_leading_pipe(char *str, int *sep_ct)
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '|')
-		print_error(str);
+		return (parser_error(1, '|'));
 	// else if (str[i] == '\0')
 	// 	*sep_ct = -1;
-	(void)sep_ct;
+	//(void)sep_ct;
 	return (i);
 }
 
-void	preparser(char *str, int *sep_ct)
+int	preparser(char *str, int *sep_ct)
 {
 	int	i;
 	int	quotes;
@@ -85,8 +100,8 @@ void	preparser(char *str, int *sep_ct)
 
 	quotes = 0;
 	dbl_quotes = 0;
-	i = check_leading_pipe(str, sep_ct);
-	while (str[i] != '\0')
+	i = -1;
+	while (str[++i] != '\0')
 	{
 		if (str[i] == '\'' && !quotes && !dbl_quotes)
 			quotes = 1;
@@ -98,10 +113,12 @@ void	preparser(char *str, int *sep_ct)
 			dbl_quotes = 0;
 		else if (ft_issep(str[i]) && !quotes && !dbl_quotes)
 			i = handle_sep(str, i, sep_ct);
-		i++;
+		if (i == -2)
+			return (-1);
 	}
 	if (quotes || dbl_quotes)
-		print_error(str);
+		return (parser_error(2, 0));
+	return (0);
 }
 
 void	free_intermediate_strings(char *temp, char *part_1, char *part_2)
@@ -159,7 +176,7 @@ char	*handle_quotes(char *str, int *start)
 	return (str);
 }
 
-void	replace_bucks(char *str, int i, int *start, char *var_value)
+char	*replace_bucks(char *str, int i, int *start, char *var_value)
 {
 	char	*temp;
 	char	*part_1;
@@ -172,6 +189,7 @@ void	replace_bucks(char *str, int i, int *start, char *var_value)
 	str = ft_strjoin(temp, part_2);
 	*start = ft_strlen(temp) - 1;
 	free_intermediate_strings(temp, part_1, part_2);
+	return (str);
 }
 
 char	*handle_bucks(char *str, int *start, t_minishell msh)
@@ -184,7 +202,7 @@ char	*handle_bucks(char *str, int *start, t_minishell msh)
 	if (str[i] == '?')
 	{
 		var_value = ft_itoa(msh.ret);
-		replace_bucks(str, i + 1, start, var_value);
+		str = replace_bucks(str, i + 1, start, var_value);
 		free(var_value);
 	}
 	else
@@ -197,7 +215,7 @@ char	*handle_bucks(char *str, int *start, t_minishell msh)
 		var_value = getenv(var_name);
 		if (var_value == NULL)
 			return (remove_invalid_var_name(str, var_name, start));
-		replace_bucks(str, i, start, var_value);
+		str = replace_bucks(str, i, start, var_value);
 		free(var_name);
 	}
 	return (str);
@@ -269,13 +287,22 @@ char	*parse(t_token **token, char *str, t_minishell msh)
 	int		sep_ct;
 
 	sep_ct = 0;
-	preparser(str, &sep_ct);
+	if (check_leading_pipe(str) == -1)
+	{
+		free(str);
+		return (NULL);
+	}
+	if (preparser(str, &sep_ct) == -1)
+	{
+		free(str);
+		return (NULL);
+	}
 	//printf("sep_ct = %d\n", sep_ct);
 	array = malloc((sep_ct + 1) * sizeof(*array));
 	str = parser(str, array, sep_ct + 1, msh);
 	//printf("%s\n", str);
 	//if (sep_ct != -1)
-		create_tokens(token, array, sep_ct + 1);
+	create_tokens(token, array, sep_ct + 1);
 	free(array);
 	return (str);
 }
@@ -304,3 +331,61 @@ char	**malloc_environ(void)
 	arr[i] = NULL;
 	return (arr);
 }
+
+// int	main(void)
+// {
+// 	char		*str;
+// 	t_minishell	*msh;
+// 	char		**arr;
+// 	int			i;
+
+// 	msh = malloc(sizeof(t_minishell));
+// 	msh->tokens = NULL;
+// 	str = readline(NULL);
+// 	arr = __environ;
+// 	__environ = malloc_environ();
+// 	str = parse(&(msh->tokens), str, *msh);
+// 	if (msh->tokens == NULL)
+// 	{
+// 		free(msh);
+// 		i = 0;
+// 		while (__environ[i] != NULL)
+// 		{
+// 			free(__environ[i]);
+// 			i++;
+// 		}
+// 		free(__environ);
+// 		__environ = arr;
+// 		return (0);
+// 	}
+// 	//ft_cd(msh->token->next);
+// 	while (msh->tokens->next != NULL)
+// 	{
+// 		printf("%d - %s\n", msh->tokens->type, msh->tokens->str);
+// 		msh->tokens = msh->tokens->next;
+// 	}
+// 	printf("%d - %s\n", msh->tokens->type, msh->tokens->str);
+// 	while (msh->tokens->prev != NULL)
+// 	{
+// 		msh->tokens = msh->tokens->prev;
+// 		free(msh->tokens->next->str);
+// 		free(msh->tokens->next);
+// 	}
+// 	free(msh->tokens->str);
+// 	free(msh->tokens);
+// 	free(msh);
+// 	i = 0;
+// 	while (__environ[i] != NULL)
+// 	{
+// 		//printf("%s\n", __environ[i]);
+// 		free(__environ[i]);
+// 		i++;
+// 	}
+// 	// char *cwwd = getcwd(NULL, 0);
+// 	// printf("%s\n", cwwd);
+// 	// free(cwwd);
+// 	if (str)
+// 		free(str);
+// 	free(__environ);
+// 	__environ = arr;
+// }

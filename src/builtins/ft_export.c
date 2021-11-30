@@ -1,5 +1,4 @@
-#include "../parser.h"
-#include "../libft/libft.h"
+#include "../../includes/minishell.h"
 
 char	**realloc_environ(int diff, char *str)
 {
@@ -143,7 +142,7 @@ int	ft_export(t_token *token)
 		{
 			ret = check_var_name(token->str);
 			if (ret == 2)
-				print_export_or_unset_error(token->str, 1);
+				return (print_export_or_unset_error(token->str, 1));
 			else if (ret == 0)
 				add_var(get_var_name(token->str), token->str);
 			token = token->next;
