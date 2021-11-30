@@ -51,23 +51,36 @@ void execute_token(t_minishell *shell, t_token *token)
 		execute_builtin(shell, token);
 }
 
-static int waits(t_minishell *shell, t_token *start)
+int have_to_wait(t_minishell *shell)
 {
-	t_token *token = start;
-	int		fd = 0;
+	t_token	*token;
+	
+	token = shell->tokens;
 	while (token)
 	{
 		if (token->type == PIPE)
-			fd++;
+			return (TRUE);
 		token = token->next;
 	}
-	if (fd)
-		return (fd + 1);
 	return (FALSE);
+}
+
+static int pipes_cnt(t_minishell *shell)
+{
+	t_token *tmp = shell->tokens;
+	int res = 0;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+			res++;
+		tmp = tmp->next;
+	}
+	return res;
 }
 
 static void execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe)
 {
+	shell->wait_s = pipes_cnt(shell) + 1;
 	if (shell->wait_s == 2)
 		the_only_pipe(shell, token, *curr_pipe);
 	else if (is_first_pipe(token))
@@ -83,6 +96,8 @@ static void wait_forks(t_minishell *shell)
 {
 	t_pid_t	*tmp;
 
+	if (!have_to_wait(shell))
+		return ;
 	tmp = shell->childs;
 	while (tmp)
 	{
@@ -98,7 +113,6 @@ void	main_body(t_minishell *shell)
 	int		curr_pipe;
 
 	token = shell->tokens;
-	shell->wait_s = waits(shell, token);
 	curr_pipe = 0;
 	set_redirection(shell);
 	while (token)
@@ -112,7 +126,7 @@ void	main_body(t_minishell *shell)
 		}
 		if (token->type == PIPE)
 			execute_pipe(shell, token, &curr_pipe);
-		if (token->type <= BUILTIN && !shell->wait_s)
+		if (token->type <= BUILTIN && !have_to_wait(shell))
 			execute_token(shell, token);
 		token = get_next_token(token);
 	}

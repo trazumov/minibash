@@ -28,6 +28,8 @@ void execute_token(t_minishell *shell, t_token *token);
 int 	execv_cmd(t_minishell *shell, t_token *token);
 t_token *get_prev_token(t_token *token);
 
+int have_to_wait(t_minishell *shell);
+
 void	free_tokens(t_token **token);
 
 void execute_test_pipe(char **env);
