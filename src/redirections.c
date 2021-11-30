@@ -35,6 +35,30 @@ static void close_prev_redir(int redir_type, int *redir_val, t_token *token, t_m
 	}
 }
 
+// return 0 if OK ; return 1 if ERROR
+static int redirect_out(t_minishell *shell, t_token *token, int *new_output)
+{
+	if (*new_output)
+	{
+		get_prev_redir(token)->skip = TRUE;
+		close(shell->fd_out);
+	}
+	if (token->next)
+	{
+		if (token->type == REDIR_OUT)
+			shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+		if (token->type == REDIR_OUT_2)
+			shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+		dup2(shell->fd_out, STDOUT);
+		(*new_output) = TRUE;
+	}
+	else
+		shell->fd_out = -1;
+	if (!shell->fd_out)
+		return (1);
+	return (0);
+}
+
 int set_redirection(t_minishell *shell)
 {
 	t_token *token;
@@ -48,25 +72,10 @@ int set_redirection(t_minishell *shell)
 	{
 		if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 		{
-			if (new_output)
-			{
-				get_prev_redir(token)->skip = TRUE;
-				close(shell->fd_out);
-			}
-			if (token->next)
-			{
-				if (token->type == REDIR_OUT)
-					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-				if (token->type == REDIR_OUT_2)
-					shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-				dup2(shell->fd_out, STDOUT); // added
-				new_output = TRUE;
-			}
-			else
-				shell->fd_out = -1;
-			if (!shell->fd_out)
+			if (redirect_out(shell, token, &new_output))
 				return (open_file_error(shell));
 		}
+		//----------
 		if (token->type == REDIR_IN)
 		{
 			if (new_input == TRUE)
@@ -86,6 +95,7 @@ int set_redirection(t_minishell *shell)
 			if (!new_input)
 				return (open_file_error(shell));
 		}
+		//
 		if (token->type == REDIR_HEREDOC)
 		{
 			if (new_input == TRUE)
