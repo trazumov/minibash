@@ -14,17 +14,20 @@ void free_char_list(char **list)
 	list = NULL;
 }
 
-/*
-void	split_free(char **paths)
+void	free_tokens(t_token **token)
 {
-	int	i;
-
-	i = 0;
-	while (paths[i] != NULL)
+	while ((*token)->next != NULL)
+		(*token) = (*token)->next;
+	while ((*token)->prev != NULL)
 	{
-		free(paths[i]);
-		i++;
+		(*token) = (*token)->prev;
+		free((*token)->next->str);
+		(*token)->next->str = NULL;
+		free((*token)->next);
+		(*token)->next = NULL;
 	}
-	free(paths);
+	free((*token)->str);
+	(*token)->str = NULL;
+	free(*token);
+	*token = NULL;
 }
-*/

@@ -27,11 +27,10 @@ typedef struct s_pid_t
 typedef struct s_minishell
 {
 	t_pid_t	*childs;
-	int		built_ret;
 	char	*message;
 	int		exit;
 	int		fds[100][2]; // file descriptors
-	int		ret; // возвращаемое значение
+	int		ret;
 	int		in; // сохраненное значение для перезаписи
 	int		out; // сохраненное значение для перезаписи
 	int		fd_out; // текущий файлдескриптор, depricated

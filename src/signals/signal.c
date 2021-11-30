@@ -1,5 +1,10 @@
 #include "../../includes/minishell.h"
 
+static void do_nothing()
+{
+	return ;
+}
+
 void	ft_signal(int code)
 {
 	if (code == SIGINT && !g_is_executed)
@@ -10,8 +15,7 @@ void	ft_signal(int code)
 		rl_redisplay();
 	}
 	if (code == SIGQUIT && !g_is_executed)
-	{
-	}
+		do_nothing();
 	if (g_is_executed)
 		ft_putstr_fd("\n", 1);
 }

@@ -1,23 +1,5 @@
 #include "../includes/minishell.h"
 
-static void	free_tokens(t_token **token)
-{
-	while ((*token)->next != NULL)
-		(*token) = (*token)->next;
-	while ((*token)->prev != NULL)
-	{
-		(*token) = (*token)->prev;
-		free((*token)->next->str);
-		(*token)->next->str = NULL;
-		free((*token)->next);
-		(*token)->next = NULL;
-	}
-	free((*token)->str);
-	(*token)->str = NULL;
-	free(*token);
-	*token = NULL;
-}
-
 static void post_init_tokens(t_token *token)
 {
 	t_token *tmp;
@@ -38,6 +20,27 @@ static void update_history(char *input)
 	add_history(input);
 }
 
+static void pre_init(t_minishell *shell, char **arr)
+{
+	arr = __environ;
+	__environ = malloc_environ();
+	signal(SIGINT, ft_signal);
+	signal(SIGQUIT, ft_signal);
+	g_is_executed = FALSE;
+	shell->exit = FALSE;
+	shell->ret = 0;
+}
+
+static int ctrl_d(t_minishell *shell, char *input)
+{
+	if (input == NULL)
+	{
+		on_eof(shell);
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 int main(void)
 {
 	t_minishell	shell;
@@ -45,45 +48,25 @@ int main(void)
 	char		*input = NULL;
 	char		**arr = NULL;
 	
-	g_is_executed = FALSE;
-	arr = __environ;
-	__environ = malloc_environ();
-	signal(SIGINT, ft_signal);
-	signal(SIGQUIT, ft_signal);
-	shell.exit = FALSE;
-	shell.ret = 0;
+	pre_init(&shell, arr);
 	while (shell.exit != TRUE)
 	{
 		init_shell(&shell);
 		if (input)
 			free(input);
 		input = readline(shell.message);
-		if (input == NULL)
-		{
-			on_eof(&shell);
+		if (ctrl_d(&shell, input))
 			break ;
-		}
 		if (input[0] == '\0')
 			continue ;
 		update_history(input);
 		input = parse(&parsed_tokens, input, shell);
-		post_init_tokens(parsed_tokens);
+		post_init_tokens(parsed_tokens); // вывести в parse и тогда будет 25 строчек
 		shell.tokens = parsed_tokens;
-		if (ft_strcmp(input, "1") == 0)
-			execute_test_pipe(arr);
-		else if (ft_strcmp(input, "2") == 0)
-			execute_test_pipe_2(arr);
-		else if (ft_strcmp(input, "3") == 0)
-			execute_test_pipe_3(arr);
-		else if (ft_strcmp(input, "4") == 0)
-			execute_test_garbage(arr);
-		else if (ft_strcmp(input, "?") == 0)
-			printf("Return value is %d\n", shell.ret);
-		else
-			execution(&shell);
+		execution(&shell);
 		free_tokens(&parsed_tokens);
 	}
 	free(__environ);
 	__environ = arr;
-	return (1);
+	return (0);
 }

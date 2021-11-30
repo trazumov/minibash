@@ -12,5 +12,4 @@ void	init_shell(t_minishell *shell)
 	shell->wait_s = 0;
 	shell->save_history = TRUE;
 	shell->childs = NULL;
-	shell->built_ret = 0;
 }
