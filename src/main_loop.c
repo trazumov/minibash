@@ -43,26 +43,6 @@ t_token *get_prev_token(t_token *token) // CMD PIPE
 	return (res);
 }
 
-static int	is_next_pipe(t_token *token)
-{
-	t_token *res;
-
-	res = get_next_token(token);
-	if (res && res->type == PIPE)
-		return TRUE;
-	return FALSE;
-}
-
-static int	is_next_redir(t_token *token)
-{
-	t_token *res;
-
-	res = get_next_token(token);
-	if (res && (res->type == REDIR_OUT || res->type == REDIR_OUT_2))
-		return TRUE;
-	return FALSE;
-}
-
 void execute_token(t_minishell *shell, t_token *token)
 {
 	if (token->type == CMD || token->type == ARG) // убрать
@@ -71,59 +51,6 @@ void execute_token(t_minishell *shell, t_token *token)
 		execute_builtin(shell, token);
 }
 
-static t_token *get_prev_pipe(t_token *token)
-{
-	t_token *res = NULL;
-
-	ft_putstr_fd("STDIN: ", 2); ft_putnbr_fd(STDIN, 2); ft_putstr_fd("\n", 2);
-	token = token->prev;
-	while (token)
-	{
-		if (token->type == PIPE)
-			return (token);
-		token = token->prev;
-	}
-	return (res);
-}
-
-void	main_body(t_minishell *shell)
-{
-	t_token *token;
-
-	token = shell->tokens;
-	set_redirection(shell);
-	while (token)
-	{
-		// токены которые скипаются
-		if (token->skip == TRUE || token->type >= REDIR_OUT)
-		{
-			if (token->type >= REDIR_OUT)
-				token->next->skip = TRUE;
-			token = token->next;
-			continue ;
-		}
-		// токен пайп и следующий тоже пайп
-		if (token->type == PIPE && is_next_pipe(token))
-		{
-			execute_pipe_cmd(shell, get_prev_token(token));
-			execute_pipe_cmd(shell, token->next);
-		}
-		// токен пайп и предыдущий пайп но следующий нет
-		else if (token->type == PIPE && !is_next_pipe(token) && get_prev_pipe(token))
-			execute_token(shell, token->next);
-		else if (token->type == PIPE && !is_next_pipe(token))
-		{
-			execute_pipe_cmd(shell, get_prev_token(token));
-			execute_token(shell, token->next);
-		}
-		else if (token->type <= BUILTIN && !is_next_pipe(token))
-			execute_token(shell, token);
-		token = get_next_token(token);
-	}
-	waitpid(-1, &shell->ret, 0);
-}
-
-// считает количество пайпов, хотел посчитать и выделить память
 static int waits(t_minishell *shell, t_token *start)
 {
 	t_token *token = start;
@@ -139,32 +66,43 @@ static int waits(t_minishell *shell, t_token *start)
 	return (FALSE);
 }
 
-static int is_last_builtin(t_minishell *shell)
+static void execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe)
 {
-	int res;
-	t_token *token = shell->tokens;
-	while (token)
-	{
-		if (token->type == CMD)
-			res = FALSE;
-		if (token->type == BUILTIN)
-			res = TRUE;
-		token = token->next;
-	}
-	return res;
+	if (shell->wait_s == 2)
+		the_only_pipe(shell, token, *curr_pipe);
+	else if (is_first_pipe(token))
+		first_pipe(shell, token, *curr_pipe);
+	else if (is_mid_pipe(token))
+		mid_pipe(shell, token, *curr_pipe);
+	else if (is_last_pipe(token))
+		last_pipe(shell, token, *curr_pipe);
+	(*curr_pipe)++;
 }
 
-void	main_body_2(t_minishell *shell)
+static void wait_forks(t_minishell *shell)
 {
-	t_token *token = shell->tokens;
+	t_pid_t	*tmp;
 
+	tmp = shell->childs;
+	while (tmp)
+	{
+		waitpid(tmp->pid, &shell->ret, 0);
+		tmp = tmp->next;
+	}
+	struct_pid_clear(&shell->childs);
+}
+
+void	main_body(t_minishell *shell)
+{
+	t_token	*token;
+	int		curr_pipe;
+
+	token = shell->tokens;
 	shell->wait_s = waits(shell, token);
-	int curr_pipe = 0;
-
+	curr_pipe = 0;
 	set_redirection(shell);
 	while (token)
 	{
-		// токены которые скипаются
 		if (token->skip == TRUE || token->type >= REDIR_OUT)
 		{
 			if (token->type >= REDIR_OUT)
@@ -173,44 +111,18 @@ void	main_body_2(t_minishell *shell)
 			continue ;
 		}
 		if (token->type == PIPE)
-		{
-			if (shell->wait_s == 2)
-				the_only_pipe(shell, token, curr_pipe);
-			else if (is_first_pipe(token))
-				first_pipe(shell, token, curr_pipe);
-			else if (is_mid_pipe(token))
-				mid_pipe(shell, token, curr_pipe);
-			else if (is_last_pipe(token))
-				last_pipe(shell, token, curr_pipe);
-			curr_pipe++;
-		}
+			execute_pipe(shell, token, &curr_pipe);
 		if (token->type <= BUILTIN && !shell->wait_s)
 			execute_token(shell, token);
 		token = get_next_token(token);
 	}
-	
-	t_pid_t *tmp = shell->childs;
-	while (tmp)
-	{
-		waitpid(tmp->pid, &shell->ret, 0);
-		tmp = tmp->next;
-	}
-	struct_pid_clear(&shell->childs);
-	//if (is_last_builtin(shell))
-	//	shell->ret = shell->built_ret;
-	
-}
-
-static void ft_close(int fd)
-{
-	if (fd)
-		close(fd);
+	wait_forks(shell);
 }
 
 void	execution(t_minishell *shell)
 {
 	g_is_executed = TRUE;
-	main_body_2(shell);
+	main_body(shell);
 	g_is_executed = FALSE;
 	shell->ret = WEXITSTATUS(shell->ret);
 	unlink("here_doc");
@@ -218,7 +130,9 @@ void	execution(t_minishell *shell)
 	dup2(shell->out, STDOUT);
 	close(shell->in);
 	close(shell->out);
-	ft_close(shell->fd_out);
-	ft_close(shell->fd_in);
+	if (shell->fd_out)
+		close(shell->fd_out);
+	if (shell->fd_in)
+		close(shell->fd_in);
 	free(shell->message);
 }
