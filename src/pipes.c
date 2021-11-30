@@ -100,10 +100,8 @@ void mid_pipe(t_minishell *shell, t_token *token, int fd)
 	{
 		dup2(shell->fds[fd - 1][0], STDIN);
 		close(shell->fds[fd - 1][1]);
-
 		dup2(shell->fds[fd][1], STDOUT);
 		close(shell->fds[fd][0]);
-
 		if (get_prev_token(token)->type == CMD)
 			execv_cmd(shell, get_prev_token(token));
 		else
@@ -115,36 +113,6 @@ void mid_pipe(t_minishell *shell, t_token *token, int fd)
 	close(shell->fds[fd - 1][0]);
 	close(shell->fds[fd - 1][1]);
 }
-
-/*
-int the_only_pipe_orig(t_minishell *shell, t_token *token, int fd)
-{
-	pid_t 	parent;
-	pid_t 	cmd;
-	
-	if (pipe(shell->fds[0]) == -1)
-		ft_putstr_fd("Pipe error\n", 2);
-	parent = fork();
-	struct_pid_add(&shell->childs, struct_pid_new(parent));
-	if (parent == 0)
-	{
-		dup2(shell->fds[0][1], STDOUT);
-		close(shell->fds[0][0]);
-		execv_cmd(shell, get_prev_token(token)); // тут была ошибка которая стоила мне целого вечера
-	}
-	cmd = fork();
-	struct_pid_add(&shell->childs, struct_pid_new(cmd));
-	if (cmd == 0)
-	{
-		dup2(shell->fds[0][0], STDIN);
-		close(shell->fds[0][1]);
-		execv_cmd(shell, token->next);
-	}
-	close(shell->fds[0][0]);
-	close(shell->fds[0][1]);
-	return 0;
-}
-*/
 
 int the_only_pipe(t_minishell *shell, t_token *token, int fd)
 {
@@ -167,7 +135,6 @@ int the_only_pipe(t_minishell *shell, t_token *token, int fd)
 			shell->ret = (execute_builtin(shell, get_prev_token(token)));
 			exit (shell->ret);
 		}
-		//execv_cmd(shell, get_prev_token(token)); // тут была ошибка которая стоила мне целого вечера
 	}
 	cmd = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(cmd));
@@ -215,10 +182,8 @@ void last_pipe(t_minishell *shell, t_token *token, int fd)
 			exit (shell->ret);
 		}
 	}
-	
 	close(shell->fds[fd - 1][0]);
 	close(shell->fds[fd - 1][1]);
-
 	cmd = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(cmd));
 	if (cmd == -1)
@@ -235,10 +200,7 @@ void last_pipe(t_minishell *shell, t_token *token, int fd)
 			shell->ret = (execute_builtin(shell, token->next));
 			exit (shell->ret);
 		}
-		//execv_cmd(shell, token->next);
-		//execute_token(shell, token->next); // simple version
 	}
-
 	close(shell->fds[fd][0]);
 	close(shell->fds[fd][1]);
 	
