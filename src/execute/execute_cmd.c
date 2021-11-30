@@ -45,14 +45,44 @@ void 	execute_last_cmd(t_minishell *shell, t_token *token)
 	parent = fork();
 	if (parent)
 	{
-		waitpid(parent, &shell->question, 0);
+		waitpid(parent, &shell->ret, 0);
 		free_char_list(argv);
 	}
 	else
 		simple_cmd(argv);
 }
 
+int 	execv_cmd(t_minishell *shell, t_token *token)
+{
+	int res;
+	char	**argv;
+
+	argv = create_argv(token);
+	res = simple_cmd(argv);
+	return res;
+}
+
 // нет обработки билтина
+void execute_pipe_cmd(t_minishell *shell, t_token *token)
+{
+	pid_t	parent;
+	int		pipefd[2];
+	char	**argv;
+
+	argv = create_argv(token);
+	pipe(pipefd);
+	parent = fork();
+	if (parent == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT);
+		simple_cmd(argv);
+	}
+	close(pipefd[0]);
+	close(pipefd[1]);
+	free_char_list(argv);
+}
+/* // оригинальный
 void execute_pipe_cmd(t_minishell *shell, t_token *token)
 {
 	pid_t	parent;
@@ -66,14 +96,17 @@ void execute_pipe_cmd(t_minishell *shell, t_token *token)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN);
-		waitpid(parent, &shell->question, 0);
+		//close(pipefd[0]); //
+		//waitpid(parent, &shell->ret, 0);
 		free_char_list(argv);
 	}
 	else
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT);
+		//close(pipefd[1]); //
 		if (token->type == CMD)
 			simple_cmd(argv);
 	}
 }
+*/

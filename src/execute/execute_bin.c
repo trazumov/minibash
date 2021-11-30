@@ -83,17 +83,20 @@ static char **copy_argv(char **from)
 	return (res);
 }
 
-void simple_cmd(char **argv)
+int simple_cmd(char **argv)
 {
 	char 	*path;
 	char	**new_argv;
+	int res;
 
+	//getchar();
 	new_argv = copy_argv(argv);
-	path = create_path(new_argv, __environ); // здесь изменяется new_argv ?
-	if (execve(path, argv, __environ) == -1)
+	path = create_path(new_argv, __environ);
+	if ((res = execve(path, argv, __environ)) == -1)
 	{
 		perror("Error at simple_cmd");
 		free_char_list(new_argv);
 		exit(1);
 	}
+	return res; // эта строчка не работает
 }

@@ -9,16 +9,21 @@ LFAGS = -Wall -Wextra -Werror
 SRC = src/main.c \
 src/free.c \
 src/help/strcmp.c \
-src/init/init_env.c \
 src/signals/signal.c \
 src/init/init_shell.c \
 src/execute/execute_bin.c \
 src/execute/execute_cmd.c \
 src/main_loop.c \
+src/test.c \
+src/test2.c \
+src/test3.c \
+src/test_garbage.c \
+src/t_pid_t.c \
 src/errors.c \
 src/parser.c \
 src/redirections.c \
 src/tokens.c\
+src/pipes.c\
 src/heredoc.c \
 src/gnl.c \
 src/gnl_utils.c \

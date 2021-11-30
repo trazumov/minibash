@@ -13,6 +13,8 @@
 # define REDIR_IN 6
 # define REDIR_HEREDOC 7
 
+# define OPEN_MAX 1024
+
 # define CHILD	2
 # define PARENT	1
 

@@ -8,14 +8,14 @@ void	free_data(t_token *a_tokens, t_token *b_tokens);
 void	execution(t_minishell *shell);
 void	main_body(t_minishell *shell);
 
-void	simple_cmd(char **argv);
+int	simple_cmd(char **argv);
 void	free_char_list(char **list);
 void	execute_pipe_cmd(t_minishell *shell, t_token *token);
 void 	execute_last_cmd(t_minishell *shell, t_token *token);
 int		open_file_error(t_minishell *shell);
 int		set_redirection(t_minishell *shell);
 
-void	execute_builtin(t_minishell *shell, t_token *token);
+int	execute_builtin(t_minishell *shell, t_token *token);
 
 void	exec_here_doc(t_minishell *shell, t_token *token);
 int		get_next_line(int fd, char **line);
@@ -23,5 +23,27 @@ size_t	gnl_strlen(const char *s);
 char	*gnl_strchr(const char *s, int c);
 char	*gnl_strjoin(char *s1, char const *s2);
 size_t	gnl_strlcpy(char *dst, const char *src, size_t dstsize);
+
+void execute_token(t_minishell *shell, t_token *token);
+int 	execv_cmd(t_minishell *shell, t_token *token);
+t_token *get_prev_token(t_token *token);
+
+void execute_test_pipe(char **env);
+void execute_test_pipe_2(char **env);
+void execute_test_pipe_3(char **env);
+void execute_test_garbage(char **env);
+
+int is_first_pipe(t_token *token);
+int is_mid_pipe(t_token *token);
+int is_last_pipe(t_token *token);
+
+void first_pipe(t_minishell *shell, t_token *token, int fd);
+void mid_pipe(t_minishell *shell, t_token *token, int fd);
+void last_pipe(t_minishell *shell, t_token *token, int fd);
+int the_only_pipe(t_minishell *shell, t_token *token, int fd);
+
+void	struct_pid_clear(t_pid_t **head);
+void	struct_pid_add(t_pid_t **head, t_pid_t *new);
+t_pid_t	*struct_pid_new(pid_t value);
 
 #endif

@@ -52,8 +52,6 @@ int main(void)
 	signal(SIGQUIT, ft_signal);
 	shell.exit = FALSE;
 	shell.ret = 0;
-	shell.signal_c = 0;
-	shell.signal_q = 0;
 	while (shell.exit != TRUE)
 	{
 		init_shell(&shell);
@@ -71,7 +69,18 @@ int main(void)
 		input = parse(&parsed_tokens, input, shell);
 		post_init_tokens(parsed_tokens);
 		shell.tokens = parsed_tokens;
-		execution(&shell);
+		if (ft_strcmp(input, "1") == 0)
+			execute_test_pipe(arr);
+		else if (ft_strcmp(input, "2") == 0)
+			execute_test_pipe_2(arr);
+		else if (ft_strcmp(input, "3") == 0)
+			execute_test_pipe_3(arr);
+		else if (ft_strcmp(input, "4") == 0)
+			execute_test_garbage(arr);
+		else if (ft_strcmp(input, "?") == 0)
+			printf("Return value is %d\n", shell.ret);
+		else
+			execution(&shell);
 		free_tokens(&parsed_tokens);
 	}
 	free(__environ);
