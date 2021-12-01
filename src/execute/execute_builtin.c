@@ -18,9 +18,9 @@ int	execute_builtin(t_minishell *shell, t_token *token)
 		exit_status = ft_unset(token->next);
 	else if (ft_strcmp(token->str, "exit") == 0)
 	{
-		exit_status = ft_exit(token->next);
-		if (exit_status >= 0)
-			shell->exit = TRUE;
+		exit_status = ft_exit(token->next, shell);
+		// if (exit_status >= 0)
+		// 	shell->exit = TRUE;
 	}
 	else
 	{
