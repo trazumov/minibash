@@ -16,8 +16,24 @@ static void post_init_tokens(t_token *token)
 
 static void update_history(char *input)
 {
-	// обработка only spaces
-	add_history(input);
+	int	onlyspaces;
+	int	i;
+
+	i = 0;
+	onlyspaces = TRUE;
+	while (input[i])
+	{
+		if (input[i] != ' ')
+		{
+			onlyspaces = FALSE;
+			break ;
+		}
+		i++;
+	}
+	if (!onlyspaces)
+		add_history(input);
+	else
+		add_history("");
 }
 
 static void pre_init(t_minishell *shell, char **arr)
