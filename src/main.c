@@ -38,8 +38,6 @@ static void pre_init(t_minishell *shell, char **arr)
 {
 	arr = __environ;
 	__environ = malloc_environ();
-	signal(SIGINT, ft_signal);
-	signal(SIGQUIT, ft_signal);
 	g_is_executed = FALSE;
 	shell->exit = FALSE;
 	shell->ret = 0;
@@ -73,6 +71,9 @@ int main(void)
 	char		**arr = NULL;
 	int			cycle;
 	
+	signal(SIGINT, ft_signal);
+	signal(SIGQUIT, ft_signal);
+	rl_catch_signals = 0;
 	input = readline("minishell$ ");
 	pre_init(&shell, arr);
 	cycle = main_cycle(&shell, &input, &parsed_tokens, TRUE);

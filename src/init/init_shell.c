@@ -2,7 +2,6 @@
 
 void	init_shell(t_minishell *shell)
 {
-	rl_catch_signals = 0;
 	shell->message = ft_strdup("minishell$ ");
 	shell->exit = FALSE;
 	shell->in = dup(STDIN);

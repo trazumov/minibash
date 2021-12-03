@@ -46,6 +46,10 @@ void 	execute_last_cmd(t_minishell *shell, t_token *token)
 	if (parent)
 	{
 		waitpid(parent, &shell->ret, 0);
+		if (shell->ret == 256)
+			shell->ret = 127;
+		else
+			shell->ret = WEXITSTATUS(shell->ret);
 		free_char_list(argv);
 	}
 	else
