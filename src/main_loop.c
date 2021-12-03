@@ -142,8 +142,10 @@ void	execution(t_minishell *shell)
 	main_body(shell);
 	g_is_executed = FALSE;
 	unlink("here_doc");
-	dup2(shell->in, STDIN);
-	dup2(shell->out, STDOUT);
+	if (dup2(shell->in, STDIN) == -1)
+		perror(shell->message);
+	if (dup2(shell->out, STDOUT) == -1)
+		perror(shell->message);
 	close(shell->in);
 	close(shell->out);
 	if (shell->fd_out)

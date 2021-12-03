@@ -34,7 +34,13 @@ static int redirect_out(t_minishell *shell, t_token *token, int *new_output)
 			shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 		if (token->type == REDIR_OUT_2)
 			shell->fd_out = open(token->next->str, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-		dup2(shell->fd_out, STDOUT);
+		if (shell->fd_out == -1 && (token->type == REDIR_OUT || token->type == REDIR_OUT_2))
+		{
+			shell->error = TRUE;
+			perror(shell->message);
+		}
+		if (dup2(shell->fd_out, STDOUT) == -1)
+			perror(shell->message);
 		(*new_output) = TRUE;
 	}
 	else
@@ -60,7 +66,8 @@ static int redirect_in(t_minishell *shell, t_token *token, int *new_input)
 			shell->error = TRUE;
 			perror(shell->message);
 		}
-		dup2(shell->fd_in, STDIN);
+		if (dup2(shell->fd_in, STDIN) == -1)
+			perror(shell->message);
 		(*new_input) = TRUE;
 	}
 	else
@@ -78,10 +85,8 @@ static int redirect_heredoc(t_minishell *shell, t_token *token, int *new_input)
 		close(shell->fd_in);
 	}
 	if (token->next)
-	{ // лишний if
-		//dup2(shell->fd_in, STDIN); // new
-		//close(shell->fd_in); // new
-		if (token->type == REDIR_HEREDOC)
+	{
+		if (token->type == REDIR_HEREDOC) // лишний if
 			exec_here_doc(shell, token);
 		(*new_input) = TRUE;
 	}

@@ -27,16 +27,21 @@ static void	create_tmp_file(t_token *token)
 
 void	exec_here_doc(t_minishell *shell, t_token *token)
 {
-	dup2(shell->in, STDIN); //
-	close(shell->in); //
+	if (dup2(shell->in, STDIN) == -1)
+		perror(shell->message);
+	close(shell->in);
 	create_tmp_file(token);
-	shell->in = dup(STDIN); //
+	shell->in = dup(STDIN);
+	if (shell->in == -1)
+		perror(shell->message);
 	shell->fd_in = open("here_doc", O_RDONLY);
 	if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
 	{
-		perror("here_doc error");
+		perror(shell->message);
+		shell->error = TRUE;
 		exit(EXIT_FAILURE);
 	}
-	dup2(shell->fd_in, 0);
+	if (dup2(shell->fd_in, 0) == -1)
+		perror(shell->message);
 	close(shell->fd_in);
 }
