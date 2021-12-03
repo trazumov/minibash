@@ -32,8 +32,6 @@ static void update_history(char *input)
 	}
 	if (!onlyspaces)
 		add_history(input);
-	else
-		add_history("");
 }
 
 static void pre_init(t_minishell *shell, char **arr)
@@ -88,5 +86,5 @@ int main(void)
 	}
 	free(__environ);
 	__environ = arr;
-	return (0);
+	return (shell.ret);
 }
