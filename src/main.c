@@ -47,14 +47,24 @@ static void pre_init(t_minishell *shell, char **arr)
 	shell->ret = 0;
 }
 
-static int ctrl_d(t_minishell *shell, char *input)
+static int main_cycle(t_minishell *shell, char **input, t_token **parsed_tokens, int first_call)
 {
-	if (input == NULL)
-	{
-		on_eof(shell);
-		return (TRUE);
-	}
-	return (FALSE);
+	init_shell(shell);
+	if (*input && !first_call)
+		free(*input);
+	if (!first_call)
+		*input = readline(shell->message);
+	if (ctrl_d(shell, *input))
+		return (1);
+	update_history(*input);
+	*input = parse(parsed_tokens, *input, *shell);
+	if (*input == NULL)
+		return (2);
+	post_init_tokens(*parsed_tokens); // вывести в parse и тогда будет 25 строчек
+	shell->tokens = *parsed_tokens;
+	execution(shell);
+	free_tokens(parsed_tokens);
+	return (0);
 }
 
 int main(void)
@@ -63,24 +73,18 @@ int main(void)
 	t_token		*parsed_tokens = NULL;
 	char		*input = NULL;
 	char		**arr = NULL;
+	int			cycle;
 	
+	input = readline("minishell$ ");
 	pre_init(&shell, arr);
+	cycle = main_cycle(&shell, &input, &parsed_tokens, TRUE);
 	while (shell.exit != TRUE)
 	{
-		init_shell(&shell);
-		if (input)
-			free(input);
-		input = readline(shell.message);
-		if (ctrl_d(&shell, input))
+		cycle = main_cycle(&shell, &input, &parsed_tokens, FALSE);
+		if (cycle == 1)
 			break ;
-		update_history(input);
-		input = parse(&parsed_tokens, input, shell);
-		if (input == NULL)
+		if (cycle == 2)
 			continue ;
-		post_init_tokens(parsed_tokens); // вывести в parse и тогда будет 25 строчек
-		shell.tokens = parsed_tokens;
-		execution(&shell);
-		free_tokens(&parsed_tokens);
 	}
 	free(__environ);
 	__environ = arr;

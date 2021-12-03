@@ -49,5 +49,6 @@ int the_only_pipe(t_minishell *shell, t_token *token, int fd);
 void	struct_pid_clear(t_pid_t **head);
 void	struct_pid_add(t_pid_t **head, t_pid_t *new);
 t_pid_t	*struct_pid_new(pid_t value);
+int ctrl_d(t_minishell *shell, char *input);
 
 #endif

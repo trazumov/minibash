@@ -31,3 +31,13 @@ void	on_eof(t_minishell *shell)
 	ft_putstr_fd("exit\n", 1);
 	shell->exit = TRUE;
 }
+
+int ctrl_d(t_minishell *shell, char *input)
+{
+	if (input == NULL)
+	{
+		on_eof(shell);
+		return (TRUE);
+	}
+	return (FALSE);
+}
