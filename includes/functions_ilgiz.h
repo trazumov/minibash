@@ -7,7 +7,6 @@ int		preparser(char *str, int *sep_ct);
 int		check_leading_pipe(char *str);
 int		ft_isspace(int c);
 int		parser_error(int type, char ch);
-//void	print_error(char *str);
 int		ft_issep(int c);
 int		handle_sep(char *str, int i, int *sep_ct);
 int		handle_pipe(char *str, int i, int *sep_ct);
@@ -20,6 +19,7 @@ char	*handle_bucks(char *str, int *start, t_minishell msh);
 char	*replace_bucks(char *str, int i, int *start, char *var_value);
 char	*remove_invalid_var_name(char *str, char *var_name, int *start);
 void	free_intermediate_strings(char *temp, char *part_1, char *part_2);
+void	add_to_array(char *str, char **array, t_parser *vars);
 
 //tokens
 void	create_tokens(t_token **token, char **array, int token_ct);

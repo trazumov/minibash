@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/03 22:37:17 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/12/03 22:39:50 by mlatashi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 t_token	*ft_new_token(void)
@@ -71,23 +83,4 @@ void	assign_type(t_token *token, char *str)
 	}
 	else
 		token->type = ARG;
-}
-
-void	create_tokens(t_token **token, char **array, int token_ct)
-{
-	int	i;
-
-	i = 0;
-	while (i < token_ct)
-	{
-		ft_add_token(token, ft_new_token());
-		if ((*token)->next)
-			(*token) = (*token)->next;
-		(*token)->str = ft_strdup(array[i]);
-		assign_type(*token, array[i]);
-		free(array[i]);
-		i++;
-	}
-	while ((*token)->prev != NULL)
-		(*token) = (*token)->prev;
 }

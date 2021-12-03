@@ -1,50 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/03 22:26:26 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/12/03 22:55:06 by mlatashi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
-
-char	**realloc_environ(int diff, char *str)
-{
-	int		size;
-	int		i;
-	char	**arr;
-
-	size = get_env_size(__environ);
-	arr = malloc(sizeof(char *) * (size + 1 + diff));
-	if (diff > 0)
-	{
-		i = -1;
-		while (++i < size)
-		{
-			arr[i] = ft_strdup(__environ[i]);
-			free(__environ[i]);
-		}
-		arr[i] = ft_strdup(str);
-	}
-	else
-		handle_negative_diff(arr, str, size);
-	free(__environ);
-	arr[size + diff] = NULL;
-	return (arr);
-}
-
-void	insertion_sort(char **arr, int size)
-{
-	char	*temp;
-	int		i;
-	int		k;
-
-	i = 1;
-	while (i < size)
-	{
-		k = i;
-		while (k > 0 && ft_strcmp(arr[k], arr[k - 1]) < 0)
-		{
-			temp = arr[k];
-			arr[k] = arr[k - 1];
-			arr[k - 1] = temp;
-			k--;
-		}
-		i++;
-	}
-}
 
 void	print_sorted_env(void)
 {
@@ -80,17 +46,6 @@ int	check_var_name(char *str)
 	if (str[i] == '\0')
 		return (1);
 	return (0);
-}
-
-int	print_export_or_unset_error(char *str, int type)
-{
-	if (type == 1)
-		ft_putstr_fd("minishell: export: «", 2);
-	else
-		ft_putstr_fd("minishell: unset: «", 2);
-	ft_putstr_fd(str, 2);
-	ft_putendl_fd("»: not a valid identifier", 2);
-	return (1);
 }
 
 void	add_var(char *var_name, char *str)

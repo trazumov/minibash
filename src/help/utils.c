@@ -1,28 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/03 22:43:17 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 22:43:21 by mlatashi         ###   ########.fr       */
+/*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/12/03 22:53:59 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_pwd(void)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*buf;
+	int	i;
 
-	buf = getcwd(NULL, 0);
-	if (buf)
+	i = 0;
+	while (s1[i] || s2[i])
 	{
-		printf("%s\n", buf);
-		free(buf);
-		return (0);
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
 	}
-	else
-		return (1);
+	return (0);
+}
+
+void	insertion_sort(char **arr, int size)
+{
+	char	*temp;
+	int		i;
+	int		k;
+
+	i = 1;
+	while (i < size)
+	{
+		k = i;
+		while (k > 0 && ft_strcmp(arr[k], arr[k - 1]) < 0)
+		{
+			temp = arr[k];
+			arr[k] = arr[k - 1];
+			arr[k - 1] = temp;
+			k--;
+		}
+		i++;
+	}
 }

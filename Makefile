@@ -8,7 +8,7 @@ LFAGS = -Wall -Wextra -Werror
 
 SRC = src/main.c \
 src/free.c \
-src/help/strcmp.c \
+src/help/utils.c \
 src/signals/signal.c \
 src/init/init_shell.c \
 src/execute/execute_bin.c \
@@ -20,7 +20,12 @@ src/test3.c \
 src/test_garbage.c \
 src/t_pid_t.c \
 src/errors.c \
-src/parser.c \
+src/parser/preparser.c\
+src/parser/parser.c \
+src/parser/quotes_handler.c\
+src/parser/bucks_handler.c\
+src/parser/parser_utils.c\
+src/env.c\
 src/redirections.c \
 src/tokens.c\
 src/pipes.c\

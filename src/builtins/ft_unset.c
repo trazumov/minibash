@@ -1,4 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/03 22:44:02 by mlatashi          #+#    #+#             */
+/*   Updated: 2021/12/03 22:55:04 by mlatashi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
+
+int	print_export_or_unset_error(char *str, int type)
+{
+	if (type == 1)
+		ft_putstr_fd("minishell: export: «", 2);
+	else
+		ft_putstr_fd("minishell: unset: «", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("»: not a valid identifier", 2);
+	return (1);
+}
 
 int	is_name_valid(char *str)
 {
@@ -16,32 +39,10 @@ int	is_name_valid(char *str)
 	return (1);
 }
 
-void	handle_negative_diff(char **arr, char *str, int size)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	len = ft_strlen(str);
-	j = 0;
-	i = -1;
-	while (++i < size)
-	{
-		if (ft_strncmp(str, __environ[i], len) == 0 && __environ[i][len] == '=')
-		{
-			free(__environ[i]);
-			continue ;
-		}
-		arr[j] = ft_strdup(__environ[i]);
-		free(__environ[i]);
-		j++;
-	}
-}
-
 int	ft_unset(t_token *token)
 {
 	int	ret;
-	
+
 	ret = 0;
 	while (token && token->type == ARG)
 	{
