@@ -15,7 +15,7 @@ static t_token *get_prev_input(t_token *token)
 	t_token *res;
 
 	res = token->prev;
-	while (res && res->type != REDIR_IN)
+	while (res && (res->type != REDIR_IN && res->type != REDIR_HEREDOC))
 		res = res->prev;
 	return (res);
 }
@@ -73,7 +73,7 @@ static int redirect_heredoc(t_minishell *shell, t_token *token, int *new_input)
 		close(shell->fd_in);
 	}
 	if (token->next)
-	{
+	{ // лишний if
 		if (token->type == REDIR_HEREDOC)
 			exec_here_doc(shell, token);
 		(*new_input) = TRUE;

@@ -11,6 +11,7 @@ static void	create_tmp_file(t_token *token)
 		perror("here_doc error");
 		exit(EXIT_FAILURE);
 	}
+	//dup2(0, STDIN);
 	ft_putstr_fd("> ", 0);
 	while (get_next_line(0, &line))
 	{
