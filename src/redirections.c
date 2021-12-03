@@ -64,7 +64,7 @@ static int redirect_in(t_minishell *shell, t_token *token, int *new_input)
 		if (shell->fd_in == -1)
 		{
 			shell->error = TRUE;
-			perror(shell->message);
+			return (1);
 		}
 		if (dup2(shell->fd_in, STDIN) == -1)
 			perror(shell->message);
@@ -108,6 +108,8 @@ int set_redirection(t_minishell *shell)
 	token = shell->tokens;
 	while (token)
 	{
+		if (shell->error)
+			break ;
 		if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 			if (redirect_out(shell, token, &new_output))
 				return (open_file_error(shell));
