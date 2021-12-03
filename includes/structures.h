@@ -24,6 +24,13 @@ typedef struct s_pid_t
 	struct s_pid_t	*next;
 }	t_pid_t;
 
+typedef struct	s_parser
+{
+	int			i;
+	int			j;
+	int			last_space;
+}				t_parser;
+
 typedef struct s_minishell
 {
 	t_pid_t	*childs;
