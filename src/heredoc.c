@@ -27,7 +27,10 @@ static void	create_tmp_file(t_token *token)
 
 void	exec_here_doc(t_minishell *shell, t_token *token)
 {
+	dup2(shell->in, STDIN); //
+	close(shell->in); //
 	create_tmp_file(token);
+	shell->in = dup(STDIN); //
 	shell->fd_in = open("here_doc", O_RDONLY);
 	if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
 	{

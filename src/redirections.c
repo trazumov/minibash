@@ -74,6 +74,8 @@ static int redirect_heredoc(t_minishell *shell, t_token *token, int *new_input)
 	}
 	if (token->next)
 	{ // лишний if
+		//dup2(shell->fd_in, STDIN); // new
+		//close(shell->fd_in); // new
 		if (token->type == REDIR_HEREDOC)
 			exec_here_doc(shell, token);
 		(*new_input) = TRUE;
