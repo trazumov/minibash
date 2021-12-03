@@ -31,10 +31,11 @@ typedef struct s_minishell
 	int		exit;
 	int		fds[100][2]; // file descriptors
 	int		ret;
-	int		in; // сохраненное значение для перезаписи
-	int		out; // сохраненное значение для перезаписи
-	int		fd_out; // текущий файлдескриптор, depricated
-	int		fd_in; // текущий файлдескриптор, depricated
+	int		error;
+	int		in;
+	int		out;
+	int		fd_out;
+	int		fd_in;
 	int		save_history; // сохранять истоирю или нет
 	int		wait_s; // сколько wait вызывать
 	t_token	*tokens;

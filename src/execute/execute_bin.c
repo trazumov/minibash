@@ -89,7 +89,6 @@ int simple_cmd(char **argv)
 	char	**new_argv;
 	int res;
 
-	//getchar();
 	new_argv = copy_argv(argv);
 	path = create_path(new_argv, __environ);
 	if ((res = execve(path, argv, __environ)) == -1)

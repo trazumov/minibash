@@ -55,6 +55,11 @@ static int redirect_in(t_minishell *shell, t_token *token, int *new_input)
 	{
 		if (token->type == REDIR_IN)
 			shell->fd_in = open(token->next->str, O_RDONLY, S_IRWXU);
+		if (shell->fd_in == -1)
+		{
+			shell->error = TRUE;
+			perror(shell->message);
+		}
 		dup2(shell->fd_in, STDIN);
 		(*new_input) = TRUE;
 	}

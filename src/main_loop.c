@@ -117,6 +117,8 @@ void	main_body(t_minishell *shell)
 	set_redirection(shell);
 	while (token)
 	{
+		if (shell->error)
+			break ;
 		if (token->skip == TRUE || token->type >= REDIR_OUT)
 		{
 			if (token->type >= REDIR_OUT)
@@ -138,7 +140,7 @@ void	execution(t_minishell *shell)
 	g_is_executed = TRUE;
 	main_body(shell);
 	g_is_executed = FALSE;
-	shell->ret = WEXITSTATUS(shell->ret);
+	shell->ret = WEXITSTATUS(shell->ret); // ? sadasdasdasd
 	unlink("here_doc");
 	dup2(shell->in, STDIN);
 	dup2(shell->out, STDOUT);

@@ -73,10 +73,10 @@ int main(void)
 		input = readline(shell.message);
 		if (ctrl_d(&shell, input))
 			break ;
-		if (input[0] == '\0')
-			continue ;
 		update_history(input);
 		input = parse(&parsed_tokens, input, shell);
+		if (input == NULL)
+			continue ;
 		post_init_tokens(parsed_tokens); // вывести в parse и тогда будет 25 строчек
 		shell.tokens = parsed_tokens;
 		execution(&shell);
