@@ -14,11 +14,35 @@ int	print_cd_error(char *str, int type)
 	return (1);
 }
 
+void	update_pwd(char *pwd)
+{
+	int		i;
+
+	if (getenv("PWD"))
+	{
+		i = 0;
+		while (__environ[i])
+		{
+			if (ft_strncmp("PWD=", __environ[i], 4) == 0)
+			{
+				free(__environ[i]);
+				__environ[i] = ft_strjoin("PWD=", pwd);
+				free(pwd);
+				return ;
+			}
+			i++;
+		}
+	}
+	else
+		free(pwd);
+}
+
 void	update_oldpwd(char *oldpwd)
 {
 	int		i;
 	char	*temp;
 
+	update_pwd(getcwd(NULL, 0));
 	if (getenv("OLDPWD"))
 	{
 		i = 0;

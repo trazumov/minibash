@@ -16,26 +16,27 @@ int	is_arg_numeric(char *str)
 	return (1);
 }
 
-int	ft_exit(t_token *token)
+int	ft_exit(t_token *token, t_minishell *shell)
 {
 	unsigned int	ret;
 
 	ft_putendl_fd("exit", 2);
 	if (token && is_arg_numeric(token->str) == 0)
 	{
-		ret = 1;
+		ret = 2;
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(token->str, 2);
 		ft_putendl_fd(": numeric argument required", 2);
 	}
 	else if (token && token->next)
 	{
-		ret = 1;
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
+		return (1);
 	}
 	else if (token)
 		ret = ft_atoi(token->str);
 	else
 		ret = 0;
+	shell->exit = TRUE;
 	return (ret);
 }

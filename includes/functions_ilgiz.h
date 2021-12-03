@@ -33,7 +33,7 @@ int		is_builtin(char *str);
 int		ft_echo(t_token *token);
 int		ft_env(void);
 int		ft_pwd(void);
-int		ft_exit(t_token *token);
+int		ft_exit(t_token *token, t_minishell *shell);
 int		ft_export(t_token *token);
 int		ft_unset(t_token *token);
 int		ft_cd(t_token *token);
@@ -49,6 +49,7 @@ void	add_var(char *var_name, char *str);
 int		is_name_valid(char *str);
 int		print_cd_error(char *str, int type);
 int		change_dir_to_home_or_oldpwd(char *var);
+void	update_pwd(char *pwd);
 void	update_oldpwd(char *oldpwd);
 
 //environ
