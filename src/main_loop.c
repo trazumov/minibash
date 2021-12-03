@@ -102,6 +102,7 @@ static void wait_forks(t_minishell *shell)
 	while (tmp)
 	{
 		waitpid(tmp->pid, &shell->ret, 0);
+		shell->ret = WEXITSTATUS(shell->ret);
 		tmp = tmp->next;
 	}
 	struct_pid_clear(&shell->childs);
@@ -140,7 +141,6 @@ void	execution(t_minishell *shell)
 	g_is_executed = TRUE;
 	main_body(shell);
 	g_is_executed = FALSE;
-	shell->ret = WEXITSTATUS(shell->ret); // ? sadasdasdasd
 	unlink("here_doc");
 	dup2(shell->in, STDIN);
 	dup2(shell->out, STDOUT);
