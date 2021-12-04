@@ -14,10 +14,6 @@ src/init/init_shell.c \
 src/execute/execute_bin.c \
 src/execute/execute_cmd.c \
 src/main_loop.c \
-src/test.c \
-src/test2.c \
-src/test3.c \
-src/test_garbage.c \
 src/t_pid_t.c \
 src/errors.c \
 src/parser/preparser.c\

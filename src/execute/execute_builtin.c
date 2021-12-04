@@ -1,5 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_builtin.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/05 00:39:14 by svirgil           #+#    #+#             */
+/*   Updated: 2021/12/05 00:40:15 by svirgil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
+/*
+if (exit_status >= 0) ?
+shell->exit = TRUE;
+*/
 int	execute_builtin(t_minishell *shell, t_token *token)
 {
 	int	exit_status;
@@ -17,11 +33,7 @@ int	execute_builtin(t_minishell *shell, t_token *token)
 	else if (ft_strcmp(token->str, "unset") == 0)
 		exit_status = ft_unset(token->next);
 	else if (ft_strcmp(token->str, "exit") == 0)
-	{
 		exit_status = ft_exit(token->next, shell);
-		// if (exit_status >= 0)
-		// 	shell->exit = TRUE;
-	}
 	else
 	{
 		printf("Builtin error\n");

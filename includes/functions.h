@@ -32,11 +32,6 @@ int have_to_wait(t_minishell *shell);
 
 void	free_tokens(t_token **token);
 
-void execute_test_pipe(char **env);
-void execute_test_pipe_2(char **env);
-void execute_test_pipe_3(char **env);
-void execute_test_garbage(char **env);
-
 int is_first_pipe(t_token *token);
 int is_mid_pipe(t_token *token);
 int is_last_pipe(t_token *token);
@@ -50,5 +45,8 @@ void	struct_pid_clear(t_pid_t **head);
 void	struct_pid_add(t_pid_t **head, t_pid_t *new);
 t_pid_t	*struct_pid_new(pid_t value);
 int ctrl_d(t_minishell *shell, char *input);
+void	close_fd_save(int fd);
+void	handle_return_value(int *return_value);
+char **create_argv(t_token *token);
 
 #endif

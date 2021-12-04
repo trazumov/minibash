@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_loop.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
+/*   Updated: 2021/12/04 23:56:01 by svirgil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 // для введенного токена ищет следующий
-static t_token *get_next_token(t_token *token) // CMD PIPE REDIR_OUT
+static t_token	*get_next_token(t_token *token)
 {
-	t_token *res;
+	t_token	*res;
 	int		next_type;
 
 	if (token->next == NULL)
 		return (NULL);
 	next_type = token->next->type;
 	if (next_type == PIPE || next_type == REDIR_OUT || next_type == REDIR_OUT_2)
-		return token->next; // ?
+		return (token->next);
 	if (token->type == PIPE)
-		return token->next; // изменил, вроде логично стало
+		return (token->next);
 	if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 		res = token->next;
 	if ((next_type == CMD || next_type == ARG) && token->type != REDIR_IN)
@@ -26,13 +38,13 @@ static t_token *get_next_token(t_token *token) // CMD PIPE REDIR_OUT
 	return (res);
 }
 
-t_token *get_prev_token(t_token *token) // CMD PIPE
+t_token	*get_prev_token(t_token *token)
 {
-	t_token *res;
+	t_token	*res;
 
 	if (token->prev == NULL)
 		return (NULL);
-	else if (token->prev->type == PIPE) // is CMD and prev PIPE
+	else if (token->prev->type == PIPE)
 		return (token->prev);
 	else
 	{
@@ -43,18 +55,18 @@ t_token *get_prev_token(t_token *token) // CMD PIPE
 	return (res);
 }
 
-void execute_token(t_minishell *shell, t_token *token)
+void	execute_token(t_minishell *shell, t_token *token)
 {
-	if (token->type == CMD || token->type == ARG) // убрать
+	if (token->type == CMD || token->type == ARG)
 		execute_last_cmd(shell, token);
 	else if (token->type == BUILTIN)
 		execute_builtin(shell, token);
 }
 
-int have_to_wait(t_minishell *shell)
+int	have_to_wait(t_minishell *shell)
 {
 	t_token	*token;
-	
+
 	token = shell->tokens;
 	while (token)
 	{
@@ -65,20 +77,23 @@ int have_to_wait(t_minishell *shell)
 	return (FALSE);
 }
 
-static int pipes_cnt(t_minishell *shell)
+static int	pipes_cnt(t_minishell *shell)
 {
-	t_token *tmp = shell->tokens;
-	int res = 0;
+	t_token	*tmp;
+	int		res;
+
+	tmp = shell->tokens;
+	res = 0;
 	while (tmp)
 	{
 		if (tmp->type == PIPE)
 			res++;
 		tmp = tmp->next;
 	}
-	return res;
+	return (res);
 }
 
-static void execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe)
+static void	execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe)
 {
 	shell->wait_s = pipes_cnt(shell) + 1;
 	if (shell->wait_s == 2)
@@ -92,7 +107,7 @@ static void execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe)
 	(*curr_pipe)++;
 }
 
-static void wait_forks(t_minishell *shell)
+static void	wait_forks(t_minishell *shell)
 {
 	t_pid_t	*tmp;
 
@@ -102,7 +117,7 @@ static void wait_forks(t_minishell *shell)
 	while (tmp)
 	{
 		waitpid(tmp->pid, &shell->ret, 0);
-		shell->ret = WEXITSTATUS(shell->ret);
+		handle_return_value(&shell->ret);
 		tmp = tmp->next;
 	}
 	struct_pid_clear(&shell->childs);
@@ -146,11 +161,9 @@ void	execution(t_minishell *shell)
 		perror(shell->message);
 	if (dup2(shell->out, STDOUT) == -1)
 		perror(shell->message);
-	close(shell->in);
-	close(shell->out);
-	if (shell->fd_out)
-		close(shell->fd_out);
-	if (shell->fd_in)
-		close(shell->fd_in);
+	close_fd_save(shell->in);
+	close_fd_save(shell->out);
+	close_fd_save(shell->fd_out);
+	close_fd_save(shell->fd_in);
 	free(shell->message);
 }

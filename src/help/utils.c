@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 22:53:59 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/04 23:51:48 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,18 @@ void	insertion_sort(char **arr, int size)
 		}
 		i++;
 	}
+}
+
+void	close_fd_save(int fd)
+{
+	if (fd >= 0)
+		close (fd);
+}
+
+void	handle_return_value(int *return_value)
+{
+	if (*return_value == 256)
+		*return_value = 127;
+	else
+		*return_value = WEXITSTATUS(*return_value);
 }

@@ -15,7 +15,7 @@ static int get_argv_size(t_token *token)
 	return (res);
 }
 
-static char **create_argv(t_token *token)
+char **create_argv(t_token *token)
 {
 	int		size;
 	int		i;
@@ -25,7 +25,7 @@ static char **create_argv(t_token *token)
 	i = 0;
 	tmp = token;
 	size = get_argv_size(tmp);
-	res = malloc(sizeof(char *) * size + 1); // + NULL
+	res = malloc(sizeof(char *) * (size + 1));
 	while (tmp && (tmp->type == CMD || tmp->type == ARG))
 	{
 		res[i] = ft_strdup(tmp->str);
@@ -34,26 +34,6 @@ static char **create_argv(t_token *token)
 	}
 	res[i] = NULL;
 	return (res);
-}
-
-void 	execute_last_cmd(t_minishell *shell, t_token *token)
-{
-	pid_t	parent;
-	char	**argv;
-
-	argv = create_argv(token);
-	parent = fork();
-	if (parent)
-	{
-		waitpid(parent, &shell->ret, 0);
-		if (shell->ret == 256)
-			shell->ret = 127;
-		else
-			shell->ret = WEXITSTATUS(shell->ret);
-		free_char_list(argv);
-	}
-	else
-		simple_cmd(argv);
 }
 
 int 	execv_cmd(t_minishell *shell, t_token *token)
@@ -86,31 +66,3 @@ void execute_pipe_cmd(t_minishell *shell, t_token *token)
 	close(pipefd[1]);
 	free_char_list(argv);
 }
-/* // оригинальный
-void execute_pipe_cmd(t_minishell *shell, t_token *token)
-{
-	pid_t	parent;
-	int		pipefd[2];
-	char	**argv;
-
-	argv = create_argv(token);
-	pipe(pipefd);
-	parent = fork();
-	if (parent)
-	{
-		close(pipefd[1]);
-		dup2(pipefd[0], STDIN);
-		//close(pipefd[0]); //
-		//waitpid(parent, &shell->ret, 0);
-		free_char_list(argv);
-	}
-	else
-	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT);
-		//close(pipefd[1]); //
-		if (token->type == CMD)
-			simple_cmd(argv);
-	}
-}
-*/

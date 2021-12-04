@@ -53,11 +53,9 @@ static char	*create_path(char **cmd, char **envp)
 	split_free(paths);
 	if (access(cmd[0], 1) == 0)
 		return (cmd[0]);
-	//
-	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putstr_fd("minishell$: command not found: ", 2);
 	ft_putendl_fd(cmd[0], 2);
 	split_free(cmd);
-	//
 	exit(1);
 }
 
@@ -89,13 +87,31 @@ int simple_cmd(char **argv)
 	char	**new_argv;
 	int res;
 
-	new_argv = copy_argv(argv);
-	path = create_path(new_argv, __environ);
+	path = create_path(argv, __environ);
 	if ((res = execve(path, argv, __environ)) == -1)
 	{
 		perror("Error at simple_cmd");
-		free_char_list(new_argv);
 		exit(1);
 	}
-	return res; // эта строчка не работает
+	free(path);
+	return res;
+}
+
+void 	execute_last_cmd(t_minishell *shell, t_token *token)
+{
+	pid_t	parent;
+	char	**argv;
+	char 	*path;
+	char	**new_argv;
+
+	argv = create_argv(token);
+	parent = fork();
+	if (parent)
+	{
+		waitpid(parent, &shell->ret, 0);
+		handle_return_value(&shell->ret);
+		free_char_list(argv);
+	}
+	else
+		simple_cmd(argv);
 }

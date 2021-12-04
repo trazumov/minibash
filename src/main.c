@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
+/*   Updated: 2021/12/05 02:04:43 by svirgil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-static void post_init_tokens(t_token *token)
+static void	post_init_tokens(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = token;
 	while (tmp)
@@ -14,7 +26,7 @@ static void post_init_tokens(t_token *token)
 	}
 }
 
-static void update_history(char *input)
+static void	update_history(char *input)
 {
 	int	onlyspaces;
 	int	i;
@@ -34,8 +46,9 @@ static void update_history(char *input)
 		add_history(input);
 }
 
-static void pre_init(t_minishell *shell, char **arr)
+static void	pre_init(t_minishell *shell, char **arr)
 {
+	arr = NULL;
 	arr = __environ;
 	__environ = malloc_environ();
 	g_is_executed = FALSE;
@@ -43,7 +56,8 @@ static void pre_init(t_minishell *shell, char **arr)
 	shell->ret = 0;
 }
 
-static int main_cycle(t_minishell *shell, char **input, t_token **parsed_tokens, int first_call)
+static int	main_cycle(\
+t_minishell *shell, char **input, t_token **parsed_tokens, int first_call)
 {
 	init_shell(shell);
 	if (*input && !first_call)
@@ -56,26 +70,28 @@ static int main_cycle(t_minishell *shell, char **input, t_token **parsed_tokens,
 	*input = parse(parsed_tokens, *input, *shell);
 	if (*input == NULL)
 		return (2);
-	post_init_tokens(*parsed_tokens); // вывести в parse и тогда будет 25 строчек
+	post_init_tokens(*parsed_tokens);
 	shell->tokens = *parsed_tokens;
 	execution(shell);
 	free_tokens(parsed_tokens);
 	return (0);
 }
 
-int main(void)
+int	main(void)
 {
 	t_minishell	shell;
-	t_token		*parsed_tokens = NULL;
-	char		*input = NULL;
-	char		**arr = NULL;
+	t_token		*parsed_tokens;
+	char		*input;
+	char		**arr;
 	int			cycle;
-	
+
+	parsed_tokens = NULL;
+	input = NULL;
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	rl_catch_signals = 0;
 	input = readline("minishell$ ");
-	pre_init(&shell, arr);
+	pre_init(&shell, arr, &input);
 	cycle = main_cycle(&shell, &input, &parsed_tokens, TRUE);
 	while (shell.exit != TRUE)
 	{
