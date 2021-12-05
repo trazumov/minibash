@@ -57,6 +57,7 @@ char	**malloc_environ(void);
 int		get_env_size(char **arr);
 char	**realloc_environ(int diff, char *str);
 void	handle_negative_diff(char **arr, char *str, int size);
+void	free_environ(void);
 
 //utils
 int		ft_strcmp(const char *s1, const char *s2);

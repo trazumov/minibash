@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:24:02 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 22:24:05 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/05 18:37:25 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,17 @@ char	**malloc_environ(void)
 		arr[i] = ft_strdup(__environ[i]);
 	arr[i] = NULL;
 	return (arr);
+}
+
+void	free_environ(void)
+{
+	int	i;
+
+	i = 0;
+	while (__environ[i] != NULL)
+	{
+		free(__environ[i]);
+		i++;
+	}
+	free(__environ);
 }

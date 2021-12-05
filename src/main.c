@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/05 02:04:43 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/05 18:40:53 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static void	update_history(char *input)
 		add_history(input);
 }
 
-static void	pre_init(t_minishell *shell, char **arr)
+static void	pre_init(t_minishell *shell, char ***arr)
 {
-	arr = NULL;
-	arr = __environ;
+	*arr = NULL;
+	*arr = __environ;
 	__environ = malloc_environ();
 	g_is_executed = FALSE;
 	shell->exit = FALSE;
@@ -91,7 +91,7 @@ int	main(void)
 	signal(SIGQUIT, ft_signal);
 	rl_catch_signals = 0;
 	input = readline("minishell$ ");
-	pre_init(&shell, arr, &input);
+	pre_init(&shell, &arr);         //было pre_init(&shell, arr, &input);
 	cycle = main_cycle(&shell, &input, &parsed_tokens, TRUE);
 	while (shell.exit != TRUE)
 	{
@@ -101,7 +101,7 @@ int	main(void)
 		if (cycle == 2)
 			continue ;
 	}
-	free(__environ);
+	free_environ();             //было free(__environ)
 	__environ = arr;
 	return (shell.ret);
 }
