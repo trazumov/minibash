@@ -1,4 +1,35 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
+
+static int	pipes_cnt(t_minishell *shell)
+{
+	t_token	*tmp;
+	int		res;
+
+	tmp = shell->tokens;
+	res = 0;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+			res++;
+		tmp = tmp->next;
+	}
+	return (res);
+}
+
+
+void	execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe)
+{
+	shell->wait_s = pipes_cnt(shell) + 1;
+	if (shell->wait_s == 2)
+		the_only_pipe(shell, token, *curr_pipe);
+	else if (is_first_pipe(token))
+		first_pipe(shell, token, *curr_pipe);
+	else if (is_mid_pipe(token))
+		mid_pipe(shell, token, *curr_pipe);
+	else if (is_last_pipe(token))
+		last_pipe(shell, token, *curr_pipe);
+	(*curr_pipe)++;
+}
 
 static int ex_token(t_minishell *shell, t_token *token)
 {

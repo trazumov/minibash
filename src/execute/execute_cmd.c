@@ -66,3 +66,28 @@ void execute_pipe_cmd(t_minishell *shell, t_token *token)
 	close(pipefd[1]);
 	free_char_list(argv);
 }
+
+t_token	*get_prev_token(t_token *token)
+{
+	t_token	*res;
+
+	if (token->prev == NULL)
+		return (NULL);
+	else if (token->prev->type == PIPE)
+		return (token->prev);
+	else
+	{
+		res = token->prev;
+		while (res->prev && res->prev->type != PIPE)
+			res = res->prev;
+	}
+	return (res);
+}
+
+void	execute_token(t_minishell *shell, t_token *token)
+{
+	if (token->type == CMD || token->type == ARG)
+		execute_last_cmd(shell, token);
+	else if (token->type == BUILTIN)
+		execute_builtin(shell, token);
+}

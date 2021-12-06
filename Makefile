@@ -22,10 +22,11 @@ src/parser/quotes_handler.c\
 src/parser/bucks_handler.c\
 src/parser/parser_utils.c\
 src/env.c\
-src/redirections.c \
+src/redirections/redirections.c \
+src/redirections/redirect_out.c \
+src/redirections/redirect_heredoc.c \
 src/tokens.c\
-src/pipes.c\
-src/heredoc.c \
+src/pipes/pipes.c\
 src/gnl.c \
 src/gnl_utils.c \
 src/execute/execute_builtin.c\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/05 18:40:53 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/06 17:49:28 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(void)
 	signal(SIGQUIT, ft_signal);
 	rl_catch_signals = 0;
 	input = readline("minishell$ ");
-	pre_init(&shell, &arr);         //было pre_init(&shell, arr, &input);
+	pre_init(&shell, &arr);
 	cycle = main_cycle(&shell, &input, &parsed_tokens, TRUE);
 	while (shell.exit != TRUE)
 	{
@@ -101,7 +101,7 @@ int	main(void)
 		if (cycle == 2)
 			continue ;
 	}
-	free_environ();             //было free(__environ)
+	free_environ();
 	__environ = arr;
 	return (shell.ret);
 }

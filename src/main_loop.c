@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/04 23:56:01 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/06 17:56:59 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,7 @@ static t_token	*get_next_token(t_token *token)
 	return (res);
 }
 
-t_token	*get_prev_token(t_token *token)
-{
-	t_token	*res;
-
-	if (token->prev == NULL)
-		return (NULL);
-	else if (token->prev->type == PIPE)
-		return (token->prev);
-	else
-	{
-		res = token->prev;
-		while (res->prev && res->prev->type != PIPE)
-			res = res->prev;
-	}
-	return (res);
-}
-
-void	execute_token(t_minishell *shell, t_token *token)
-{
-	if (token->type == CMD || token->type == ARG)
-		execute_last_cmd(shell, token);
-	else if (token->type == BUILTIN)
-		execute_builtin(shell, token);
-}
-
-int	have_to_wait(t_minishell *shell)
+static int	have_to_wait(t_minishell *shell)
 {
 	t_token	*token;
 
@@ -75,36 +50,6 @@ int	have_to_wait(t_minishell *shell)
 		token = token->next;
 	}
 	return (FALSE);
-}
-
-static int	pipes_cnt(t_minishell *shell)
-{
-	t_token	*tmp;
-	int		res;
-
-	tmp = shell->tokens;
-	res = 0;
-	while (tmp)
-	{
-		if (tmp->type == PIPE)
-			res++;
-		tmp = tmp->next;
-	}
-	return (res);
-}
-
-static void	execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe)
-{
-	shell->wait_s = pipes_cnt(shell) + 1;
-	if (shell->wait_s == 2)
-		the_only_pipe(shell, token, *curr_pipe);
-	else if (is_first_pipe(token))
-		first_pipe(shell, token, *curr_pipe);
-	else if (is_mid_pipe(token))
-		mid_pipe(shell, token, *curr_pipe);
-	else if (is_last_pipe(token))
-		last_pipe(shell, token, *curr_pipe);
-	(*curr_pipe)++;
 }
 
 static void	wait_forks(t_minishell *shell)
@@ -123,7 +68,7 @@ static void	wait_forks(t_minishell *shell)
 	struct_pid_clear(&shell->childs);
 }
 
-void	main_body(t_minishell *shell)
+static void	main_loop(t_minishell *shell)
 {
 	t_token	*token;
 	int		curr_pipe;
@@ -154,7 +99,7 @@ void	main_body(t_minishell *shell)
 void	execution(t_minishell *shell)
 {
 	g_is_executed = TRUE;
-	main_body(shell);
+	main_loop(shell);
 	g_is_executed = FALSE;
 	unlink("here_doc");
 	if (dup2(shell->in, STDIN) == -1)
