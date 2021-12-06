@@ -44,7 +44,6 @@ typedef struct s_minishell
 	int		fd_out;
 	int		fd_in;
 	int		save_history; // сохранять истоирю или нет
-	int		wait_s; // сколько wait вызывать
 	t_token	*tokens;
 }	t_minishell;
 

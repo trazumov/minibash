@@ -33,16 +33,12 @@ t_token *get_prev_token(t_token *token);
 void	free_tokens(t_token **token);
 void	execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe);
 
-int is_first_pipe(t_token *token);
-int is_mid_pipe(t_token *token);
-int is_last_pipe(t_token *token);
-
 int	redirect_out(t_minishell *shell, t_token *token, int *new_output);
 
 void first_pipe(t_minishell *shell, t_token *token, int fd);
 void mid_pipe(t_minishell *shell, t_token *token, int fd);
 void last_pipe(t_minishell *shell, t_token *token, int fd);
-int the_only_pipe(t_minishell *shell, t_token *token, int fd);
+void the_only_pipe(t_minishell *shell, t_token *token, int fd);
 
 void	struct_pid_clear(t_pid_t **head);
 void	struct_pid_add(t_pid_t **head, t_pid_t *new);

@@ -27,6 +27,8 @@ src/redirections/redirect_out.c \
 src/redirections/redirect_heredoc.c \
 src/tokens.c\
 src/pipes/pipes.c\
+src/pipes/execute_pipe.c\
+src/pipes/first_mid_pipes.c\
 src/gnl.c \
 src/gnl_utils.c \
 src/execute/execute_builtin.c\
