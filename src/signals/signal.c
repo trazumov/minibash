@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/06 21:39:17 by svirgil           #+#    #+#             */
+/*   Updated: 2021/12/06 21:39:53 by svirgil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-static void do_nothing()
+static void	do_nothing(void)
 {
 	return ;
 }
@@ -32,7 +44,7 @@ void	on_eof(t_minishell *shell)
 	shell->exit = TRUE;
 }
 
-int ctrl_d(t_minishell *shell, char *input)
+int	ctrl_d(t_minishell *shell, char *input)
 {
 	if (input == NULL)
 	{

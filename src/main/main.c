@@ -6,11 +6,11 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 17:49:28 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/06 21:35:00 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	post_init_tokens(t_token *token)
 {

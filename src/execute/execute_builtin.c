@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 00:39:14 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/05 00:40:15 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/06 21:55:39 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_builtin(t_minishell *shell, t_token *token)
 		exit_status = ft_exit(token->next, shell);
 	else
 	{
-		printf("Builtin error\n");
+		ft_putstr_fd("minishell$: builtin error\n", 2);
 		exit_status = -2;
 	}
 	shell->ret = exit_status;

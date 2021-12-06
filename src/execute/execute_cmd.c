@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
+/*   Updated: 2021/12/06 21:59:19 by svirgil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-static int get_argv_size(t_token *token)
+static int	get_argv_size(t_token *token)
 {
 	int		res;
 	t_token	*tmp;
 
-	res = 1; // original name without NULL
+	res = 1;
 	tmp = token;
 	while (tmp->next && (tmp->next->type == CMD || tmp->next->type == ARG))
 	{
@@ -15,7 +27,7 @@ static int get_argv_size(t_token *token)
 	return (res);
 }
 
-char **create_argv(t_token *token)
+static char	**create_argv(t_token *token)
 {
 	int		size;
 	int		i;
@@ -36,52 +48,32 @@ char **create_argv(t_token *token)
 	return (res);
 }
 
-int 	execv_cmd(t_minishell *shell, t_token *token)
+void	execv_cmd(t_minishell *shell, t_token *token)
 {
-	int res;
+	int		res;
 	char	**argv;
 
 	argv = create_argv(token);
-	res = simple_cmd(argv);
-	return res;
+	simple_cmd(shell, argv);
 }
 
-// нет обработки билтина
-void execute_pipe_cmd(t_minishell *shell, t_token *token)
+void	execute_last_cmd(t_minishell *shell, t_token *token)
 {
 	pid_t	parent;
-	int		pipefd[2];
 	char	**argv;
+	char	*path;
+	char	**new_argv;
 
 	argv = create_argv(token);
-	pipe(pipefd);
 	parent = fork();
-	if (parent == 0)
+	if (parent)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT);
-		simple_cmd(argv);
+		waitpid(parent, &shell->ret, 0);
+		handle_return_value(&shell->ret);
+		free_char_list(argv);
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	free_char_list(argv);
-}
-
-t_token	*get_prev_token(t_token *token)
-{
-	t_token	*res;
-
-	if (token->prev == NULL)
-		return (NULL);
-	else if (token->prev->type == PIPE)
-		return (token->prev);
 	else
-	{
-		res = token->prev;
-		while (res->prev && res->prev->type != PIPE)
-			res = res->prev;
-	}
-	return (res);
+		simple_cmd(shell, argv);
 }
 
 void	execute_token(t_minishell *shell, t_token *token)

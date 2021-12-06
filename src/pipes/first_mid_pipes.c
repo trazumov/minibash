@@ -6,11 +6,28 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 20:19:45 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/06 21:51:46 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+t_token	*get_prev_token(t_token *token)
+{
+	t_token	*res;
+
+	if (token->prev == NULL)
+		return (NULL);
+	else if (token->prev->type == PIPE)
+		return (token->prev);
+	else
+	{
+		res = token->prev;
+		while (res->prev && res->prev->type != PIPE)
+			res = res->prev;
+	}
+	return (res);
+}
 
 void	first_pipe(t_minishell *shell, t_token *token, int fd)
 {

@@ -6,31 +6,31 @@ LIBFT_DIR = libft/
 
 LFAGS = -Wall -Wextra -Werror
 
-SRC = src/main.c \
-src/free.c \
+SRC = src/main/main.c \
+src/help/free.c \
 src/help/utils.c \
 src/signals/signal.c \
-src/init/init_shell.c \
+src/main/init_shell.c \
 src/execute/execute_bin.c \
 src/execute/execute_cmd.c \
-src/main_loop.c \
-src/t_pid_t.c \
-src/errors.c \
+src/main/main_loop.c \
+src/main/t_pid_t.c \
+src/help/errors.c \
 src/parser/preparser.c\
 src/parser/parser.c \
 src/parser/quotes_handler.c\
 src/parser/bucks_handler.c\
 src/parser/parser_utils.c\
-src/env.c\
+src/main/env.c\
 src/redirections/redirections.c \
 src/redirections/redirect_out.c \
 src/redirections/redirect_heredoc.c \
-src/tokens.c\
+src/main/tokens.c\
 src/pipes/pipes.c\
 src/pipes/execute_pipe.c\
 src/pipes/first_mid_pipes.c\
-src/gnl.c \
-src/gnl_utils.c \
+src/help/gnl.c \
+src/help/gnl_utils.c \
 src/execute/execute_builtin.c\
 src/builtins/ft_cd.c\
 src/builtins/ft_echo.c\

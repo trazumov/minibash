@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:37:17 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 22:39:50 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/06 21:34:11 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_token	*ft_new_token(void)
 {

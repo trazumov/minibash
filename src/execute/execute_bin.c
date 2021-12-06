@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_bin.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
+/*   Updated: 2021/12/06 22:04:07 by svirgil          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	split_free(char **paths)
@@ -29,6 +41,12 @@ static char	**find_paths(char **envp)
 	return (paths);
 }
 
+static void	print_command_error(char **cmd)
+{
+	ft_putstr_fd("minishell$: command not found: ", 2);
+	ft_putendl_fd(cmd[0], 2);
+}
+
 static char	*create_path(char **cmd, char **envp)
 {
 	int		i;
@@ -50,68 +68,24 @@ static char	*create_path(char **cmd, char **envp)
 		}
 		free(path);
 	}
+	print_command_error(cmd);
 	split_free(paths);
 	if (access(cmd[0], 1) == 0)
 		return (cmd[0]);
-	ft_putstr_fd("minishell$: command not found: ", 2);
-	ft_putendl_fd(cmd[0], 2);
 	split_free(cmd);
 	exit(1);
 }
 
-static char **copy_argv(char **from)
+void	simple_cmd(t_minishell *shell, char **argv)
 {
-	int		size = 1;
-	char	**res;
-	int i = 0;
-
-	while (from[i] != NULL)
-	{
-		size++;
-		i++;
-	}
-	res = malloc(sizeof(char *) * size);
-	i = 0;
-	while (from[i] != NULL)
-	{
-		res[i] = ft_strdup(from[i]);
-		i++;
-	}
-	res[i] = NULL;
-	return (res);
-}
-
-int simple_cmd(char **argv)
-{
-	char 	*path;
+	char	*path;
 	char	**new_argv;
-	int res;
 
 	path = create_path(argv, __environ);
-	if ((res = execve(path, argv, __environ)) == -1)
+	if ((execve(path, argv, __environ)) == -1)
 	{
-		perror("Error at simple_cmd");
+		perror(shell->message);
 		exit(1);
 	}
 	free(path);
-	return res;
-}
-
-void 	execute_last_cmd(t_minishell *shell, t_token *token)
-{
-	pid_t	parent;
-	char	**argv;
-	char 	*path;
-	char	**new_argv;
-
-	argv = create_argv(token);
-	parent = fork();
-	if (parent)
-	{
-		waitpid(parent, &shell->ret, 0);
-		handle_return_value(&shell->ret);
-		free_char_list(argv);
-	}
-	else
-		simple_cmd(argv);
 }
