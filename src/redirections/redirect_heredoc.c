@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 18:49:05 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/06 20:58:01 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,17 @@ static void	create_tmp_file(t_token *token)
 		free(line);
 		ft_putstr_fd("> ", 0);
 	}
+	if (*line == 0)
+		ft_putstr_fd("warning: here-document delimited by end-of-file\n", 2);
 	free(line);
-	close(in);
+	close_fd_save(in);
 }
 
 void	exec_here_doc(t_minishell *shell, t_token *token)
 {
 	if (dup2(shell->in, STDIN) == -1)
 		perror(shell->message);
-	close(shell->in);
+	close_fd_save(shell->in);
 	create_tmp_file(token);
 	shell->in = dup(STDIN);
 	if (shell->in == -1)
@@ -57,7 +59,7 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 	}
 	if (dup2(shell->fd_in, 0) == -1)
 		perror(shell->message);
-	close(shell->fd_in);
+	close_fd_save(shell->fd_in);
 }
 
 int	redirect_heredoc(t_minishell *shell, t_token *token, int *new_input)

@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 20:02:13 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/06 20:19:45 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	first_pipe(t_minishell *shell, t_token *token, int fd)
 	if (parent == 0)
 	{
 		dup2(shell->fds[fd][1], STDOUT);
-		close(shell->fds[fd][0]);
+		close_fd_save(shell->fds[fd][0]);
 		if (get_prev_token(token)->type == CMD)
 			execv_cmd(shell, get_prev_token(token));
 		else
@@ -49,9 +49,9 @@ void	mid_pipe(t_minishell *shell, t_token *token, int fd)
 	if (parent == 0)
 	{
 		dup2(shell->fds[fd - 1][0], STDIN);
-		close(shell->fds[fd - 1][1]);
+		close_fd_save(shell->fds[fd - 1][1]);
 		dup2(shell->fds[fd][1], STDOUT);
-		close(shell->fds[fd][0]);
+		close_fd_save(shell->fds[fd][0]);
 		if (get_prev_token(token)->type == CMD)
 			execv_cmd(shell, get_prev_token(token));
 		else
@@ -60,6 +60,6 @@ void	mid_pipe(t_minishell *shell, t_token *token, int fd)
 			exit (shell->ret);
 		}
 	}
-	close(shell->fds[fd - 1][0]);
-	close(shell->fds[fd - 1][1]);
+	close_fd_save(shell->fds[fd - 1][0]);
+	close_fd_save(shell->fds[fd - 1][1]);
 }
