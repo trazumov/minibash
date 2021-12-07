@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_bin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/07 17:53:04 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/07 20:14:00 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static char	**find_paths(char **envp)
 	paths = ft_split(envp[i] + 5, ':');
 	return (paths);
 }
-
 
 static void	print_command_error(char **cmd)
 {
@@ -80,7 +79,7 @@ static char	*create_path(char **cmd, char **envp)
 void	simple_cmd(t_minishell *shell, char **argv)
 {
 	char	*path;
-	
+
 	path = create_path(argv, __environ);
 	if ((execve(path, argv, __environ)) == -1)
 	{

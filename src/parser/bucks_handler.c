@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 21:49:40 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/05 03:57:36 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/07 19:43:53 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ char	*handle_bucks(char *str, int *start, t_minishell msh)
 			return (remove_invalid_var_name(str, "1", start));
 		while (ft_isalnum(str[i]) || str[i] == '_')
 			i++;
-		// if (i == *start + 1)
-		// 	return (str);
 		var_name = ft_substr(str, *start + 1, i - *start - 1);
 		var_value = getenv(var_name);
 		if (var_value == NULL)
