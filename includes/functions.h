@@ -7,8 +7,7 @@ void	init_shell(t_minishell *shell);
 void	free_data(t_token *a_tokens, t_token *b_tokens);
 void	execution(t_minishell *shell);
 
-void simple_cmd(t_minishell *shell, char **argv);
-int		imple_cmd(char **argv);
+void	simple_cmd(t_minishell *shell, char **argv);
 void	free_char_list(char **list);
 void 	execute_last_cmd(t_minishell *shell, t_token *token);
 int		open_file_error(t_minishell *shell);
@@ -42,8 +41,11 @@ void the_only_pipe(t_minishell *shell, t_token *token, int fd);
 void	struct_pid_clear(t_pid_t **head);
 void	struct_pid_add(t_pid_t **head, t_pid_t *new);
 t_pid_t	*struct_pid_new(pid_t value);
-int ctrl_d(t_minishell *shell, char *input);
+int		ctrl_d(t_minishell *shell, char *input);
 void	close_fd_save(int fd);
 void	handle_return_value(int *return_value);
+void	set_io(t_minishell *shell, t_token *token, int fd);
+int	token_has_redir_out(t_minishell *shell, t_token *token);
+int	pipes_count(t_minishell *shell);
 
 #endif

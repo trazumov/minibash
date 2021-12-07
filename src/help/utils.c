@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/06 21:28:50 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/08 00:06:46 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,20 @@ void	handle_return_value(int *return_value)
 		*return_value = 127;
 	else
 		*return_value = WEXITSTATUS(*return_value);
+}
+
+int	pipes_count(t_minishell *shell)
+{
+	int		pipes_cnt;
+	t_token	*token;
+	
+	token = shell->tokens;
+	pipes_cnt = 0;
+	while (token)
+	{
+		if (token->type == PIPE)
+			pipes_cnt++;
+		token = token->next;
+	}
+	return (pipes_cnt);
 }

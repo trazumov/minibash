@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 21:33:51 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/08 00:12:09 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static void	main_loop(t_minishell *shell)
 
 	token = shell->tokens;
 	curr_pipe = 0;
-	set_redirection(shell);
+	if (pipes_count(shell) == 0)
+		set_redirection(shell);
 	while (token)
 	{
 		if (shell->error)

@@ -6,12 +6,15 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 21:51:46 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/08 00:53:19 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+Returns prev execv token or builtin token
+*/
 t_token	*get_prev_token(t_token *token)
 {
 	t_token	*res;
@@ -25,6 +28,14 @@ t_token	*get_prev_token(t_token *token)
 		res = token->prev;
 		while (res->prev && res->prev->type != PIPE)
 			res = res->prev;
+	}
+	if (res->skip)
+	{
+		res = res->next;
+		while (res->type > BUILTIN)
+			res = res->next;
+		if (res->prev && res->prev->type >= REDIR_OUT)
+			res = res->next;
 	}
 	return (res);
 }

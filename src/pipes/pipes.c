@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 21:50:01 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/08 01:00:33 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	execute_child_left(t_minishell *shell, t_token *token, int fd)
 
 static void	execute_child_right(t_minishell *shell, t_token *token, int fd)
 {
+	//if (!redirect_after_token(token->next))
 	dup2(shell->fds[fd][0], STDIN);
 	close_fd_save(shell->fds[fd][1]);
 	if (token->next->type == CMD)
@@ -65,24 +66,33 @@ void	last_pipe(t_minishell *shell, t_token *token, int fd)
 	close_fd_save(shell->fds[fd][1]);
 }
 
+void	set_io(t_minishell *shell, t_token *token, int fd)
+{
+	if (!token_has_redir_out(shell, token))
+		dup2(shell->fds[0][1], STDOUT);
+	close_fd_save(shell->fds[0][0]);
+}
+
 void	the_only_pipe(t_minishell *shell, t_token *token, int fd)
 {
 	pid_t	parent;
 	pid_t	cmd;
-
+	t_token	*execute_token;
+	
 	if (pipe(shell->fds[0]) == -1)
 		perror(shell->message);
 	parent = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == 0)
 	{
-		dup2(shell->fds[0][1], STDOUT);
-		close_fd_save(shell->fds[0][0]);
-		if (get_prev_token(token)->type == CMD)
-			execv_cmd(shell, get_prev_token(token));
+		//getchar();
+		execute_token = get_prev_token(token);
+		set_io(shell, execute_token, fd);
+		if (execute_token->type == CMD || execute_token->type == ARG)
+			execv_cmd(shell, execute_token);
 		else
 		{
-			shell->ret = (execute_builtin(shell, get_prev_token(token)));
+			shell->ret = (execute_builtin(shell, execute_token));
 			exit (shell->ret);
 		}
 	}

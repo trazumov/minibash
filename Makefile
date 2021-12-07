@@ -1,6 +1,6 @@
 NAME = minibash
 
-CC = clang $(FLAGS)
+CC = clang -g
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -24,6 +24,7 @@ src/parser/quotes_handler.c\
 src/parser/bucks_handler.c\
 src/parser/parser_utils.c\
 src/main/env.c\
+src/redirections/redirect.c \
 src/redirections/redirections.c \
 src/redirections/redirect_out.c \
 src/redirections/redirect_heredoc.c \
