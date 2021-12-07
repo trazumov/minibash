@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:08 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 18:57:22 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/07 17:02:48 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ static void	handle_new_ouput(t_minishell *shell, t_token *token)
 {
 	get_prev_redir(token)->skip = TRUE;
 	close_fd_save(shell->fd_out);
-}
-
-static int	is_redir_out(int type)
-{
-	if (type == REDIR_OUT || type == REDIR_OUT_2)
-		return (TRUE);
-	return (FALSE);
 }
 
 /*

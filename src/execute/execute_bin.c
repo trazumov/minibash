@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 22:04:07 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/07 17:53:04 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static char	**find_paths(char **envp)
 	return (paths);
 }
 
+
 static void	print_command_error(char **cmd)
 {
 	ft_putstr_fd("minishell$: command not found: ", 2);
@@ -68,10 +69,10 @@ static char	*create_path(char **cmd, char **envp)
 		}
 		free(path);
 	}
-	print_command_error(cmd);
 	split_free(paths);
 	if (access(cmd[0], 1) == 0)
 		return (cmd[0]);
+	print_command_error(cmd);
 	split_free(cmd);
 	exit(1);
 }
@@ -79,8 +80,7 @@ static char	*create_path(char **cmd, char **envp)
 void	simple_cmd(t_minishell *shell, char **argv)
 {
 	char	*path;
-	char	**new_argv;
-
+	
 	path = create_path(argv, __environ);
 	if ((execve(path, argv, __environ)) == -1)
 	{

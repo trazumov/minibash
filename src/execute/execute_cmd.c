@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 21:59:19 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/07 17:02:05 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static char	**create_argv(t_token *token)
 
 void	execv_cmd(t_minishell *shell, t_token *token)
 {
-	int		res;
 	char	**argv;
 
 	argv = create_argv(token);
@@ -61,9 +60,7 @@ void	execute_last_cmd(t_minishell *shell, t_token *token)
 {
 	pid_t	parent;
 	char	**argv;
-	char	*path;
-	char	**new_argv;
-
+	
 	argv = create_argv(token);
 	parent = fork();
 	if (parent)

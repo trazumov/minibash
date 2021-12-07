@@ -1,6 +1,8 @@
 NAME = minibash
 
-CC = clang -g
+CC = clang $(FLAGS)
+
+FLAGS = -Wall -Wextra -Werror
 
 LIBFT_DIR = libft/
 
