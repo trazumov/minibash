@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:11:30 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 23:03:23 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/07 23:33:41 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*parser(char *str, char **array, int token_ct, t_minishell msh)
 	return (str);
 }
 
-char	*parse(t_token **token, char *str, t_minishell msh)
+char	*parse(t_token **token, char *str, t_minishell *msh)
 {
 	char	**array;
 	int		sep_ct;
@@ -75,10 +75,11 @@ char	*parse(t_token **token, char *str, t_minishell msh)
 	if (check_leading_pipe(str) == -1 || preparser(str, &sep_ct) == -1)
 	{
 		free(str);
+		msh->ret = 2;
 		return (NULL);
 	}
 	array = malloc((sep_ct + 1) * sizeof(*array));
-	str = parser(str, array, sep_ct + 1, msh);
+	str = parser(str, array, sep_ct + 1, *msh);
 	create_tokens(token, array, sep_ct + 1);
 	free(array);
 	return (str);
