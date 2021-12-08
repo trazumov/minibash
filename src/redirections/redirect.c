@@ -6,11 +6,32 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:18:32 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/08 00:20:09 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/08 02:39:45 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	handle_new_heredoc(t_minishell *shell, t_token *token)
+{}
+
+void	handle_new_in(t_minishell *shell, t_token *token)
+{
+	char	*file;
+	
+	close_fd_save(shell->fd_in);
+	if (token->next->type == CMD || token->next->type == ARG)
+	{
+		shell->fd_in = open(token->next->str, O_RDONLY, S_IRWXU);
+		if (shell->fd_in == -1)
+		{
+			shell->error = TRUE;
+			perror(shell->message);
+			return ;
+		}
+		dup2(shell->fd_in, STDIN);
+	}
+}
 
 void	handle_new_out(t_minishell *shell, t_token *token)
 {
@@ -33,6 +54,7 @@ void	handle_new_out(t_minishell *shell, t_token *token)
 		dup2(shell->fd_out, STDOUT);
 	}
 }
+
 int	token_has_redir_out(t_minishell *shell, t_token *token)
 {
 	t_token	*find_next;
@@ -49,6 +71,33 @@ int	token_has_redir_out(t_minishell *shell, t_token *token)
 			{
 				ret = TRUE;
 				handle_new_out(shell, find_next);
+			}
+		find_next = find_next->next;
+	}
+	return (ret);
+}
+
+int	token_has_redir_in(t_minishell *shell, t_token *token)
+{
+	t_token	*find_next;
+	int		ret;
+
+	ret = FALSE;
+	
+	find_next = token;
+	while (find_next->prev && find_next->prev->type != PIPE)
+		find_next = find_next->prev;
+	while (find_next && find_next->type != PIPE)
+	{
+		if (find_next->type == REDIR_IN)
+			{
+				ret = TRUE;
+				handle_new_in(shell, find_next);
+			}
+		if (find_next->type == REDIR_HEREDOC)
+			{
+				ret = TRUE;
+				handle_new_heredoc(shell, find_next);
 			}
 		find_next = find_next->next;
 	}
