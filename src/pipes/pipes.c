@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/08 23:38:30 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/09 00:38:12 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	execute_child_first(t_minishell *shell, t_token *token, int fd)
 	else
 	{
 		shell->ret = (execute_builtin(shell, execute_token));
+		free_environ();
 		exit (shell->ret);
 	}
 }
@@ -55,6 +56,7 @@ static void	execute_child_right(t_minishell *shell, t_token *token, int fd)
 	else
 	{
 		shell->ret = (execute_builtin(shell, execute_token));
+		free_environ();
 		exit (shell->ret);
 	}
 }
@@ -128,3 +130,4 @@ void	the_only_pipe(t_minishell *shell, t_token *token, int fd)
 	close_fd_save(shell->fds[0][0]);
 	close_fd_save(shell->fds[0][1]);
 }
+
