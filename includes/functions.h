@@ -44,10 +44,12 @@ t_pid_t	*struct_pid_new(pid_t value);
 int		ctrl_d(t_minishell *shell, char *input);
 void	close_fd_save(int fd);
 void	handle_return_value(int *return_value);
-void	set_io(t_minishell *shell, t_token *token, int fd);
-void	set_io_r(t_minishell *shell, t_token *token, int fd);
+void	set_io_first(t_minishell *shell, t_token *token, int fd);
+void	set_io_last(t_minishell *shell, t_token *token, int fd);
 int	token_has_redir_out(t_minishell *shell, t_token *token);
 int	token_has_redir_in(t_minishell *shell, t_token *token);
 int	pipes_count(t_minishell *shell);
+void	execute_child_first(t_minishell *shell, t_token *token, int fd);
+void	execute_child_right(t_minishell *shell, t_token *token, int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/08 00:53:19 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/09 20:43:00 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,52 @@ t_token	*get_prev_token(t_token *token)
 	return (res);
 }
 
+static void set_io_mid(t_minishell *shell, t_token *token, int fd)
+{
+
+}
+
+static void execute_child_mid(t_minishell *shell, t_token *token, int fd)
+{
+	t_token *execute_token;
+
+	execute_token = get_prev_token(token);
+	if (!token_has_redir_in(shell, execute_token))
+	{
+		dup2(shell->fds[fd - 1][0], STDIN);
+		close_fd_save(shell->fds[fd - 1][1]);
+	}
+	if (!token_has_redir_out(shell, execute_token))
+	{
+		dup2(shell->fds[fd][1], STDOUT);
+		close_fd_save(shell->fds[fd][0]);
+	}
+	if (execute_token->type == CMD || execute_token->type == ARG)
+		execv_cmd(shell, execute_token);
+	else
+	{
+		shell->ret = (execute_builtin(shell, execute_token));
+		free_environ();
+		exit (shell->ret);
+	}
+}
+
 void	first_pipe(t_minishell *shell, t_token *token, int fd)
 {
 	pid_t	parent;
 
 	if (pipe(shell->fds[fd]) != 0)
-		ft_putstr_fd("Pipe error\n", 2);
+		perror(shell->message);
 	parent = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == -1)
-		ft_putstr_fd("Fork error\n", 2);
+		perror(shell->message);
 	if (parent == 0)
 	{
-		dup2(shell->fds[fd][1], STDOUT);
+		execute_child_first(shell, token, fd);
+		/*
+		if (!token_has_redir_out(shell, get_prev_token(token)))
+			dup2(shell->fds[fd][1], STDOUT);
 		close_fd_save(shell->fds[fd][0]);
 		if (get_prev_token(token)->type == CMD)
 			execv_cmd(shell, get_prev_token(token));
@@ -61,6 +94,7 @@ void	first_pipe(t_minishell *shell, t_token *token, int fd)
 			shell->ret = (execute_builtin(shell, get_prev_token(token)));
 			exit (shell->ret);
 		}
+		*/
 	}
 }
 
@@ -69,13 +103,15 @@ void	mid_pipe(t_minishell *shell, t_token *token, int fd)
 	pid_t	parent;
 
 	if (pipe(shell->fds[fd]) != 0)
-		ft_putstr_fd("Pipe error\n", 2);
+		perror(shell->message);
 	parent = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == -1)
-		ft_putstr_fd("Fork error\n", 2);
+		perror(shell->message);
 	if (parent == 0)
 	{
+		execute_child_mid(shell, token, fd);
+		/*
 		dup2(shell->fds[fd - 1][0], STDIN);
 		close_fd_save(shell->fds[fd - 1][1]);
 		dup2(shell->fds[fd][1], STDOUT);
@@ -87,6 +123,7 @@ void	mid_pipe(t_minishell *shell, t_token *token, int fd)
 			shell->ret = (execute_builtin(shell, get_prev_token(token)));
 			exit (shell->ret);
 		}
+		*/
 	}
 	close_fd_save(shell->fds[fd - 1][0]);
 	close_fd_save(shell->fds[fd - 1][1]);
