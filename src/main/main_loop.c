@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:49:08 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 20:08:55 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static t_token	*get_next_token(t_token *token)
 	t_token	*res;
 	int		next_type;
 
+	res = token->next;
 	if (token->next == NULL)
 		return (NULL);
 	next_type = token->next->type;
