@@ -29,14 +29,7 @@ LIBFT =		$(LIBFT_DIR)/libft.a
 
 RM =		rm -f
 
-TERMCAMP =	-ltermcap -lreadline -lncurses
-
-#LFAGS =		-Wall -Wextra -Werror
-
-#TERMCAMP = -lreadline -lncurses
-
-#.c.o:
-#	$(CC) -c $< -o $(<:.c=.o) 
+RDL_FLAGS =	-lreadline
 
 all:		subsystem $(NAME)
 
@@ -47,7 +40,7 @@ subsystem:
 			make -C $(LIBFT_DIR)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $^ $(TERMCAMP) -L$(LIBFT_DIR) -lft -o $(NAME)
+			$(CC) $(CFLAGS) $^ $(RDL_FLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
 
 clean:
 			$(RM) $(OBJS)
