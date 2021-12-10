@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 20:45:29 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 21:13:47 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ typedef struct s_minishell
 	t_pid_t	*childs;
 	char	*message;
 	int		exit;
-	int		fds[100][2]; // file descriptors
+	int		fds[100][2];
 	int		ret;
 	int		error;
 	int		in;
 	int		out;
 	int		fd_out;
 	int		fd_in;
-	int		save_history; // сохранять истоирю или нет
+	int		save_history;
 	t_token	*tokens;
 }	t_minishell;
 
