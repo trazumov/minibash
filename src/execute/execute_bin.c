@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:48:40 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 20:16:09 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	**find_paths(char **envp)
 
 static void	print_command_error(char **cmd)
 {
-	ft_putstr_fd("minishell$: command not found: ", 2);
+	ft_putstr_fd("minishell: command not found: ", 2);
 	ft_putendl_fd(cmd[0], 2);
 }
 
