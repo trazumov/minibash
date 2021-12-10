@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 19:51:41 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 20:45:29 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ char	*handle_bucks(char *str, int *start, t_minishell msh);
 char	*replace_bucks(char *str, int i, int *start, char *var_value);
 char	*remove_invalid_var_name(char *str, char *var_name, int *start);
 void	free_intermediate_strings(char *temp, char *part_1, char *part_2);
+char	*handle_invalid_name(char *str, int *start);
 void	add_to_array(char *str, char **array, t_parser *vars);
 
 //tokens
