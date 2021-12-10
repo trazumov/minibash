@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/09 20:59:56 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 15:48:45 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_minishell *shell, char **input, t_token **parsed_tokens, int first_call)
 		*input = readline(shell->message);
 	if (ctrl_d(shell, *input))
 	{
-		//free_tokens(parsed_tokens);
 		free(shell->message);
 		return (1);
 	}

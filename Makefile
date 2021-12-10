@@ -30,6 +30,7 @@ src/redirections/redirect_out.c \
 src/redirections/redirect_heredoc.c \
 src/main/tokens.c\
 src/pipes/pipes.c\
+src/pipes/io.c\
 src/pipes/execute_pipe.c\
 src/pipes/first_mid_pipes.c\
 src/help/gnl.c \

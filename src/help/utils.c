@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/08 00:06:46 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 15:49:07 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	pipes_count(t_minishell *shell)
 {
 	int		pipes_cnt;
 	t_token	*token;
-	
+
 	token = shell->tokens;
 	pipes_cnt = 0;
 	while (token)

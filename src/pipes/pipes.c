@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/09 20:40:08 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 16:08:33 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	execute_child_first(t_minishell *shell, t_token *token, int fd)
 {
 	t_token	*execute_token;
-	
+
 	execute_token = get_prev_token(token);
 	set_io_first(shell, execute_token, fd);
 	if (execute_token->type == CMD || execute_token->type == ARG)
@@ -30,7 +30,7 @@ void	execute_child_first(t_minishell *shell, t_token *token, int fd)
 
 static void	execute_child_left(t_minishell *shell, t_token *token, int fd)
 {
-	t_token *execute_token;
+	t_token	*execute_token;
 
 	execute_token = get_prev_token(token);
 	if (!token_has_redir_in(shell, execute_token))
@@ -53,7 +53,6 @@ static void	execute_child_left(t_minishell *shell, t_token *token, int fd)
 	}
 }
 
-// rename to last
 void	execute_child_right(t_minishell *shell, t_token *token, int fd)
 {
 	t_token	*execute_token;
@@ -69,9 +68,6 @@ void	execute_child_right(t_minishell *shell, t_token *token, int fd)
 		exit (shell->ret);
 	}
 }
-
-static void exe_child_last_l(t_minishell *shell, t_token *token, int fd)
-{}
 
 void	last_pipe(t_minishell *shell, t_token *token, int fd)
 {
@@ -98,33 +94,12 @@ void	last_pipe(t_minishell *shell, t_token *token, int fd)
 	close_fd_save(shell->fds[fd][1]);
 }
 
-void	set_io_first(t_minishell *shell, t_token *token, int fd)
-{
-	token_has_redir_in(shell, token);
-	if (!token_has_redir_out(shell, token))
-		dup2(shell->fds[fd][1], STDOUT);
-	close_fd_save(shell->fds[fd][0]);
-}
-
-
-void	set_io_last(t_minishell *shell, t_token *token, int fd)
-{
-	if (!token_has_redir_in(shell, token))
-	{
-		dup2(shell->fds[fd][0], STDIN);
-		close_fd_save(shell->fds[fd][1]);
-	}
-	if (token_has_redir_out(shell, token))
-	{
-	}
-}
-
 void	the_only_pipe(t_minishell *shell, t_token *token, int fd)
 {
 	pid_t	parent;
 	pid_t	cmd;
 	t_token	*execute_token;
-	
+
 	if (pipe(shell->fds[0]) == -1)
 		perror(shell->message);
 	parent = fork();
@@ -138,4 +113,3 @@ void	the_only_pipe(t_minishell *shell, t_token *token, int fd)
 	close_fd_save(shell->fds[0][0]);
 	close_fd_save(shell->fds[0][1]);
 }
-

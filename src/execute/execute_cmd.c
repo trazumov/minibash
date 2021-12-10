@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/07 17:02:05 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 15:48:26 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	execute_last_cmd(t_minishell *shell, t_token *token)
 {
 	pid_t	parent;
 	char	**argv;
-	
+
 	argv = create_argv(token);
 	parent = fork();
 	if (parent)
