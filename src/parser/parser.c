@@ -6,11 +6,11 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:11:30 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/07 23:33:41 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:55:28 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	add_to_array(char *str, char **array, t_parser *vars)
 {

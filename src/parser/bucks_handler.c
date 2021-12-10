@@ -6,11 +6,11 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 21:49:40 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/07 19:43:53 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:55:20 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	free_intermediate_strings(char *temp, char *part_1, char *part_2)
 {

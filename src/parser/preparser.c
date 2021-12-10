@@ -6,11 +6,11 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 21:38:04 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 23:03:13 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:55:32 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	check_leading_pipe(char *str)
 {

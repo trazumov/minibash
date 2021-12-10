@@ -6,11 +6,11 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:26:26 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 22:55:06 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:53:13 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	print_sorted_env(void)
 {

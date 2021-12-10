@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   t_pid_t.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:29:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/06 21:37:57 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 17:55:03 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 t_pid_t	*struct_pid_new(pid_t value)
 {

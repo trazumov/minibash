@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:08:44 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 16:09:23 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 17:55:57 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	set_io_first(t_minishell *shell, t_token *token, int fd)
 {

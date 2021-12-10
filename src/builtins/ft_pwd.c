@@ -6,11 +6,11 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:43:17 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 22:43:21 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:53:24 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	ft_pwd(void)
 {

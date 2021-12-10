@@ -6,11 +6,11 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:33:22 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 23:03:28 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:55:24 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	ft_isspace(int c)
 {

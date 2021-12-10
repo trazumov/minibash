@@ -6,11 +6,11 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:42:21 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/03 22:42:24 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:52:50 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	ft_echo(t_token *token)
 {
