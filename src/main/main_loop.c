@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 17:54:54 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:27:17 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	execution(t_minishell *shell)
 	g_is_executed = FALSE;
 	unlink("here_doc");
 	if (dup2(shell->in, STDIN) == -1)
-		perror(shell->message);
+		perror("minishell:");
 	if (dup2(shell->out, STDOUT) == -1)
-		perror(shell->message);
+		perror("minishell:");
 	close_fd_save(shell->in);
 	close_fd_save(shell->out);
 	close_fd_save(shell->fd_out);

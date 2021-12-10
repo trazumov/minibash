@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:18:32 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 17:56:25 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:28:07 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_new_in(t_minishell *shell, t_token *token)
 		if (shell->fd_in == -1)
 		{
 			shell->error = TRUE;
-			perror(shell->message);
+			perror("minishell:");
 			return ;
 		}
 		dup2(shell->fd_in, STDIN);
@@ -53,7 +53,7 @@ void	handle_new_out(t_minishell *shell, t_token *token)
 		if (shell->fd_out == -1)
 		{
 			shell->error = TRUE;
-			perror(shell->message);
+			perror("minishell:");
 			return ;
 		}
 		dup2(shell->fd_out, STDOUT);
