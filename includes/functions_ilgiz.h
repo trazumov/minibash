@@ -2,7 +2,7 @@
 # define FUNCTIONS_ILGIZ_H
 
 //parser
-char	*parse(t_token **token, char *str, t_minishell msh);
+char	*parse(t_token **token, char *str, t_minishell *msh);
 int		preparser(char *str, int *sep_ct);
 int		check_leading_pipe(char *str);
 int		ft_isspace(int c);
