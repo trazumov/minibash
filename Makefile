@@ -1,6 +1,6 @@
 NAME = minibash
 
-CC = clang -g
+CC = clang -g $(FLAGS)
 
 FLAGS = -Wall -Wextra -Werror
 
