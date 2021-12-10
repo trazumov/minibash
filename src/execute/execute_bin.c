@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 20:16:09 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 00:39:01 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static char	**find_paths(char **envp)
 			break ;
 		i++;
 	}
+	if (envp[i] == NULL)
+		return (NULL);
 	paths = ft_split(envp[i] + 5, ':');
 	return (paths);
 }
@@ -55,6 +57,12 @@ static char	*create_path(char **cmd, char **envp)
 	char	**paths;
 
 	paths = find_paths(envp);
+	if (paths == NULL)
+	{
+		print_command_error(cmd);
+		split_free(cmd);
+		exit(1);
+	}
 	i = -1;
 	while (paths[++i] != NULL)
 	{
