@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:27:07 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:39:29 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char	*create_path(char **cmd, char **envp)
 	exit(1);
 }
 
-void	simple_cmd(t_minishell *shell, char **argv)
+void	simple_cmd(char **argv)
 {
 	char	*path;
 

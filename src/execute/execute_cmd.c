@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 17:53:50 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:40:49 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static char	**create_argv(t_token *token)
 	return (res);
 }
 
-void	execv_cmd(t_minishell *shell, t_token *token)
+void	execv_cmd(t_token *token)
 {
 	char	**argv;
 
 	argv = create_argv(token);
-	simple_cmd(shell, argv);
+	simple_cmd(argv);
 }
 
 void	execute_last_cmd(t_minishell *shell, t_token *token)
@@ -70,7 +70,7 @@ void	execute_last_cmd(t_minishell *shell, t_token *token)
 		free_char_list(argv);
 	}
 	else
-		simple_cmd(shell, argv);
+		simple_cmd(argv);
 }
 
 void	execute_token(t_minishell *shell, t_token *token)

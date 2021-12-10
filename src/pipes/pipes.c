@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:27:53 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:41:51 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	execute_child_first(t_minishell *shell, t_token *token, int fd)
 	execute_token = get_prev_token(token);
 	set_io_first(shell, execute_token, fd);
 	if (execute_token->type == CMD || execute_token->type == ARG)
-		execv_cmd(shell, execute_token);
+		execv_cmd(execute_token);
 	else
 	{
 		shell->ret = (execute_builtin(shell, execute_token));
@@ -44,7 +44,7 @@ static void	execute_child_left(t_minishell *shell, t_token *token, int fd)
 		close_fd_save(shell->fds[fd][0]);
 	}
 	if (execute_token->type == CMD || execute_token->type == ARG)
-		execv_cmd(shell, get_prev_token(token));
+		execv_cmd(get_prev_token(token));
 	else
 	{
 		shell->ret = (execute_builtin(shell, execute_token));
@@ -60,7 +60,7 @@ void	execute_child_right(t_minishell *shell, t_token *token, int fd)
 	execute_token = token->next;
 	set_io_last(shell, execute_token, fd);
 	if (execute_token->type == CMD || execute_token->type == ARG)
-		execv_cmd(shell, execute_token);
+		execv_cmd(execute_token);
 	else
 	{
 		shell->ret = (execute_builtin(shell, execute_token));

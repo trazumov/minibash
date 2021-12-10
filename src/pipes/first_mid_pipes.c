@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:27:38 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:41:38 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	execute_child_mid(t_minishell *shell, t_token *token, int fd)
 		close_fd_save(shell->fds[fd][0]);
 	}
 	if (execute_token->type == CMD || execute_token->type == ARG)
-		execv_cmd(shell, execute_token);
+		execv_cmd(execute_token);
 	else
 	{
 		shell->ret = (execute_builtin(shell, execute_token));

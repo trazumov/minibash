@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 17:59:09 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/10 19:41:34 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	init_shell(t_minishell *shell);
 void	free_data(t_token *a_tokens, t_token *b_tokens);
 void	execution(t_minishell *shell);
 
-void	simple_cmd(t_minishell *shell, char **argv);
+void	simple_cmd(char **argv);
 int		imple_cmd(char **argv);
 void	free_char_list(char **list);
 void	execute_last_cmd(t_minishell *shell, t_token *token);
@@ -120,7 +120,7 @@ char	*gnl_strjoin(char *s1, char const *s2);
 size_t	gnl_strlcpy(char *dst, const char *src, size_t dstsize);
 
 void	execute_token(t_minishell *shell, t_token *token);
-void	execv_cmd(t_minishell *shell, t_token *token);
+void	execv_cmd(t_token *token);
 t_token	*get_prev_token(t_token *token);
 
 void	free_tokens(t_token **token);
