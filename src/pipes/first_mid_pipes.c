@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:41:38 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:49:22 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ void	first_pipe(t_minishell *shell, t_token *token, int fd)
 	pid_t	parent;
 
 	if (pipe(shell->fds[fd]) != 0)
-		perror("minishell:");
+		perror("minishell");
 	parent = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == -1)
-		perror("minishell:");
+		perror("minishell");
 	if (parent == 0)
 		execute_child_first(shell, token, fd);
 }
@@ -84,11 +84,11 @@ void	mid_pipe(t_minishell *shell, t_token *token, int fd)
 	pid_t	parent;
 
 	if (pipe(shell->fds[fd]) != 0)
-		perror("minishell:");
+		perror("minishell");
 	parent = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == -1)
-		perror("minishell:");
+		perror("minishell");
 	if (parent == 0)
 		execute_child_mid(shell, token, fd);
 	close_fd_save(shell->fds[fd - 1][0]);

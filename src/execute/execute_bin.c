@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:39:29 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:48:40 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	simple_cmd(char **argv)
 	path = create_path(argv, __environ);
 	if ((execve(path, argv, __environ)) == -1)
 	{
-		perror("minishell:");
+		perror("minishell");
 		exit(1);
 	}
 	free(path);

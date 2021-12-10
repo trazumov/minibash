@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 19:41:34 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:51:41 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,5 +207,6 @@ void	free_environ(void);
 
 //utils
 int		ft_strcmp(const char *s1, const char *s2);
+void	free_on_exit(char **input);
 
 #endif

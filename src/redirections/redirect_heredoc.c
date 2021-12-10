@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:28:21 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:49:58 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,21 @@ static void	create_tmp_file(t_token *token)
 void	exec_here_doc(t_minishell *shell, t_token *token)
 {
 	if (dup2(shell->in, STDIN) == -1)
-		perror("minishell:");
+		perror("minishell");
 	close_fd_save(shell->in);
 	create_tmp_file(token);
 	shell->in = dup(STDIN);
 	if (shell->in == -1)
-		perror("minishell:");
+		perror("minishell");
 	shell->fd_in = open("here_doc", O_RDONLY);
 	if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
 	{
-		perror("minishell:");
+		perror("minishell");
 		shell->error = TRUE;
 		exit(EXIT_FAILURE);
 	}
 	if (dup2(shell->fd_in, 0) == -1)
-		perror("minishell:");
+		perror("minishell");
 	close_fd_save(shell->fd_in);
 }
 

@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:41:51 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/10 19:49:33 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ void	last_pipe(t_minishell *shell, t_token *token, int fd)
 	pid_t	cmd;
 
 	if (pipe(shell->fds[fd]) != 0)
-		perror("minishell:");
+		perror("minishell");
 	parent = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == -1)
-		perror("minishell:");
+		perror("minishell");
 	if (parent == 0)
 		execute_child_left(shell, token, fd);
 	close_fd_save(shell->fds[fd - 1][0]);
@@ -87,7 +87,7 @@ void	last_pipe(t_minishell *shell, t_token *token, int fd)
 	cmd = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(cmd));
 	if (cmd == -1)
-		perror("minishell:");
+		perror("minishell");
 	if (cmd == 0)
 		execute_child_right(shell, token, fd);
 	close_fd_save(shell->fds[fd][0]);
@@ -100,7 +100,7 @@ void	the_only_pipe(t_minishell *shell, t_token *token, int fd)
 	pid_t	cmd;
 
 	if (pipe(shell->fds[0]) == -1)
-		perror("minishell:");
+		perror("minishell");
 	parent = fork();
 	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == 0)
