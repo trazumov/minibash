@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:49:22 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 23:50:01 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ static void	execute_child_mid(t_minishell *shell, t_token *token, int fd)
 	execute_token = get_prev_token(token);
 	if (!token_has_redir_in(shell, execute_token))
 	{
-		dup2(shell->fds[fd - 1][0], STDIN);
+		if (dup2(shell->fds[fd - 1][0], STDIN) == -1)
+			perror("minishell");
 		close_fd_save(shell->fds[fd - 1][1]);
 	}
 	if (!token_has_redir_out(shell, execute_token))
 	{
-		dup2(shell->fds[fd][1], STDOUT);
+		if (dup2(shell->fds[fd][1], STDOUT) == -1)
+			perror("minishell");
 		close_fd_save(shell->fds[fd][0]);
 	}
 	if (execute_token->type == CMD || execute_token->type == ARG)
@@ -72,9 +74,10 @@ void	first_pipe(t_minishell *shell, t_token *token, int fd)
 	if (pipe(shell->fds[fd]) != 0)
 		perror("minishell");
 	parent = fork();
-	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == -1)
 		perror("minishell");
+	else
+		struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == 0)
 		execute_child_first(shell, token, fd);
 }
@@ -86,9 +89,10 @@ void	mid_pipe(t_minishell *shell, t_token *token, int fd)
 	if (pipe(shell->fds[fd]) != 0)
 		perror("minishell");
 	parent = fork();
-	struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == -1)
 		perror("minishell");
+	else
+		struct_pid_add(&shell->childs, struct_pid_new(parent));
 	if (parent == 0)
 		execute_child_mid(shell, token, fd);
 	close_fd_save(shell->fds[fd - 1][0]);

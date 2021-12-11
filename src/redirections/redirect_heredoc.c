@@ -6,13 +6,12 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 22:45:40 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 23:44:49 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//dup2(0, STDIN) before >
 static void	create_tmp_file(t_token *token)
 {
 	int		in;

@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:18:32 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:47:59 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 23:45:40 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	handle_new_in(t_minishell *shell, t_token *token)
 			perror("minishell");
 			return ;
 		}
-		dup2(shell->fd_in, STDIN);
+		if (dup2(shell->fd_in, STDIN) == -1)
+			perror("minishell");
 	}
 }
 
@@ -56,7 +57,8 @@ void	handle_new_out(t_minishell *shell, t_token *token)
 			perror("minishell");
 			return ;
 		}
-		dup2(shell->fd_out, STDOUT);
+		if (dup2(shell->fd_out, STDOUT) == -1)
+			perror("minishell");
 	}
 }
 
