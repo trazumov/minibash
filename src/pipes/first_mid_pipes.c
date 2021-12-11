@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 23:50:01 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:18:32 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static void	execute_child_mid(t_minishell *shell, t_token *token, int fd)
 		execv_cmd(execute_token);
 	else
 	{
-		shell->ret = (execute_builtin(shell, execute_token));
+		g_is_tricky.g_ret = (execute_builtin(shell, execute_token));
 		free_environ();
-		exit (shell->ret);
+		exit (g_is_tricky.g_ret);
 	}
 }
 

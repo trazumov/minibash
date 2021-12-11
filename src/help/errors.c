@@ -6,14 +6,14 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:28:40 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:24:09 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:32:27 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_file_error(t_minishell *shell)
+int	open_file_error()
 {
-	shell->ret = 1;
+	g_is_tricky.g_ret = 1;
 	return (-1);
 }

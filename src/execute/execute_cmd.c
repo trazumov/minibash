@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 00:07:48 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:31:30 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execv_cmd(t_token *token)
 	simple_cmd(argv);
 }
 
-void	execute_last_cmd(t_minishell *shell, t_token *token)
+void	execute_last_cmd(t_token *token)
 {
 	pid_t	parent;
 	char	**argv;
@@ -65,8 +65,8 @@ void	execute_last_cmd(t_minishell *shell, t_token *token)
 	parent = fork();
 	if (parent)
 	{
-		waitpid(parent, &shell->ret, 0);
-		handle_return_value(&shell->ret);
+		waitpid(parent, &g_is_tricky.g_ret, 0);
+		handle_return_value(&g_is_tricky.g_ret);
 		free_char_list(argv);
 	}
 	else
@@ -76,7 +76,7 @@ void	execute_last_cmd(t_minishell *shell, t_token *token)
 void	execute_token(t_minishell *shell, t_token *token)
 {
 	if (token->type == CMD || token->type == ARG)
-		execute_last_cmd(shell, token);
+		execute_last_cmd(token);
 	else if (token->type == BUILTIN)
 		execute_builtin(shell, token);
 }

@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/12 00:02:48 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:36:08 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ void	execution(t_minishell *shell);
 void	simple_cmd(char **argv);
 int		imple_cmd(char **argv);
 void	free_char_list(char **list);
-void	execute_last_cmd(t_minishell *shell, t_token *token);
-int		open_file_error(t_minishell *shell);
+void	execute_last_cmd(t_token *token);
+int		open_file_error();
 int		set_redirection(t_minishell *shell);
 
 int		execute_builtin(t_minishell *shell, t_token *token);

@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:57:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 22:48:23 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:33:05 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	set_redirection(t_minishell *shell)
 			break ;
 		if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 			if (redirect_out(shell, token, &new_output))
-				return (open_file_error(shell));
+				return (open_file_error());
 		if (token->type == REDIR_IN)
 			if (redirect_in(shell, token, &new_input))
-				return (open_file_error(shell));
+				return (open_file_error());
 		if (token->type == REDIR_HEREDOC)
 			if (redirect_heredoc(shell, token, &new_input))
-				return (open_file_error(shell));
+				return (open_file_error());
 		token = token->next;
 	}
 	return (0);

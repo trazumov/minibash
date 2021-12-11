@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 00:00:27 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:20:50 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	execute_child_first(t_minishell *shell, t_token *token, int fd)
 		execv_cmd(execute_token);
 	else
 	{
-		shell->ret = (execute_builtin(shell, execute_token));
+		g_is_tricky.g_ret = (execute_builtin(shell, execute_token));
 		free_environ();
-		exit (shell->ret);
+		exit (g_is_tricky.g_ret);
 	}
 }
 
@@ -49,9 +49,9 @@ static void	execute_child_left(t_minishell *shell, t_token *token, int fd)
 		execv_cmd(get_prev_token(token));
 	else
 	{
-		shell->ret = (execute_builtin(shell, execute_token));
+		g_is_tricky.g_ret = (execute_builtin(shell, execute_token));
 		free_environ();
-		exit (shell->ret);
+		exit (g_is_tricky.g_ret);
 	}
 }
 
@@ -65,9 +65,9 @@ void	execute_child_right(t_minishell *shell, t_token *token, int fd)
 		execv_cmd(execute_token);
 	else
 	{
-		shell->ret = (execute_builtin(shell, execute_token));
+		g_is_tricky.g_ret = (execute_builtin(shell, execute_token));
 		free_environ();
-		exit (shell->ret);
+		exit (g_is_tricky.g_ret);
 	}
 }
 

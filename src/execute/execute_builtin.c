@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 00:39:14 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 17:53:45 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/12 00:17:57 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ int	execute_builtin(t_minishell *shell, t_token *token)
 		ft_putstr_fd("minishell$: builtin error\n", 2);
 		exit_status = -2;
 	}
-	shell->ret = exit_status;
+	g_is_tricky.g_ret = exit_status;
 	return (exit_status);
 }

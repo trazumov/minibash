@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 00:10:56 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:34:16 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	pre_init(t_minishell *shell, char ***arr)
 	*arr = __environ;
 	__environ = malloc_environ();
 	shell->exit = FALSE;
-	shell->ret = 0;
+	g_is_tricky.g_ret = 0;
 	g_is_tricky.g_run = FALSE;
 	g_is_tricky.g_ret = 0;
 }
@@ -107,5 +107,5 @@ int	main(void)
 	}
 	free_on_exit(&input);
 	__environ = arr;
-	return (shell.ret);
+	return (g_is_tricky.g_ret);
 }
