@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 18:26:15 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/04/27 18:30:43 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:40:02 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_atoi(const char *str)
 	}
 	else if (str[i] == '+')
 		i++;
-	else if (str[i] < 48 && str[i] > 57)
+	else if (str[i] < 48 || str[i] > 57)
 		return (0);
 	while (str[i] >= 48 && str[i] <= 57 && str[i] != '\0')
 	{
