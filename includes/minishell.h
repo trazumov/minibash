@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/11 23:05:06 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:02:48 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include <stdio.h> // printf
-# include <fcntl.h> // open read write
-# include <errno.h> // errors
-# include <signal.h> // signals
-# include <stdlib.h> // malloc NULL
-# include <unistd.h> // write
-# include <sys/wait.h> // wait
-# include <sys/errno.h> // errors
+# include <stdio.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <signal.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <sys/errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -38,9 +38,6 @@
 # define REDIR_HEREDOC 7
 
 # define OPEN_MAX 1024
-
-# define CHILD	2
-# define PARENT	1
 
 # define FALSE	0
 # define TRUE	1
