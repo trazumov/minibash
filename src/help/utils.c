@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 17:54:20 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/11 22:45:01 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,21 @@ void	handle_return_value(int *return_value)
 {
 	if (*return_value == 256)
 		*return_value = 127;
-	else
-		*return_value = WEXITSTATUS(*return_value);
+	else if (WIFEXITED(*return_value) == TRUE)
+		(*return_value) = WEXITSTATUS(*return_value);
+	else if (WIFSIGNALED(*return_value) == TRUE)
+	{
+		if ((*return_value) == 2)
+		{
+			(*return_value) = 130;
+			ft_putstr_fd("\n", 1);
+		}
+		else if ((*return_value) == 3)
+		{
+			(*return_value) = 131;
+			ft_putstr_fd("Quit\n", 1);
+		}
+	}
 }
 
 int	pipes_count(t_minishell *shell)

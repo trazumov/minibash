@@ -6,11 +6,24 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:29:41 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:51:18 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 21:48:21 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	split_free(char **paths)
+{
+	int	i;
+
+	i = 0;
+	while (paths[i] != NULL)
+	{
+		free(paths[i]);
+		i++;
+	}
+	free(paths);
+}
 
 void	free_char_list(char **list)
 {

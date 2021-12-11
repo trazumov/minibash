@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/11 21:49:11 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 22:04:23 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ typedef struct s_minishell
 	int		out;
 	int		fd_out;
 	int		fd_in;
-	int		save_history;
 	t_token	*tokens;
 }	t_minishell;
 

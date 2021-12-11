@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 19:51:58 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 21:39:18 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	pre_init(t_minishell *shell, char ***arr)
 	*arr = NULL;
 	*arr = __environ;
 	__environ = malloc_environ();
-	g_is_executed = FALSE;
 	shell->exit = FALSE;
 	shell->ret = 0;
 }

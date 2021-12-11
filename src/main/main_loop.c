@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/10 20:08:55 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 21:39:24 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,7 @@ static void	main_loop(t_minishell *shell)
 
 void	execution(t_minishell *shell)
 {
-	g_is_executed = TRUE;
 	main_loop(shell);
-	g_is_executed = FALSE;
 	unlink("here_doc");
 	if (dup2(shell->in, STDIN) == -1)
 		perror("minishell");
