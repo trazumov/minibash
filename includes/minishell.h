@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/11 21:42:26 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 21:49:11 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	execv_cmd(t_token *token);
 t_token	*get_prev_token(t_token *token);
 
 void	free_tokens(t_token **token);
+void	split_free(char **paths);
 void	execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe);
 
 int		redirect_out(t_minishell *shell, t_token *token, int *new_output);
