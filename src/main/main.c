@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 23:06:31 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:10:56 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	main(void)
 	signal(SIGINT, ft_signal);
 	signal(SIGQUIT, ft_signal);
 	rl_catch_signals = 0;
-	input = readline("minishell_$ ");
+	input = readline("minishell$ ");
 	pre_init(&shell, &arr);
 	cycle = main_cycle(&shell, &input, &parsed_tokens, TRUE);
 	while (shell.exit != TRUE)

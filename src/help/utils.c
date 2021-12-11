@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/11 23:15:42 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 00:08:13 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	handle_return_value(int *return_value)
 		*return_value = 127;
 	else if (WIFEXITED(*return_value) == TRUE)
 		(*return_value) = WEXITSTATUS(*return_value);
-	
 	else if (WIFSIGNALED(*return_value) == TRUE)
 	{
 		if ((*return_value) == 2)
@@ -67,7 +66,6 @@ void	handle_return_value(int *return_value)
 		else if ((*return_value) == 3)
 			(*return_value) = 131;
 	}
-	
 }
 
 int	pipes_count(t_minishell *shell)
