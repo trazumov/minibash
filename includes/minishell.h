@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/11 22:04:23 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 23:05:06 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 typedef struct	s_g_struct
 {
 	int	g_ret;
+	int	g_run;
 }	t_g_struct;
 
 t_g_struct g_is_tricky;
@@ -100,7 +101,6 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	ft_signal(int code);
-void	ft_signal_cmd(int code);
 void	on_eof(t_minishell *shell);
 void	init_shell(t_minishell *shell);
 void	free_data(t_token *a_tokens, t_token *b_tokens);

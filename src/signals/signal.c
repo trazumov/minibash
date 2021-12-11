@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:39:17 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 22:44:31 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/11 23:09:11 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,24 @@ static void	do_nothing(void)
 	return ;
 }
 
-void	ft_signal_cmd(int code)
-{
-	if (code == SIGQUIT)
-		ft_putstr_fd("Quit\n", 2);
-	if (code == SIGINT)
-		ft_putstr_fd("\n", 2);
-}
-
 void	ft_signal(int code)
 {
-	if (code == SIGINT)
+	if (code == SIGINT && !g_is_tricky.g_run)
 	{
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
-	if (code == SIGQUIT)
+	if (code == SIGQUIT && !g_is_tricky.g_run)
 		do_nothing();
+	if (g_is_tricky.g_run)
+	{
+		if (code == SIGQUIT)
+			ft_putstr_fd("Quit\n", 1);
+		else
+			ft_putstr_fd("\n", 1);
+	}
 }
 
 /*
