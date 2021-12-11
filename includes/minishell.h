@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 21:13:47 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/11 21:42:26 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,12 @@
 # define STDOUT	1
 # define STDERR	2
 
-int	g_is_executed;
+typedef struct	s_g_struct
+{
+	int	g_ret;
+}	t_g_struct;
+
+t_g_struct g_is_tricky;
 
 typedef struct s_env
 {
@@ -84,7 +89,7 @@ typedef struct s_minishell
 	t_pid_t	*childs;
 	char	*message;
 	int		exit;
-	int		fds[100][2];
+	int		fds[OPEN_MAX][2];
 	int		ret;
 	int		error;
 	int		in;
@@ -96,6 +101,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 void	ft_signal(int code);
+void	ft_signal_cmd(int code);
 void	on_eof(t_minishell *shell);
 void	init_shell(t_minishell *shell);
 void	free_data(t_token *a_tokens, t_token *b_tokens);
