@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 21:53:08 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 21:59:01 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	wait_forks(t_minishell *shell)
 	while (tmp)
 	{
 		waitpid(tmp->pid, &g_is_tricky.g_ret, 0);
-		//handle_return_value(&g_is_tricky.g_ret);
+		handle_return_value(&g_is_tricky.g_ret);
 		tmp = tmp->next;
 	}
 	struct_pid_clear(&shell->childs);
