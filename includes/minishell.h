@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/12 00:36:08 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 21:51:04 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@
 # define STDIN	0
 # define STDOUT	1
 # define STDERR	2
+
+# define ERROR_EXIT 256
+# define ERROR_STATUS 127
+# define WIFSIGNALED_SIGINT 2
+# define SIGINT_STATUS 130
+# define WIFSIGNALED_SIGQUIT 3
+# define SIGQUIT_STATUS 131
 
 typedef struct	s_g_struct
 {

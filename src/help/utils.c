@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/12 00:08:13 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 21:51:21 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ void	close_fd_save(int fd)
 
 void	handle_return_value(int *return_value)
 {
-	if (*return_value == 256)
-		*return_value = 127;
+	if (*return_value == ERROR_EXIT)
+		*return_value = ERROR_STATUS;
 	else if (WIFEXITED(*return_value) == TRUE)
 		(*return_value) = WEXITSTATUS(*return_value);
 	else if (WIFSIGNALED(*return_value) == TRUE)
 	{
-		if ((*return_value) == 2)
-			(*return_value) = 130;
-		else if ((*return_value) == 3)
-			(*return_value) = 131;
+		if ((*return_value) == WIFSIGNALED_SIGINT)
+			(*return_value) = SIGINT_STATUS;
+		else if ((*return_value) == WIFSIGNALED_SIGQUIT)
+			(*return_value) = SIGQUIT_STATUS;
 	}
 }
 
