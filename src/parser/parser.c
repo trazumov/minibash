@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:11:30 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/12 22:32:39 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/13 19:44:45 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char	*parse(t_token **token, char *str)
 		return (NULL);
 	}
 	array = malloc((sep_ct + 1) * sizeof(*array));
+	if (array == NULL)
+		malloc_error();
 	str = parser(str, array, sep_ct + 1);
 	create_tokens(token, array, sep_ct + 1);
 	free(array);

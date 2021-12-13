@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 00:31:30 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/13 19:52:00 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static char	**create_argv(t_token *token)
 	tmp = token;
 	size = get_argv_size(tmp);
 	res = malloc(sizeof(char *) * (size + 1));
+	if (res == NULL)
+		malloc_error();
 	while (tmp && (tmp->type == CMD || tmp->type == ARG))
 	{
 		res[i] = ft_strdup(tmp->str);

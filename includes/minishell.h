@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/13 01:05:46 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/13 19:57:49 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void	simple_cmd(char **argv);
 int		imple_cmd(char **argv);
 void	free_char_list(char **list);
 void	execute_last_cmd(t_token *token);
-int		open_file_error();
+int		open_file_error(void);
+void	malloc_error(void);
 int		set_redirection(t_minishell *shell);
 
 int		execute_builtin(t_minishell *shell, t_token *token);

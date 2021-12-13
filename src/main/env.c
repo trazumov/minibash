@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:24:02 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/13 02:38:05 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/13 19:40:26 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	**realloc_environ(int diff, char *str)
 
 	size = get_env_size(__environ);
 	arr = malloc(sizeof(char *) * (size + 1 + diff));
+	if (arr == NULL)
+		malloc_error();
 	if (diff > 0)
 	{
 		i = -1;
@@ -78,6 +80,8 @@ char	**malloc_environ(void)
 
 	size = get_env_size(__environ);
 	arr = malloc(sizeof(char *) * (size + 1));
+	if (arr == NULL)
+		malloc_error();
 	i = -1;
 	while (++i < size)
 		arr[i] = ft_strdup(__environ[i]);
