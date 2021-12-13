@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:24:02 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 17:54:40 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/13 02:38:05 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	handle_negative_diff(char **arr, char *str, int size)
 	i = -1;
 	while (++i < size)
 	{
-		if (ft_strncmp(str, __environ[i], len) == 0 && __environ[i][len] == '=')
+		if (ft_strncmp(str, __environ[i], len) == 0
+			&& (__environ[i][len] == '=' || __environ[i][len] == '\0'))
 		{
 			free(__environ[i]);
 			continue ;

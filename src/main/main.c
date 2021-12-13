@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 00:34:16 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 22:33:17 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_minishell *shell, char **input, t_token **parsed_tokens, int first_call)
 		return (1);
 	}
 	update_history(*input);
-	*input = parse(parsed_tokens, *input, shell);
+	*input = parse(parsed_tokens, *input);
 	if (*input == NULL)
 		return (2);
 	post_init_tokens(*parsed_tokens);

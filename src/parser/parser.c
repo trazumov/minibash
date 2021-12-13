@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:11:30 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 17:55:28 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/12 22:32:39 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	add_to_array(char *str, char **array, t_parser *vars)
 	vars->i = i - 1;
 }
 
-char	*parser(char *str, char **array, int token_ct, t_minishell msh)
+char	*parser(char *str, char **array, int token_ct)
 {
 	t_parser	var;
 
@@ -52,9 +52,9 @@ char	*parser(char *str, char **array, int token_ct, t_minishell msh)
 		if (str[var.i] == '\'')
 			str = handle_quotes(str, &var.i);
 		else if (str[var.i] == '"')
-			str = handle_double_quotes(str, &var.i, msh);
+			str = handle_double_quotes(str, &var.i);
 		else if (str[var.i] == '$')
-			str = handle_bucks(str, &var.i, msh);
+			str = handle_bucks(str, &var.i);
 		else if (ft_issep(str[var.i]))
 			add_to_array(str, array, &var);
 		(var.i)++;
@@ -66,7 +66,7 @@ char	*parser(char *str, char **array, int token_ct, t_minishell msh)
 	return (str);
 }
 
-char	*parse(t_token **token, char *str, t_minishell *msh)
+char	*parse(t_token **token, char *str)
 {
 	char	**array;
 	int		sep_ct;
@@ -75,11 +75,11 @@ char	*parse(t_token **token, char *str, t_minishell *msh)
 	if (check_leading_pipe(str) == -1 || preparser(str, &sep_ct) == -1)
 	{
 		free(str);
-		msh->ret = 2;
+		g_is_tricky.g_ret = 2;
 		return (NULL);
 	}
 	array = malloc((sep_ct + 1) * sizeof(*array));
-	str = parser(str, array, sep_ct + 1, *msh);
+	str = parser(str, array, sep_ct + 1);
 	create_tokens(token, array, sep_ct + 1);
 	free(array);
 	return (str);

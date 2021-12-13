@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 21:49:40 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 21:01:54 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/12 22:32:31 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*handle_invalid_name(char *str, int *start)
 		return (remove_invalid_var_name(str, "1", start));
 }
 
-char	*handle_bucks(char *str, int *start, t_minishell msh)
+char	*handle_bucks(char *str, int *start)
 {
 	int		i;
 	char	*var_name;
@@ -76,7 +76,7 @@ char	*handle_bucks(char *str, int *start, t_minishell msh)
 	i = *start + 1;
 	if (str[i] == '?')
 	{
-		var_value = ft_itoa(msh.ret);
+		var_value = ft_itoa(g_is_tricky.g_ret);
 		str = replace_bucks(str, i + 1, start, var_value);
 		free(var_value);
 	}
