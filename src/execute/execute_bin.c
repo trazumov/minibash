@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 03:04:13 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 16:54:33 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*create_path(char **cmd, char **envp)
 	if (paths == NULL)
 	{
 		print_command_error(cmd);
-		exit(1);
+		exit(1); //
 	}
 	
 	i = -1;
@@ -68,7 +68,7 @@ static char	*create_path(char **cmd, char **envp)
 	if (access(cmd[0], 1) == 0)
 		return (cmd[0]);
 	print_command_error(cmd);
-	exit(1);
+	exit(127);
 }
 
 void	simple_cmd(char **argv)
@@ -76,11 +76,11 @@ void	simple_cmd(char **argv)
 	char	*path;
 
 	path = create_path(argv, __environ);
+	
 	if ((g_is_tricky.g_ret = execve(path, argv, __environ)) == -1)
 	{
-		perror("minishell");
-		g_is_tricky.g_ret = 127;
-		exit(127); //
+		perror("minishell...");
+		g_is_tricky.g_ret = 1;
+		exit(1);
 	}
-	//free(path);
 }
