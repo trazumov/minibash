@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 23:03:23 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 23:10:17 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,19 @@ static int	create_tmp_file(t_token *token)
 	return (1);
 }
 
-static void	ft_signal_doc(int code)
+static void	exec_heredoc_parent(\
+t_minishell *shell, pid_t parent, int *here_doc_ret)
 {
-	if (code == SIGINT)
-		exit (1);
-	if (code == SIGQUIT)
-		return ;
+	waitpid(parent, here_doc_ret, 0);
+	if (*here_doc_ret == 0)
+	{
+		shell->fd_in = open("here_doc", O_RDONLY);
+		if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
+			exit_shell_err(shell);
+		if (dup2(shell->fd_in, 0) == -1)
+			exit_shell_err(shell);
+		close_fd_save(shell->fd_in);
+	}
 }
 
 void	exec_here_doc(t_minishell *shell, t_token *token)
@@ -64,18 +71,7 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 	if (parent == -1)
 		return (void_shell_err(shell));
 	if (parent)
-	{
-		waitpid(parent, &here_doc_ret, 0);
-		if (here_doc_ret == 0)
-		{
-			shell->fd_in = open("here_doc", O_RDONLY);
-			if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
-				exit_shell_err(shell);
-			if (dup2(shell->fd_in, 0) == -1)
-				exit_shell_err(shell);
-			close_fd_save(shell->fd_in);
-		}
-	}
+		exec_heredoc_parent(shell, parent, &here_doc_ret);
 	else if (parent == 0)
 	{
 		signal(SIGINT, ft_signal_doc);
