@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:39:17 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 23:10:32 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 23:36:24 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int	ctrl_d(t_minishell *shell, char *input)
 void	ft_signal_doc(int code)
 {
 	if (code == SIGINT)
+	{
+		free_environ();
 		exit (1);
+	}
 	if (code == SIGQUIT)
 		return ;
 }

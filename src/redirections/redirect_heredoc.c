@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 23:29:34 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 23:36:09 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 			free_environ();
 			exit (0);
 		}
-		free_environ();
-		exit (1);
 	}
 }
 
