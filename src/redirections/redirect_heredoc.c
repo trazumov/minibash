@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 14:48:42 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 17:09:25 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	create_tmp_file(t_token *token)
 	int		in;
 	char	*line;
 	int		next_len;
-
+	
 	in = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0664);
 	if (in < 0 || read(in, 0, 0) < 0)
 	{
@@ -34,8 +34,8 @@ static int	create_tmp_file(t_token *token)
 		free(line);
 		ft_putstr_fd("> ", 0);
 	}
-	//if (*line == 0)
-		//ft_putstr_fd("warning: here-document delimited by end-of-file\n", 2);
+	if (*line == 0)
+		ft_putstr_fd("warning: here-document delimited by end-of-file\n", 2);
 	if (g_is_tricky.g_run)
 		free(line);
 	close_fd_save(in);
@@ -48,6 +48,8 @@ static void	ft_signal_doc(int code)
 {
 	if (code == SIGINT)
 		exit (1);
+	if (code == SIGQUIT)
+	{}
 }
 
 void	exec_here_doc(t_minishell *shell, t_token *token)

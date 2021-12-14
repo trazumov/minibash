@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:57:07 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 16:54:33 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 16:59:10 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	simple_cmd(char **argv)
 	if ((g_is_tricky.g_ret = execve(path, argv, __environ)) == -1)
 	{
 		perror("minishell...");
-		g_is_tricky.g_ret = 1;
-		exit(1);
+		g_is_tricky.g_ret = 127;
+		exit(127);
 	}
 }
