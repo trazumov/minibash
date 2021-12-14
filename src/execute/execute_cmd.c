@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 21:30:58 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 02:34:11 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ void	execute_last_cmd(t_token *token)
 		free_char_list(argv);
 	}
 	else
+	{
 		simple_cmd(argv);
+	}
 }
 
 void	execute_token(t_minishell *shell, t_token *token)
