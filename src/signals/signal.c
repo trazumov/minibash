@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:39:17 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 23:36:24 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/15 00:48:09 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_signal_doc(int code)
 	if (code == SIGINT)
 	{
 		free_environ();
-		exit (1);
+		exit (130);
 	}
 	if (code == SIGQUIT)
 		return ;
