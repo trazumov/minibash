@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/15 00:48:16 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/15 01:01:17 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ static int	create_tmp_file(t_token *token)
 }
 
 static void	exec_heredoc_parent(\
-t_minishell *shell, pid_t parent, int *here_doc_ret)
+t_minishell *shell, pid_t parent)
 {
 	waitpid(parent, &g_is_tricky.g_ret, 0);
 	handle_return_value(&g_is_tricky.g_ret);
-	if (*here_doc_ret == 0)
+	if (g_is_tricky.g_ret == 0)
 	{
 		shell->fd_in = open("here_doc", O_RDONLY);
 		if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
@@ -65,14 +65,13 @@ t_minishell *shell, pid_t parent, int *here_doc_ret)
 
 void	exec_here_doc(t_minishell *shell, t_token *token)
 {
-	int		here_doc_ret;
 	pid_t	parent;
 
 	parent = fork();
 	if (parent == -1)
 		return (void_shell_err(shell));
 	if (parent)
-		exec_heredoc_parent(shell, parent, &here_doc_ret);
+		exec_heredoc_parent(shell, parent);
 	else if (parent == 0)
 	{
 		signal(SIGINT, ft_signal_doc);
