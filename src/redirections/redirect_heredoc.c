@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 17:09:25 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 20:51:46 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,25 @@ static int	create_tmp_file(t_token *token)
 	return (1);
 }
 
+static void	do_nothing(void)
+{
+	return ;	
+}
+
 static void	ft_signal_doc(int code)
 {
 	if (code == SIGINT)
 		exit (1);
 	if (code == SIGQUIT)
-	{}
+		do_nothing();
 }
 
 void	exec_here_doc(t_minishell *shell, t_token *token)
 {
 	int		here_doc_ret;
-	pid_t	parent = fork();
+	pid_t	parent;
+
+	parent = fork();
 	if (parent)
 	{
 		waitpid(parent, &here_doc_ret, 0);
@@ -63,13 +70,9 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 		{
 			shell->fd_in = open("here_doc", O_RDONLY);
 			if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
-			{
-				perror("minishell");
-				shell->error = TRUE;
-				exit(EXIT_FAILURE);
-			}
+				exit_shell_err(shell);
 			if (dup2(shell->fd_in, 0) == -1)
-				perror("minishell");
+				exit_shell_err(shell);
 			close_fd_save(shell->fd_in);
 		}
 	}
@@ -81,6 +84,9 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 	}
 }
 
+/*
+return 0 OK | return 1 ERR
+*/
 int	redirect_heredoc(t_minishell *shell, t_token *token, int *new_input)
 {
 	if ((*new_input) == TRUE)
@@ -94,8 +100,6 @@ int	redirect_heredoc(t_minishell *shell, t_token *token, int *new_input)
 		(*new_input) = TRUE;
 	}
 	else
-		(*new_input) = -1;
-	if (!(*new_input))
-		return (1);
+		return_shell_err(shell);
 	return (0);
 }

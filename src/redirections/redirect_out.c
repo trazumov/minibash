@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:08 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 22:43:23 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 17:58:54 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static void	handle_new_ouput(t_minishell *shell, t_token *token)
 }
 
 /*
-return 0 if OK ; return 1 if ERROR
-O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU
+return 0 OK | return 1 ERR
 */
 int	redirect_out(t_minishell *shell, t_token *token, int *new_output)
 {
@@ -45,18 +44,12 @@ int	redirect_out(t_minishell *shell, t_token *token, int *new_output)
 			shell->fd_out = open(token->next->str, \
 			O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 		if (shell->fd_out == -1)
-		{
-			shell->error = TRUE;
-			perror("minishell");
-			return (1);
-		}
+			return_shell_err(shell);
 		if (dup2(shell->fd_out, STDOUT) == -1)
-			perror("minishell");
+			return_shell_err(shell);
 		(*new_output) = TRUE;
 	}
 	else
-		shell->fd_out = -1;
-	if (!shell->fd_out)
-		return (1);
+		return_shell_err(shell);
 	return (0);
 }

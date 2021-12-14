@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:57:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 23:25:02 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 17:59:05 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ t_token	*get_prev_input(t_token *token)
 	return (res);
 }
 
+/*
+return 0 OK | return 1 ERR
+*/
 static int	redirect_in(t_minishell *shell, t_token *token, int *new_input)
 {
 	if ((*new_input) == TRUE)
@@ -33,22 +36,19 @@ static int	redirect_in(t_minishell *shell, t_token *token, int *new_input)
 	{
 		shell->fd_in = open(token->next->str, O_RDONLY, S_IRWXU);
 		if (shell->fd_in == -1)
-		{
-			shell->error = TRUE;
-			perror("minishell");
-			return (1);
-		}
+			return_shell_err(shell);
 		if (dup2(shell->fd_in, STDIN) == -1)
-			perror("minishell");
+			return_shell_err(shell);
 		(*new_input) = TRUE;
 	}
 	else
-		(*new_input) = -1;
-	if (!(*new_input))
-		return (1);
+		return_shell_err(shell);
 	return (0);
 }
 
+/*
+return 0 OK | return -1 ERR
+*/
 int	set_redirection(t_minishell *shell)
 {
 	t_token	*token;
