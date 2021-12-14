@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 21:55:22 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 23:03:23 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 	pid_t	parent;
 
 	parent = fork();
+	if (parent == -1)
+		return (void_shell_err(shell));
 	if (parent)
 	{
 		waitpid(parent, &here_doc_ret, 0);
@@ -78,6 +80,9 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 	{
 		signal(SIGINT, ft_signal_doc);
 		signal(SIGQUIT, ft_signal_doc);
+		if (dup2(shell->in, STDIN) == -1)
+			void_shell_err(shell);
+		close(shell->in);
 		if (create_tmp_file(token) == 0)
 			exit (0);
 	}
