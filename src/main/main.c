@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 01:16:47 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 14:57:01 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_minishell *shell, char **input, t_token **parsed_tokens, int first_call)
 		return (1);
 	}
 	update_history(*input);
-	*input = parse(parsed_tokens, *input, shell);
+	*input = parse(parsed_tokens, *input);
 	if (*input == NULL)
 	{
 		free(shell->message);

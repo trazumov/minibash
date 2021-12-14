@@ -6,7 +6,7 @@
 /*   By: mlatashi <mlatashi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 21:48:46 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/10 17:55:35 by mlatashi         ###   ########.fr       */
+/*   Updated: 2021/12/12 22:32:37 by mlatashi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*handle_quotes(char *str, int *start)
 	return (str);
 }
 
-char	*handle_double_quotes(char *str, int *start, t_minishell msh)
+char	*handle_double_quotes(char *str, int *start)
 {
 	int		end;
 
@@ -50,7 +50,7 @@ char	*handle_double_quotes(char *str, int *start, t_minishell msh)
 	while (str[end] != '"')
 	{
 		if (str[end] == '$')
-			str = handle_bucks(str, &end, msh);
+			str = handle_bucks(str, &end);
 		end++;
 	}
 	remove_quotes(str, *start, end);

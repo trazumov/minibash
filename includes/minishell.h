@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/12 22:20:17 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 14:56:46 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ void	simple_cmd(char **argv);
 int		imple_cmd(char **argv);
 void	free_char_list(char **list);
 void	execute_last_cmd(t_token *token);
-int		open_file_error();
+int		open_file_error(void);
+void	malloc_error(void);
 int		set_redirection(t_minishell *shell);
 
 int		execute_builtin(t_minishell *shell, t_token *token);
@@ -158,7 +159,7 @@ void	execute_child_first(t_minishell *shell, t_token *token, int fd);
 void	execute_child_right(t_minishell *shell, t_token *token, int fd);
 
 //parser
-char	*parse(t_token **token, char *str, t_minishell *msh);
+char	*parse(t_token **token, char *str);
 int		preparser(char *str, int *sep_ct);
 int		check_leading_pipe(char *str);
 int		ft_isspace(int c);
@@ -167,11 +168,11 @@ int		ft_issep(int c);
 int		handle_sep(char *str, int i, int *sep_ct);
 int		handle_pipe(char *str, int i, int *sep_ct);
 int		handle_redirection(char *str, int i, int *sep_ct);
-char	*parser(char *str, char **array, int token_ct, t_minishell msh);
+char	*parser(char *str, char **array, int token_ct);
 char	*handle_quotes(char *str, int *start);
-char	*handle_double_quotes(char *str, int *start, t_minishell msh);
+char	*handle_double_quotes(char *str, int *start);
 void	remove_quotes(char *str, int start, int end);
-char	*handle_bucks(char *str, int *start, t_minishell msh);
+char	*handle_bucks(char *str, int *start);
 char	*replace_bucks(char *str, int i, int *start, char *var_value);
 char	*remove_invalid_var_name(char *str, char *var_name, int *start);
 void	free_intermediate_strings(char *temp, char *part_1, char *part_2);
@@ -204,6 +205,7 @@ int		print_export_or_unset_error(char *str, int type);
 char	*get_var_name(char *str);
 void	add_var(char *var_name, char *str);
 int		is_name_valid(char *str);
+int		ft_is_in_env(char *var_name);
 int		print_cd_error(char *str, int type);
 int		change_dir_to_home_or_oldpwd(char *var);
 void	update_pwd(char *pwd);

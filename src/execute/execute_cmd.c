@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:53:51 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 02:34:11 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 14:56:37 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static char	**create_argv(t_token *token)
 	tmp = token;
 	size = get_argv_size(tmp);
 	res = malloc(sizeof(char *) * (size + 1));
+	if (res == NULL)
+		malloc_error();
 	while (tmp && (tmp->type == CMD || tmp->type == ARG))
 	{
 		res[i] = ft_strdup(tmp->str);
