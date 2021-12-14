@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:29:41 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 21:48:21 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:11:16 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,10 @@ void	free_on_exit(char **input)
 {
 	free(*input);
 	free_environ();
+}
+
+char	*return_path(char **paths, char **ret_char)
+{
+	split_free(paths);
+	return (*ret_char);
 }

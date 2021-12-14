@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/14 16:54:36 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:10:21 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@
 # define STDOUT	1
 # define STDERR	2
 
-# define ERROR_EXIT 256
 # define ERROR_STATUS 127
 # define WIFSIGNALED_SIGINT 2
 # define SIGINT_STATUS 130
@@ -115,6 +114,9 @@ int		imple_cmd(char **argv);
 void	free_char_list(char **list);
 void	execute_last_cmd(t_token *token);
 int		open_file_error(void);
+int		return_shell_err(t_minishell *shell);
+void	exit_shell_err(t_minishell *shell);
+int		fatal_error(t_minishell *shell);
 void	malloc_error(void);
 int		set_redirection(t_minishell *shell);
 
@@ -221,5 +223,6 @@ void	free_environ(void);
 //utils
 int		ft_strcmp(const char *s1, const char *s2);
 void	free_on_exit(char **input);
+char	*return_path(char **paths, char **ret_char);
 
 #endif
