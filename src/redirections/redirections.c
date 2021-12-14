@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:57:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 00:33:05 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 23:25:02 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	set_redirection(t_minishell *shell)
 		if (token->type == REDIR_HEREDOC)
 			if (redirect_heredoc(shell, token, &new_input))
 				return (open_file_error());
+		if (g_is_tricky.g_run == FALSE)
+			return 1;
 		token = token->next;
 	}
 	return (0);

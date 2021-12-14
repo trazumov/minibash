@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/03 22:53:48 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/12 21:51:21 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/13 18:43:26 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,17 @@ void	close_fd_save(int fd)
 
 void	handle_return_value(int *return_value)
 {
-	if (*return_value == ERROR_EXIT)
+	if (*return_value == ERROR_EXIT) // 256 == 1
 		*return_value = ERROR_STATUS;
-	else if (WIFEXITED(*return_value) == TRUE)
+	if (WIFEXITED(*return_value))
 		(*return_value) = WEXITSTATUS(*return_value);
-	else if (WIFSIGNALED(*return_value) == TRUE)
+	else if (WIFSIGNALED(*return_value))
 	{
-		if ((*return_value) == WIFSIGNALED_SIGINT)
-			(*return_value) = SIGINT_STATUS;
-		else if ((*return_value) == WIFSIGNALED_SIGQUIT)
-			(*return_value) = SIGQUIT_STATUS;
+		(*return_value) = (*return_value);
+		//if ((*return_value) == WIFSIGNALED_SIGINT)
+		//	(*return_value) = SIGINT_STATUS;
+		//else if ((*return_value) == WIFSIGNALED_SIGQUIT)
+		//	(*return_value) = SIGQUIT_STATUS;
 	}
 }
 

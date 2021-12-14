@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 00:20:50 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/13 18:25:40 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	the_only_pipe(t_minishell *shell, t_token *token, int fd)
 	pid_t	cmd;
 
 	if (pipe(shell->fds[0]) == -1)
-		perror("minishell");
+		perror("minishell"); // add return ?
 	parent = fork();
 	if (parent == -1)
 		perror("minishell");

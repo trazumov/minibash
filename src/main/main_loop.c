@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 21:59:01 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/12 23:25:10 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static void	main_loop(t_minishell *shell)
 	curr_pipe = 0;
 	if (pipes_count(shell) == 0)
 		set_redirection(shell);
+	if (g_is_tricky.g_run == FALSE)
+		return ;
 	while (token)
 	{
 		if (shell->error)
