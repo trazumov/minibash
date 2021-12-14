@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:35:49 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/12 22:21:31 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:41:48 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	init_shell(t_minishell *shell)
 	shell->exit = FALSE;
 	shell->in = dup(STDIN);
 	if (!shell->in)
-		perror("minishell");
+		return (void_shell_err(shell));
 	shell->out = dup(STDOUT);
 	if (!shell->out)
-		perror("minishell");
+		return (void_shell_err(shell));
 	shell->fd_in = -1;
 	shell->fd_out = -1;
 	shell->childs = NULL;

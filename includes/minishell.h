@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/14 21:10:21 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:57:12 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@
 # define WIFSIGNALED_SIGQUIT 3
 # define SIGQUIT_STATUS 131
 
-typedef struct	s_g_struct
+typedef struct s_g_struct
 {
 	int	g_ret;
 	int	g_run;
 }	t_g_struct;
 
-t_g_struct g_is_tricky;
+t_g_struct	g_is_tricky;
 
 typedef struct s_env
 {
@@ -113,8 +113,8 @@ void	simple_cmd(char **argv);
 int		imple_cmd(char **argv);
 void	free_char_list(char **list);
 void	execute_last_cmd(t_token *token);
-int		open_file_error(void);
 int		return_shell_err(t_minishell *shell);
+void	void_shell_err(t_minishell *shell);
 void	exit_shell_err(t_minishell *shell);
 int		fatal_error(t_minishell *shell);
 void	malloc_error(void);
@@ -141,10 +141,10 @@ void	execute_pipe(t_minishell *shell, t_token *token, int *curr_pipe);
 
 int		redirect_out(t_minishell *shell, t_token *token, int *new_output);
 
-void	first_pipe(t_minishell *shell, t_token *token, int fd);
-void	mid_pipe(t_minishell *shell, t_token *token, int fd);
-void	last_pipe(t_minishell *shell, t_token *token, int fd);
-void	the_only_pipe(t_minishell *shell, t_token *token, int fd);
+int		first_pipe(t_minishell *shell, t_token *token, int fd);
+int		mid_pipe(t_minishell *shell, t_token *token, int fd);
+int		last_pipe(t_minishell *shell, t_token *token, int fd);
+int		the_only_pipe(t_minishell *shell, t_token *token, int fd);
 
 void	struct_pid_clear(t_pid_t **head);
 void	struct_pid_add(t_pid_t **head, t_pid_t *new);

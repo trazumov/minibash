@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:40:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 14:57:01 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:36:42 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static int	main_cycle(\
 t_minishell *shell, char **input, t_token **parsed_tokens, int first_call)
 {
 	init_shell(shell);
+	if (shell->error)
+		return (2);
 	if (*input && !first_call)
 		free(*input);
 	if (!first_call)

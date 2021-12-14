@@ -6,11 +6,17 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:57:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 17:59:05 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:45:51 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	open_file_error(void)
+{
+	g_is_tricky.g_ret = 1;
+	return (-1);
+}
 
 t_token	*get_prev_input(t_token *token)
 {
@@ -72,7 +78,7 @@ int	set_redirection(t_minishell *shell)
 			if (redirect_heredoc(shell, token, &new_input))
 				return (open_file_error());
 		if (g_is_tricky.g_run == FALSE)
-			return 1;
+			return (1);
 		token = token->next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:18:32 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/11 23:45:40 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:44:28 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,9 @@ void	handle_new_in(t_minishell *shell, t_token *token)
 		file = token->next->str;
 		shell->fd_in = open(file, O_RDONLY, S_IRWXU);
 		if (shell->fd_in == -1)
-		{
-			shell->error = TRUE;
-			perror("minishell");
-			return ;
-		}
+			return (void_shell_err(shell));
 		if (dup2(shell->fd_in, STDIN) == -1)
-			perror("minishell");
+			return (void_shell_err(shell));
 	}
 }
 
@@ -52,13 +48,9 @@ void	handle_new_out(t_minishell *shell, t_token *token)
 		if (token->type == REDIR_OUT_2)
 			shell->fd_out = open(file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 		if (shell->fd_out == -1)
-		{
-			shell->error = TRUE;
-			perror("minishell");
-			return ;
-		}
+			return (void_shell_err(shell));
 		if (dup2(shell->fd_out, STDOUT) == -1)
-			perror("minishell");
+			return (void_shell_err(shell));
 	}
 }
 

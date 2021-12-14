@@ -6,24 +6,27 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 20:51:46 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:55:22 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	exit_heredoc_err(void)
+{
+	perror("here_doc error");
+	exit(EXIT_FAILURE);
+}
 
 static int	create_tmp_file(t_token *token)
 {
 	int		in;
 	char	*line;
 	int		next_len;
-	
+
 	in = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 0664);
 	if (in < 0 || read(in, 0, 0) < 0)
-	{
-		perror("here_doc error");
-		exit(EXIT_FAILURE);
-	}
+		exit_heredoc_err();
 	ft_putstr_fd("> ", 0);
 	while (get_next_line(0, &line) & g_is_tricky.g_run)
 	{
@@ -44,17 +47,12 @@ static int	create_tmp_file(t_token *token)
 	return (1);
 }
 
-static void	do_nothing(void)
-{
-	return ;	
-}
-
 static void	ft_signal_doc(int code)
 {
 	if (code == SIGINT)
 		exit (1);
 	if (code == SIGQUIT)
-		do_nothing();
+		return ;
 }
 
 void	exec_here_doc(t_minishell *shell, t_token *token)
@@ -79,6 +77,7 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 	else if (parent == 0)
 	{
 		signal(SIGINT, ft_signal_doc);
+		signal(SIGQUIT, ft_signal_doc);
 		if (create_tmp_file(token) == 0)
 			exit (0);
 	}

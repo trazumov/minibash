@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:44:27 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 17:56:30 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/14 21:43:55 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,18 @@ static void	wait_forks(t_minishell *shell)
 	struct_pid_clear(&shell->childs);
 }
 
-static void	main_loop(t_minishell *shell)
+static void	main_loop(t_minishell *shell, int *curr_pipe)
 {
 	t_token	*token;
-	int		curr_pipe;
 
 	token = shell->tokens;
-	curr_pipe = 0;
 	if (pipes_count(shell) == 0)
 		set_redirection(shell);
 	if (fatal_error(shell))
 		return ;
 	while (token)
 	{
-		if (shell->error)
+		if (fatal_error(shell))
 			break ;
 		if (token->skip == TRUE || token->type >= REDIR_OUT)
 		{
@@ -92,24 +90,27 @@ static void	main_loop(t_minishell *shell)
 			continue ;
 		}
 		if (token->type == PIPE)
-			execute_pipe(shell, token, &curr_pipe);
+			execute_pipe(shell, token, curr_pipe);
 		if (token->type <= BUILTIN && !have_to_wait(shell))
 			execute_token(shell, token);
 		token = get_next_token(token);
 	}
-	wait_forks(shell);
 }
 
 void	execution(t_minishell *shell)
 {
+	int		curr_pipe;
+
+	curr_pipe = 0;
 	g_is_tricky.g_run = TRUE;
-	main_loop(shell);
+	main_loop(shell, &curr_pipe);
+	wait_forks(shell);
 	g_is_tricky.g_run = FALSE;
 	unlink("here_doc");
 	if (dup2(shell->in, STDIN) == -1)
-		perror("minishell");
+		return (void_shell_err(shell));
 	if (dup2(shell->out, STDOUT) == -1)
-		perror("minishell");
+		return (void_shell_err(shell));
 	close_fd_save(shell->in);
 	close_fd_save(shell->out);
 	close_fd_save(shell->fd_out);
