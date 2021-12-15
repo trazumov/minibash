@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/15 01:01:17 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/15 12:56:26 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_minishell *shell, pid_t parent)
 		shell->fd_in = open("here_doc", O_RDONLY);
 		if (shell->fd_in < 0 || read(shell->fd_in, 0, 0) < 0)
 			exit_shell_err(shell);
-		if (dup2(shell->fd_in, 0) == -1)
+		else if (dup2(shell->fd_in, 0) == -1)
 			exit_shell_err(shell);
 		close_fd_save(shell->fd_in);
 	}
@@ -77,8 +77,8 @@ void	exec_here_doc(t_minishell *shell, t_token *token)
 		signal(SIGINT, ft_signal_doc);
 		signal(SIGQUIT, ft_signal_doc);
 		if (dup2(shell->in, STDIN) == -1)
-			void_shell_err(shell);
-		close(shell->in);
+			return (void_shell_err(shell));
+		close_fd_save(shell->in);
 		if (create_tmp_file(token) == 0)
 		{
 			free_environ();

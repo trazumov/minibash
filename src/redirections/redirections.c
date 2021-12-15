@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:57:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 21:45:51 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/15 12:23:19 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	redirect_in(t_minishell *shell, t_token *token, int *new_input)
 		shell->fd_in = open(token->next->str, O_RDONLY, S_IRWXU);
 		if (shell->fd_in == -1)
 			return_shell_err(shell);
-		if (dup2(shell->fd_in, STDIN) == -1)
+		else if (dup2(shell->fd_in, STDIN) == -1)
 			return_shell_err(shell);
 		(*new_input) = TRUE;
 	}
