@@ -6,11 +6,17 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:08:44 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 21:44:08 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 22:55:19 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	save_exit_child(void)
+{
+	free_environ();
+	exit (1);
+}
 
 void	set_io_first(t_minishell *shell, t_token *token, int fd)
 {

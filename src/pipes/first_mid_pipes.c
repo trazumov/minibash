@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/16 22:42:23 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 22:56:03 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	execute_child_mid(t_minishell *shell, t_token *token, int fd)
 		close_fd_save(shell->fds[fd - 1][1]);
 	}
 	if (shell->error)
-		exit (1);
+		save_exit_child();
 	if (!token_has_redir_out(shell, get_prev_token(token)))
 	{
 		if (dup2(shell->fds[fd][1], STDOUT) == -1)
@@ -57,7 +57,7 @@ static void	execute_child_mid(t_minishell *shell, t_token *token, int fd)
 		close_fd_save(shell->fds[fd][0]);
 	}
 	if (shell->error)
-		exit (1);
+		save_exit_child();
 	if (get_prev_token(token)->type <= ARG)
 		execv_cmd(get_prev_token(token));
 	else
