@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:57:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/16 21:39:21 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 22:38:32 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ static int	redirect_in(t_minishell *shell, t_token *token, int *new_input)
 	return (0);
 }
 
+static int	is_error(t_minishell *shell)
+{
+	if (shell->error)
+	{
+		g_is_tricky.g_ret = 1;
+		return (1);
+	}
+	return (0);
+}
+
 /*
 return 0 OK | return -1 ERR
 */
@@ -66,11 +76,8 @@ int	set_redirection(t_minishell *shell)
 	token = shell->tokens;
 	while (token)
 	{
-		if (shell->error)
-		{
-			g_is_tricky.g_ret = 1;
+		if (is_error(shell))
 			break ;
-		}
 		if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 			if (redirect_out(shell, token, &new_output))
 				return (open_file_error());

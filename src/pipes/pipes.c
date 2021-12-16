@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:16:50 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 21:44:14 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 22:31:54 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	execute_child_first(t_minishell *shell, t_token *token, int fd)
 
 	execute_token = get_prev_token(token);
 	set_io_first(shell, execute_token, fd);
+	if (shell->error)
+		exit (1);
 	if (execute_token->type == CMD || execute_token->type == ARG)
 		execv_cmd(execute_token);
 	else
@@ -61,6 +63,8 @@ void	execute_child_right(t_minishell *shell, t_token *token, int fd)
 
 	execute_token = token->next;
 	set_io_last(shell, execute_token, fd);
+	if (shell->error)
+		exit (1);
 	if (execute_token->type == CMD || execute_token->type == ARG)
 		execv_cmd(execute_token);
 	else

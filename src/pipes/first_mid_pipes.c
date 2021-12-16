@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 19:58:18 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 21:44:03 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 22:42:23 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,27 @@ t_token	*get_prev_token(t_token *token)
 
 static void	execute_child_mid(t_minishell *shell, t_token *token, int fd)
 {
-	t_token	*execute_token;
-
-	execute_token = get_prev_token(token);
-	if (!token_has_redir_in(shell, execute_token))
+	if (!token_has_redir_in(shell, get_prev_token(token)))
 	{
 		if (dup2(shell->fds[fd - 1][0], STDIN) == -1)
 			return (void_shell_err(shell));
 		close_fd_save(shell->fds[fd - 1][1]);
 	}
-	if (!token_has_redir_out(shell, execute_token))
+	if (shell->error)
+		exit (1);
+	if (!token_has_redir_out(shell, get_prev_token(token)))
 	{
 		if (dup2(shell->fds[fd][1], STDOUT) == -1)
 			return (void_shell_err(shell));
 		close_fd_save(shell->fds[fd][0]);
 	}
-	if (execute_token->type == CMD || execute_token->type == ARG)
-		execv_cmd(execute_token);
+	if (shell->error)
+		exit (1);
+	if (get_prev_token(token)->type <= ARG)
+		execv_cmd(get_prev_token(token));
 	else
 	{
-		g_is_tricky.g_ret = (execute_builtin(shell, execute_token));
+		g_is_tricky.g_ret = (execute_builtin(shell, get_prev_token(token)));
 		free_environ();
 		exit (g_is_tricky.g_ret);
 	}
