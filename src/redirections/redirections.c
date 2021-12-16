@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 23:57:01 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/15 12:23:19 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 21:39:21 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ int	set_redirection(t_minishell *shell)
 	while (token)
 	{
 		if (shell->error)
+		{
+			g_is_tricky.g_ret = 1;
 			break ;
+		}
 		if (token->type == REDIR_OUT || token->type == REDIR_OUT_2)
 			if (redirect_out(shell, token, &new_output))
 				return (open_file_error());
