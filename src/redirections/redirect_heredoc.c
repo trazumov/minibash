@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:47:20 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/16 10:53:36 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 19:55:14 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ int	redirect_heredoc(t_minishell *shell, t_token *token, int *new_input)
 	}
 	if (token->next)
 	{
+		g_is_tricky.here_doc = TRUE;
 		exec_here_doc(shell, token);
+		g_is_tricky.here_doc = FALSE;
 		(*new_input) = TRUE;
 	}
 	else

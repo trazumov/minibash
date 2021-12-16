@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:35:49 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 21:41:48 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 19:46:00 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	init_shell(t_minishell *shell)
 	shell->fd_out = -1;
 	shell->childs = NULL;
 	shell->error = FALSE;
+	g_is_tricky.here_doc = FALSE;
 }

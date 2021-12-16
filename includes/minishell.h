@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:17:20 by mlatashi          #+#    #+#             */
-/*   Updated: 2021/12/14 23:05:59 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 19:45:03 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_g_struct
 {
 	int	g_ret;
 	int	g_run;
+	int	here_doc;
 }	t_g_struct;
 
 t_g_struct	g_is_tricky;

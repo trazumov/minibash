@@ -6,16 +6,11 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:39:17 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/15 00:48:09 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 19:55:06 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	do_nothing(void)
-{
-	return ;
-}
 
 void	ft_signal(int code)
 {
@@ -28,14 +23,18 @@ void	ft_signal(int code)
 		rl_redisplay();
 	}
 	if (code == SIGQUIT && !g_is_tricky.g_run)
-		do_nothing();
+		return ;
 	if (g_is_tricky.g_run)
 	{
-		g_is_tricky.g_run = FALSE;
-		if (code == SIGQUIT)
+		if (code == SIGQUIT && g_is_tricky.here_doc == FALSE)
+		{
 			ft_putstr_fd("Quit\n", 1);
+		}
 		else if (code == SIGINT)
+		{
+			g_is_tricky.g_run = FALSE;
 			ft_putstr_fd("\n", 1);
+		}
 	}
 }
 
