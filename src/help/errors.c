@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 21:28:40 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/14 21:45:47 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 21:49:19 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	malloc_error(void)
 int	return_shell_err(t_minishell *shell)
 {
 	shell->error = TRUE;
+	g_is_tricky.g_ret = 1;
 	perror("minishell");
 	return (1);
 }
@@ -28,6 +29,7 @@ int	return_shell_err(t_minishell *shell)
 void	void_shell_err(t_minishell *shell)
 {
 	shell->error = TRUE;
+	g_is_tricky.g_ret = 1;
 	perror("minishell");
 	return ;
 }
@@ -35,6 +37,7 @@ void	void_shell_err(t_minishell *shell)
 void	exit_shell_err(t_minishell *shell)
 {
 	shell->error = TRUE;
+	g_is_tricky.g_ret = 1;
 	perror("minishell");
 	exit(EXIT_FAILURE);
 }

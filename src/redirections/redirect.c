@@ -6,7 +6,7 @@
 /*   By: svirgil <svirgil@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:18:32 by svirgil           #+#    #+#             */
-/*   Updated: 2021/12/15 00:29:19 by svirgil          ###   ########.fr       */
+/*   Updated: 2021/12/16 21:56:19 by svirgil          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int	token_has_redir_out(t_minishell *shell, t_token *token)
 		}
 		find_next = find_next->next;
 	}
+	if (shell->error)
+		return (FALSE);
 	return (ret);
 }
 
@@ -98,5 +100,7 @@ int	token_has_redir_in(t_minishell *shell, t_token *token)
 		}
 		find_next = find_next->next;
 	}
+	if (shell->error)
+		return (FALSE);
 	return (ret);
 }
